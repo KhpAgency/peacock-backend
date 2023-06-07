@@ -5,6 +5,8 @@ const {
   getPackage,
   createPackage,
   deletePackage,
+  uploadPackagesImages,
+  resizePackagesImages,
 } = require("../controllers/packagesController");
 
 const {
@@ -17,9 +19,14 @@ const Router = express.Router();
 
 Router.route("/")
   .get(getPackages)
-  .post(createPackageValidator, createPackage);
+  .post(
+    uploadPackagesImages,
+    resizePackagesImages,
+    createPackageValidator,
+    createPackage
+  );
 Router.route("/:id")
   .get(getPackageValidator, getPackage)
   .delete(deletePackageValidator, deletePackage);
-  
+
 module.exports = Router;

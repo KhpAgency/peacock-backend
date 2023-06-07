@@ -5,6 +5,8 @@ const {
   getTray,
   createTray,
   deleteTray,
+  uploadTraysImages,
+  resizeTraysImages,
 } = require("../controllers/traysController");
 
 const {
@@ -17,9 +19,9 @@ const Router = express.Router();
 
 Router.route("/")
   .get(getTrays)
-  .post(createTrayValidator, createTray);
+  .post(uploadTraysImages, resizeTraysImages, createTrayValidator, createTray);
 Router.route("/:id")
   .get(getTrayValidator, getTray)
   .delete(deleteTrayValidator, deleteTray);
-  
+
 module.exports = Router;

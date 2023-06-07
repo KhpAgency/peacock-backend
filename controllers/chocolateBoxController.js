@@ -1,8 +1,45 @@
+const multer = require("multer");
+const { v4: uuidv4 } = require("uuid");
 const slugify = require("slugify");
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/ApiError");
 
 const ChocolateBoxModel = require("../models/chocolateBoxesModel");
+
+const sharp = require("sharp");
+
+const multerStorage = multer.memoryStorage();
+
+const multerfilter = function (req, file, cb) {
+  if (file.mimetype.startsWith("image")) {
+    cb(null, true);
+  } else {
+    cb(new ApiError("only Images allowed", 400), false);
+  }
+};
+
+const upload = multer({ storage: multerStorage, fileFilter: multerfilter });
+
+exports.uploadChocolateBoxImages = upload.array("images", 4);
+
+exports.resizeChocolateBoxImages = asyncHandler(async (req, res, next) => {
+  if (req.files) {
+    req.body.images = [];
+    await Promise.all(
+      req.files.map(async (img, index) => {
+        const imageName = `chocolateBox-${uuidv4()}-${Date.now()}-${index + 1}.jpeg`;
+
+        await sharp(img.buffer)
+          .toFormat("jpeg")
+          .jpeg({ quality: 90 })
+          .toFile(`uploads/chocolateBox/${imageName}`);
+
+        req.body.images.push(imageName);
+      })
+    );
+    next();
+  }
+});
 
 exports.getChocolateBoxs = asyncHandler(async (req, res, next) => {
   const chocolateBoxs = await ChocolateBoxModel.find({});

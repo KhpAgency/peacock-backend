@@ -34,5 +34,23 @@ const boxSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+const setImageURL = (doc) => {
+  if (doc.images) {
+    const imageList = []
+    doc.images.forEach((image) => {
+      const imgURL = `${process.env.BASE_URL}/chocolateBox/${image}`
+      imageList.push(imgURL)
+    });
+    doc.images = imageList
+  }
+}
+
+boxSchema.post('init', (doc)=>{
+  setImageURL(doc)
+})
+boxSchema.post('save', (doc)=>{
+  setImageURL(doc)
+})
+
 const ChocolateBox = mongoose.model("ChocolateBox", boxSchema);
 module.exports = ChocolateBox;

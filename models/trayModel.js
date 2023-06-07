@@ -34,5 +34,23 @@ const traySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+const setImageURL = (doc) => {
+  if (doc.images) {
+    const imageList = []
+    doc.images.forEach((image) => {
+      const imgURL = `${process.env.BASE_URL}/trays/${image}`
+      imageList.push(imgURL)
+    });
+    doc.images = imageList
+  }
+}
+
+traySchema.post('init', (doc)=>{
+  setImageURL(doc)
+})
+traySchema.post('save', (doc)=>{
+  setImageURL(doc)
+})
+
 const Tray = mongoose.model("Tray", traySchema);
 module.exports = Tray;

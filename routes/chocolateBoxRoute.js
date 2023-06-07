@@ -5,6 +5,8 @@ const {
   getChocolateBox,
   createChocolateBox,
   deleteChocolateBox,
+  uploadChocolateBoxImages,
+  resizeChocolateBoxImages,
 } = require("../controllers/chocolateBoxController");
 
 const {
@@ -17,7 +19,12 @@ const Router = express.Router();
 
 Router.route("/")
   .get(getChocolateBoxs)
-  .post(createChocolateBoxValidator, createChocolateBox);
+  .post(
+    uploadChocolateBoxImages,
+    resizeChocolateBoxImages,
+    createChocolateBoxValidator,
+    createChocolateBox
+  );
 Router.route("/:id")
   .get(getChocolateBoxValidator, getChocolateBox)
   .delete(deleteChocolateBoxValidator, deleteChocolateBox);

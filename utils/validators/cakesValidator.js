@@ -10,13 +10,13 @@ exports.getCakeValidator = [
 exports.createCakeValidator = [
   check("title")
     .notEmpty()
-    .withMessage("Tray title is required")
+    .withMessage("Cake title is required")
     .isLength({ min: 4 })
     .withMessage("too short title")
 
     .custom(async (value) => {
-      let box = await cakeModel.find({ title: value });
-      if (box.length > 0) {
+      let cake = await cakeModel.find({ title: value });
+      if (cake.length > 0) {
         throw new Error(
           `title: ( ${value} ) already exists! Choose another title`
         );

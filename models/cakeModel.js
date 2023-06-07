@@ -33,5 +33,24 @@ const cakeSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+const setImageURL = (doc) => {
+  if (doc.images) {
+    const imageList = []
+    doc.images.forEach((image) => {
+      const imgURL = `${process.env.BASE_URL}/cakes/${image}`
+      imageList.push(imgURL)
+    });
+    doc.images = imageList
+  }
+}
+
+cakeSchema.post('init', (doc)=>{
+  setImageURL(doc)
+})
+cakeSchema.post('save', (doc)=>{
+  setImageURL(doc)
+})
+
+
 const Cake = mongoose.model("Cake", cakeSchema);
 module.exports = Cake;

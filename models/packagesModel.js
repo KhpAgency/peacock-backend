@@ -34,5 +34,23 @@ const packagesSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+const setImageURL = (doc) => {
+  if (doc.images) {
+    const imageList = []
+    doc.images.forEach((image) => {
+      const imgURL = `${process.env.BASE_URL}/packages/${image}`
+      imageList.push(imgURL)
+    });
+    doc.images = imageList
+  }
+}
+
+packagesSchema.post('init', (doc)=>{
+  setImageURL(doc)
+})
+packagesSchema.post('save', (doc)=>{
+  setImageURL(doc)
+})
+
 const Packages = mongoose.model("Packages", packagesSchema);
 module.exports = Packages;

@@ -1,11 +1,13 @@
 const express = require("express");
-const multer  = require('multer')
+const multer = require("multer");
 
 const {
   getCakes,
   getCake,
   createCake,
   deleteCake,
+  uploadCakesImages,
+  resizeCakesImages,
 } = require("../controllers/cakesController");
 
 const {
@@ -15,15 +17,13 @@ const {
 } = require("../utils/validators/cakesValidator");
 
 const Router = express.Router();
-const upload = multer({ dest: 'uploads/cakes' })
-
-
+const upload = multer({ dest: "uploads/cakes" });
 
 Router.route("/")
   .get(getCakes)
-  .post(upload.array("images", 4),createCakeValidator, createCake);
+  .post(uploadCakesImages, resizeCakesImages, createCakeValidator, createCake);
 Router.route("/:id")
   .get(getCakeValidator, getCake)
   .delete(deleteCakeValidator, deleteCake);
-  
+
 module.exports = Router;
