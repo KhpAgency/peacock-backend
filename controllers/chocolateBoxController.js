@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 const slugify = require("slugify");
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/ApiError");
-const heicConvert = require('heic-convert');
+const heicConvert = require('heic-convert'); 
 
 const ChocolateBoxModel = require("../models/chocolateBoxesModel");
 
