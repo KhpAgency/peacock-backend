@@ -41,7 +41,7 @@ exports.resizeChocolateBoxImages = asyncHandler(async (req, res, next) => {
           await sharp(jpegBuffer)
             .resize(900 * 900)
             .toFormat("jpeg")
-            .jpeg({ quality: 90 })
+            .jpeg({ quality: 80 })
             .toFile(`uploads/chocolateBox/${imageName}`);
         } else {
           imageName = `chocolateBox-${uuidv4()}-${Date.now()}-${
@@ -50,7 +50,7 @@ exports.resizeChocolateBoxImages = asyncHandler(async (req, res, next) => {
           await sharp(img.buffer)
             .resize(900 * 900)
             .toFormat("jpeg")
-            .jpeg({ quality: 90 })
+            .jpeg({ quality: 80 })
             .toFile(`uploads/chocolateBox/${imageName}`);
         }
         req.body.images.push(imageName);
