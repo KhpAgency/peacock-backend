@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 const slugify = require("slugify");
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/ApiError");
-const heicConvert = require("heic-convert");
+const heicConvert = require('heic-convert'); 
 
 const ChocolateBoxModel = require("../models/chocolateBoxesModel");
 
@@ -35,22 +35,14 @@ exports.resizeChocolateBoxImages = asyncHandler(async (req, res, next) => {
             buffer: heicBuffer,
             format: "JPEG",
           });
-          imageName = `chocolateBox-${uuidv4()}-${Date.now()}-${
-            index + 1
-          }.jpeg`;
+          imageName = `chocolateBox-${uuidv4()}-${Date.now()}-${index + 1}.jpeg`;
           await sharp(jpegBuffer)
-            .resize(900 * 900)
-            .toFormat("jpeg")
-            .jpeg({ quality: 80 })
+            .jpeg({ quality: 90 })
             .toFile(`uploads/chocolateBox/${imageName}`);
         } else {
-          imageName = `chocolateBox-${uuidv4()}-${Date.now()}-${
-            index + 1
-          }.jpeg`;
+          imageName = `chocolateBox-${uuidv4()}-${Date.now()}-${index + 1}.jpeg`;
           await sharp(img.buffer)
-            .resize(900 * 900)
-            .toFormat("jpeg")
-            .jpeg({ quality: 80 })
+            .jpeg({ quality: 90 })
             .toFile(`uploads/chocolateBox/${imageName}`);
         }
         req.body.images.push(imageName);
