@@ -38,6 +38,7 @@ app.use("/api/v1/chocolateBox", chocolateBoxRoute);
 app.use("/api/v1/trays", trayRoute);
 app.use("/api/v1/packages", packageRoute);
 app.use("/api/v1/cakes", cakeRoute);
+app.use("/api/v1/users", userRoute);
 
 app.all("*", (req, res, next) => {
   next(new ApiError(`can't find this route: ${req.originalUrl}`, 400));

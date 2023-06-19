@@ -1,8 +1,8 @@
 const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
-const slugify = require("slugify");
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/ApiError");
+const factory = require("./controllersFactory");
 
 const TraysModel = require("../models/trayModel");
 
@@ -41,32 +41,12 @@ exports.resizeTraysImages = asyncHandler(async (req, res, next) => {
   }
 });
 
-exports.getTrays = asyncHandler(async (req, res, next) => {
-  const Trays = await TraysModel.find({});
-  res.status(200).json({ results: Trays.length, data: Trays });
-});
+exports.getTrays = factory.getAll(TraysModel)
 
-exports.getTray = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
+exports.createTray = factory.createOne(TraysModel)
 
-  const Tray = await TraysModel.findById(id);
-  if (!Tray) {
-    return next(new ApiError(`No Tray found for this id:${id}`, 404));
-  }
-  res.status(200).json({ data: Tray });
-});
+exports.getTray = factory.getOne(TraysModel)
 
-exports.createTray = asyncHandler(async (req, res, next) => {
-  req.body.slug = slugify(req.body.title);
-  const Tray = await TraysModel.create(req.body);
-  res.status(201).json({ message: "Success", data: Tray });
-});
+exports.deleteTray = factory.deleteOne(TraysModel);
 
-exports.deleteTray = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-  const Tray = await TraysModel.findByIdAndDelete(id);
-  if (!Tray) {
-    return next(new ApiError(`No Tray box found for this id:${id}`, 404));
-  }
-  res.status(204).send("Tray box deleted successfully");
-});
+

@@ -1,6 +1,7 @@
-const { check } = require("express-validator");
+const { check, body } = require("express-validator");
 const validatorMiddleware = require("../../middlewares/validatorMiddleware");
 const trayModel = require("../../models/trayModel");
+const slugify = require("slugify");
 
 exports.getTrayValidator = [
   check("id").isMongoId().withMessage("Invalid id format"),
@@ -14,13 +15,15 @@ exports.createTrayValidator = [
     .isLength({ min: 4 })
     .withMessage("too short title")
 
-    .custom(async (value) => {
+    .custom(async (value, {req}) => {
       let box = await trayModel.find({ title: value });
       if (box.length > 0) {
         throw new Error(
           `title: ( ${value} ) already exists! Choose another title`
         );
       }
+      req.body.slug = slugify(value);
+      return true;
     }),
   check("description").notEmpty().withMessage("Description is required"),
   check("price").notEmpty().withMessage("Price is required"),
@@ -33,6 +36,7 @@ exports.createTrayValidator = [
       return true;
     }),
   check("weight").notEmpty().withMessage("weight options are required"),
+  check("category").notEmpty().withMessage("Category is required"),
   validatorMiddleware,
 ];
 

@@ -1,8 +1,8 @@
 const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
-const slugify = require("slugify");
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/ApiError");
+const factory = require("./controllersFactory");
 
 const packagesModel = require("../models/packagesModel");
 const sharp = require("sharp");
@@ -26,7 +26,9 @@ exports.resizePackagesImages = asyncHandler(async (req, res, next) => {
     req.body.images = [];
     await Promise.all(
       req.files.map(async (img, index) => {
-        const imageName = `packages-${uuidv4()}-${Date.now()}-${index + 1}.jpeg`;
+        const imageName = `packages-${uuidv4()}-${Date.now()}-${
+          index + 1
+        }.jpeg`;
 
         await sharp(img.buffer)
           .toFormat("jpeg")
@@ -40,32 +42,11 @@ exports.resizePackagesImages = asyncHandler(async (req, res, next) => {
   }
 });
 
-exports.getPackages = asyncHandler(async (req, res, next) => {
-  const Packages = await packagesModel.find({});
-  res.status(200).json({ results: Packages.length, data: Packages });
-});
+exports.getPackages = factory.getAll(packagesModel)
 
-exports.getPackage = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
 
-  const Package = await packagesModel.findById(id);
-  if (!Package) {
-    return next(new ApiError(`No Package for this id:${id}`, 404));
-  }
-  res.status(200).json({ data: Package });
-});
+exports.createPackage = factory.createOne(packagesModel)
 
-exports.createPackage = asyncHandler(async (req, res, next) => {
-  req.body.slug = slugify(req.body.title);
-  const Package = await packagesModel.create(req.body);
-  res.status(201).json({ message: "Success", data: Package });
-});
+exports.getPackage = factory.getOne(packagesModel)
 
-exports.deletePackage = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-  const Package = await packagesModel.findByIdAndDelete(id);
-  if (!Package) {
-    return next(new ApiError(`No Package found for this id:${id}`, 404));
-  }
-  res.status(204).send("Package deleted successfully");
-});
+exports.deletePackage = factory.deleteOne(packagesModel);

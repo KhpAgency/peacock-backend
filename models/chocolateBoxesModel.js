@@ -5,7 +5,7 @@ const boxSchema = new mongoose.Schema(
     title: {
       type: String,
       required: [true, "Name is required"],
-      unique: [true , "Title must be unique"]
+      unique: [true, "Title must be unique"],
     },
     slug: {
       type: String,
@@ -30,27 +30,31 @@ const boxSchema = new mongoose.Schema(
       type: [String],
       required: [true, "Weight is required"],
     },
+    category: {
+      type: String,
+      required: [true, "Category is required"],
+    },
   },
   { timestamps: true }
 );
 
 const setImageURL = (doc) => {
   if (doc.images) {
-    const imageList = []
+    const imageList = [];
     doc.images.forEach((image) => {
-      const imgURL = `${process.env.BASE_URL}/chocolateBox/${image}`
-      imageList.push(imgURL)
+      const imgURL = `${process.env.BASE_URL}/chocolateBox/${image}`;
+      imageList.push(imgURL);
     });
-    doc.images = imageList
+    doc.images = imageList;
   }
-}
+};
 
-boxSchema.post('init', (doc)=>{
-  setImageURL(doc)
-})
-boxSchema.post('save', (doc)=>{
-  setImageURL(doc)
-})
+boxSchema.post("init", (doc) => {
+  setImageURL(doc);
+});
+boxSchema.post("save", (doc) => {
+  setImageURL(doc);
+});
 
 const ChocolateBox = mongoose.model("ChocolateBox", boxSchema);
 module.exports = ChocolateBox;

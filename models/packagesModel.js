@@ -30,6 +30,10 @@ const packagesSchema = new mongoose.Schema(
       type: [String],
       required: [true, "Weight is required"],
     },
+    category: {
+      type: String,
+      required : [true, "Category is required"]
+    }
   },
   { timestamps: true }
 );
