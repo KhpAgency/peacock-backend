@@ -16,10 +16,13 @@ const {
 } = require("../utils/validators/packagesValidator");
 
 const Router = express.Router();
+const { protect, allowedTo } = require("../controllers/authController");
 
 Router.route("/")
   .get(getPackages)
   .post(
+    protect,
+    allowedTo("admin", "manager"),
     uploadPackagesImages,
     resizePackagesImages,
     createPackageValidator,
@@ -27,6 +30,6 @@ Router.route("/")
   );
 Router.route("/:id")
   .get(getPackageValidator, getPackage)
-  .delete(deletePackageValidator, deletePackage);
+  .delete(protect, allowedTo("admin"), deletePackageValidator, deletePackage);
 
 module.exports = Router;

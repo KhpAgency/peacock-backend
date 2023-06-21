@@ -15,6 +15,7 @@ const chocolateBoxRoute = require("./routes/chocolateBoxRoute");
 const trayRoute = require("./routes/trayRoute");
 const packageRoute = require("./routes/packagesRoute");
 const cakeRoute = require("./routes/cakesRoute");
+const authRoute = require("./routes/authRoute");
 
 // middlewares
 
@@ -39,6 +40,7 @@ app.use("/api/v1/trays", trayRoute);
 app.use("/api/v1/packages", packageRoute);
 app.use("/api/v1/cakes", cakeRoute);
 app.use("/api/v1/users", userRoute);
+app.use("/api/v1/auth", authRoute);
 
 app.all("*", (req, res, next) => {
   next(new ApiError(`can't find this route: ${req.originalUrl}`, 400));

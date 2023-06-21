@@ -16,12 +16,16 @@ const {
 } = require("../utils/validators/traysValidator");
 
 const Router = express.Router();
+const { protect, allowedTo } = require("../controllers/authController");
+
 
 Router.route("/")
   .get(getTrays)
-  .post(uploadTraysImages, resizeTraysImages, createTrayValidator, createTray);
+  .post(protect,
+    allowedTo("admin", "manager"),uploadTraysImages, resizeTraysImages, createTrayValidator, createTray);
 Router.route("/:id")
   .get(getTrayValidator, getTray)
-  .delete(deleteTrayValidator, deleteTray);
+  .delete(protect,
+    allowedTo("admin"),deleteTrayValidator, deleteTray);
 
 module.exports = Router;

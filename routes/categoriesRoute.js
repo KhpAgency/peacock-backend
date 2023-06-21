@@ -12,12 +12,23 @@ const {
   deleteCategoryValidator,
 } = require("../utils/validators/categoryValidator");
 
+const { protect, allowedTo } = require("../controllers/authController");
 const Router = express.Router();
 
 Router.route("/")
   .get(getCategories)
-  .post(createCategoryvalidator, createCategory);
+  .post(
+    protect,
+    allowedTo("admin", "manager"),
+    createCategoryvalidator,
+    createCategory
+  );
 Router.route("/:id")
   .get(getCategoryValidator, getCategory)
-  .delete(deleteCategoryValidator, deleteCategory);
+  .delete(
+    protect,
+    allowedTo("admin"),
+    deleteCategoryValidator,
+    deleteCategory
+  );
 module.exports = Router;

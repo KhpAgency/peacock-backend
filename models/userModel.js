@@ -24,8 +24,13 @@ const userSchema = new mongoose.Schema(
       required: [true, "Password is required"],
       minlength: [6, "Password must be at least 6 characters"],
     },
+    passwordChangedAT: Date,
+    passwordResetCode: String,
+    passwordResetCodeExpire: Date,
+    passwordResetCodeVerified: Boolean,
     role: {
       type: String,
+      enum: ["admin", "manager", "user"],
       default: "user",
     },
     active: {
@@ -36,8 +41,8 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.pre("save", async function (next)  {
-  if(!this.isModified("password")) return next()
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
   // Password hashing
   this.password = await bcrypt.hash(this.password, 12);
   next();

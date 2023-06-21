@@ -7,7 +7,7 @@ const {
   createUser,
   deleteUser,
   updateuser,
-  updateUserPassword
+  updateUserPassword,
 } = require("../controllers/userController");
 
 const {
@@ -15,16 +15,24 @@ const {
   createUserValidator,
   deleteUserValidator,
   updateUserValidator,
+  changeUserPasswordValidator,
 } = require("../utils/validators/userValidator");
 
 const Router = express.Router();
+const { protect, allowedTo } = require("../controllers/authController");
 
-Router.put("/changePassword/:id", updateUserPassword)
+Router.put(
+  "/changePassword/:id",
+  changeUserPasswordValidator,
+  updateUserPassword
+);
 
-Router.route("/").get(getUsers).post(createUserValidator, createUser);
+Router.route("/")
+  .get(protect, allowedTo("admin", "manager"), getUsers)
+  .post(protect, allowedTo("admin"), createUserValidator, createUser);
 Router.route("/:id")
   .get(getUserValidator, getUser)
-  .delete(deleteUserValidator, deleteUser)
-  .put(updateUserValidator, updateuser);
+  .delete(protect, allowedTo("admin"), deleteUserValidator, deleteUser)
+  .put(protect, allowedTo("admin"), updateUserValidator, updateuser);
 
 module.exports = Router;

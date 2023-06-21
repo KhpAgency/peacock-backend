@@ -16,10 +16,14 @@ const {
 } = require("../utils/validators/chocolateBoxValidator");
 
 const Router = express.Router();
+const { protect, allowedTo } = require("../controllers/authController");
+
 
 Router.route("/")
   .get(getChocolateBoxs)
   .post(
+    protect,
+    allowedTo("admin", "manager"),
     uploadChocolateBoxImages,
     resizeChocolateBoxImages,
     createChocolateBoxValidator,
@@ -27,5 +31,10 @@ Router.route("/")
   );
 Router.route("/:id")
   .get(getChocolateBoxValidator, getChocolateBox)
-  .delete(deleteChocolateBoxValidator, deleteChocolateBox);
+  .delete(
+    protect,
+    allowedTo("admin"),
+    deleteChocolateBoxValidator,
+    deleteChocolateBox
+  );
 module.exports = Router;

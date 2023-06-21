@@ -17,13 +17,25 @@ const {
 } = require("../utils/validators/cakesValidator");
 
 const Router = express.Router();
-const upload = multer({ dest: "uploads/cakes" });
+const { protect, allowedTo } = require("../controllers/authController");
 
 Router.route("/")
   .get(getCakes)
-  .post(uploadCakesImages, resizeCakesImages, createCakeValidator, createCake);
+  .post(
+    protect,
+    allowedTo("admin", "manager"),
+    uploadCakesImages,
+    resizeCakesImages,
+    createCakeValidator,
+    createCake
+  );
 Router.route("/:id")
   .get(getCakeValidator, getCake)
-  .delete(deleteCakeValidator, deleteCake);
+  .delete(
+    protect,
+    allowedTo("admin"),
+    deleteCakeValidator,
+    deleteCake
+  );
 
 module.exports = Router;
