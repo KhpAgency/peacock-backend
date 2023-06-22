@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const sendEmail = require("../utils/sendEmails");
 const createToken = require("../utils/createToken");
 const jwt = require("jsonwebtoken");
+const sendErrorForprod = require("../middlewares/errorMiddleware");
 
 exports.signup = asyncHandler(async (req, res, next) => {
   // Create a new user
@@ -223,7 +224,8 @@ exports.login = asyncHandler(async (req, res, next) => {
   const user = await userModel.findOne({ email: req.body.email });
 
   if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
-    return next(new ApiError("Incorrect email or password", 401));
+    
+    return next(sendErrorForprod("Incorrect email or password",res));
   }
 
   // if (user.status!=="confirmed"){
