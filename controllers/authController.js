@@ -224,7 +224,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   const user = await userModel.findOne({ email: req.body.email });
 
   if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
-    return next(new ApiError("Incorrect email or password", 401));
+    return next(Promise.reject(new Error("new Error")));
   }
 
   // if (user.status!=="confirmed"){
