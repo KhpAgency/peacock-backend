@@ -33,6 +33,11 @@ const userSchema = new mongoose.Schema(
       enum: ["admin", "manager", "user"],
       default: "user",
     },
+    status: {
+      type: String, 
+      enum: ['pending', 'confirmed'],
+      default: 'pending'
+    },
     active: {
       type: Boolean,
       default: true,
