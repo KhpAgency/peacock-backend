@@ -2,14 +2,10 @@ const crypto = require("crypto");
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/ApiError");
 const userModel = require("../models/userModel");
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const sendEmail = require("../utils/sendEmails");
-
-const createToken = (payload) =>
-  jwt.sign({ userId: payload }, process.env.JWT_SECRET_KEY, {
-    expiresIn: process.env.JWT_EXPIRE_TIME,
-  });
+const createToken = require("../utils/createToken");
+const jwt = require("jsonwebtoken");
 
 exports.signup = asyncHandler(async (req, res, next) => {
   // Create a new user
@@ -36,7 +32,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
   //       }
   //     </style>
   //   </head>
-  
+
   //   <body
   //     marginheight="0"
   //     topmargin="0"
@@ -176,7 +172,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
   //                 </table>
   //               </td>
   //             </tr>
-  
+
   //             <tr>
   //               <td style="height: 20px">&nbsp;</td>
   //             </tr>
@@ -220,7 +216,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
 
 // exports.confirmEmail =asyncHandler(async (req, res ,next)=>{
 //   let user = userModel.findOne({ email: req.body.email })
-  
+
 // })
 
 exports.login = asyncHandler(async (req, res, next) => {
@@ -566,6 +562,6 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   await user.save();
 
   // if everything is good => generate new token
-  const token = createToken(user._id)
+  const token = createToken(user._id);
   res.status(200).json({ token });
 });

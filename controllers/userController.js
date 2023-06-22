@@ -4,6 +4,9 @@ const bcrypt = require("bcrypt");
 
 const userModel = require("../models/userModel");
 const ApiError = require("../utils/ApiError");
+const createToken = require("../utils/createToken");
+
+//----- Admin Routes -----
 
 exports.getUsers = factory.getAll(userModel);
 
@@ -49,3 +52,35 @@ exports.updateUserPassword = asyncHandler(async (req, res, next) => {
 });
 
 exports.deleteUser = factory.deleteOne(userModel);
+
+//----- /Admin Routes -----
+
+//----- User Routes -----
+
+exports.getLoggedUser = asyncHandler(async (req, res, next) => {
+  req.params.id = req.user._id;
+  next();
+});
+
+exports.updateLoggedUserPassword = asyncHandler(async (req, res, next) => {
+  //1) update user password based on user's payload (req.user._id)
+  const { password } = req.body;
+
+  const user = await userModel.findByIdAndUpdate(
+    req.user._id,
+    {
+      password: await bcrypt.hash(password, 12),
+      passwordChangedAT: Date.now(),
+    },
+    {
+      new: true,
+    }
+  );
+
+  // 2) generate new token
+
+  const token = createToken(user._id);
+  res.status(200).json({data: user, token})
+});
+
+//----- /User Routes -----
