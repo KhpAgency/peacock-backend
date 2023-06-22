@@ -2,11 +2,11 @@ const crypto = require("crypto");
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/ApiError");
 const userModel = require("../models/userModel");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const sendEmail = require("../utils/sendEmails");
 const createToken = require("../utils/createToken");
-const jwt = require("jsonwebtoken");
-const sendErrorForprod = require("../middlewares/errorMiddleware");
+
 
 exports.signup = asyncHandler(async (req, res, next) => {
   // Create a new user
@@ -33,7 +33,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
   //       }
   //     </style>
   //   </head>
-
+  
   //   <body
   //     marginheight="0"
   //     topmargin="0"
@@ -173,7 +173,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
   //                 </table>
   //               </td>
   //             </tr>
-
+  
   //             <tr>
   //               <td style="height: 20px">&nbsp;</td>
   //             </tr>
@@ -217,15 +217,14 @@ exports.signup = asyncHandler(async (req, res, next) => {
 
 // exports.confirmEmail =asyncHandler(async (req, res ,next)=>{
 //   let user = userModel.findOne({ email: req.body.email })
-
+  
 // })
 
 exports.login = asyncHandler(async (req, res, next) => {
   const user = await userModel.findOne({ email: req.body.email });
 
   if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
-    
-    return next(sendErrorForprod("Incorrect email or password",res));
+    return next(new ApiError("Incorrect email or password", 401));
   }
 
   // if (user.status!=="confirmed"){
@@ -564,6 +563,6 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   await user.save();
 
   // if everything is good => generate new token
-  const token = createToken(user._id);
+  const token = createToken(user._id)
   res.status(200).json({ token });
 });
