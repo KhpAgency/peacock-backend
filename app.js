@@ -19,10 +19,10 @@ const authRoute = require("./routes/authRoute");
 
 // middlewares
 
-app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
+app.use(cors());
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));

@@ -14,7 +14,9 @@ const {
 
   //----- User's Routes -----
   getLoggedUser,
-  updateLoggedUserPassword
+  updateLoggedUserPassword,
+  updateLoggedUserData,
+  deleteLoggedUserData
   //----- /User's Routes -----
 } = require("../controllers/userController");
 
@@ -24,21 +26,28 @@ const {
   deleteUserValidator,
   updateUserValidator,
   changeUserPasswordValidator,
+  updateLoggedUserDataValidator,
 } = require("../utils/validators/userValidator");
-
 
 const { protect, allowedTo } = require("../controllers/authController");
 
 //----- User Routes -----
+Router.use(protect);
 
-Router.get("/getLoggedUser",protect, getLoggedUser, getUser);
-Router.put("/updateLoggedUserPassword",protect, updateLoggedUserPassword);
+Router.get("/getLoggedUser", getLoggedUser, getUser);
+Router.put("/updateLoggedUserPassword", updateLoggedUserPassword);
+Router.put(
+  "/updateLoggedUserData",
+  updateLoggedUserDataValidator,
+  updateLoggedUserData
+);
+Router.delete("/deleteLoggedUserData" , deleteLoggedUserData)
 
 //----- /User Routes -----
 
 //----- Admin Routes -----
 
-Router.use(protect, allowedTo("admin", "manager"));
+Router.use(allowedTo("admin", "manager"));
 
 Router.route("/").get(getUsers).post(createUserValidator, createUser);
 
