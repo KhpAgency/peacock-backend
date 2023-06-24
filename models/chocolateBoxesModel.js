@@ -36,7 +36,6 @@ const boxSchema = new mongoose.Schema(
     },
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,
-
       ref : "Category"
     }
   },

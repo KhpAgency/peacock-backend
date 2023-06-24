@@ -8,14 +8,14 @@ const cartSchema = new mongoose.Schema({
   },
   cartItems: [
     {
-      product: {
+      productCategory: {
         type: String,
         enum: ["Cake", "ChocolateBox", "Tray", "Packages"],
         required: true,
       },
-    item: {
+      productID: {
         type: mongoose.Schema.Types.ObjectId,
-        refPath: "cartItems.product",
+        refPath: "cartItems.productCategory",
       },
       variant: String,
       quantity: { type: Number, default: 1 },

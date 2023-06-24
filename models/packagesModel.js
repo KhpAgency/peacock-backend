@@ -30,9 +30,13 @@ const packagesSchema = new mongoose.Schema(
       type: [String],
       required: [true, "Weight is required"],
     },
-    category: {
+    categoryName: {
       type: String,
       default: "Packages",
+    },
+    categoryId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref : "Category"
     }
   },
   { timestamps: true }

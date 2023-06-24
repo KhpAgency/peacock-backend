@@ -29,10 +29,14 @@ const cakeSchema = new mongoose.Schema(
       type: [String],
       required: [true, "Size is required"],
     },
-    category: {
+    categoryName: {
       type: String,
-      default: "Cakes",
+      default: "Cake",
     },
+    categoryId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref : "Category"
+    }
   },
   { timestamps: true }
 );

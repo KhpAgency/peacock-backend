@@ -30,31 +30,35 @@ const traySchema = new mongoose.Schema(
       type: [String],
       required: [true, "Weight is required"],
     },
-    category: {
+    categoryName: {
       type: String,
-      default: "Trays",
-    }
+      default: "Tray",
+    },
+    categoryId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+    },
   },
   { timestamps: true }
 );
 
 const setImageURL = (doc) => {
   if (doc.images) {
-    const imageList = []
+    const imageList = [];
     doc.images.forEach((image) => {
-      const imgURL = `${process.env.BASE_URL}/trays/${image}`
-      imageList.push(imgURL)
+      const imgURL = `${process.env.BASE_URL}/trays/${image}`;
+      imageList.push(imgURL);
     });
-    doc.images = imageList
+    doc.images = imageList;
   }
-}
+};
 
-traySchema.post('init', (doc)=>{
-  setImageURL(doc)
-})
-traySchema.post('save', (doc)=>{
-  setImageURL(doc)
-})
+traySchema.post("init", (doc) => {
+  setImageURL(doc);
+});
+traySchema.post("save", (doc) => {
+  setImageURL(doc);
+});
 
 const Tray = mongoose.model("Tray", traySchema);
 module.exports = Tray;
