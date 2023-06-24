@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/ApiError");
 const cartModel = require("../models/cartModel");
+const { json } = require("express");
 
 exports.addProductToCart = asyncHandler(async (req, res, next) => {
   // Get cart for logged in user
@@ -12,5 +13,8 @@ exports.addProductToCart = asyncHandler(async (req, res, next) => {
       user: req.user._id,
       cartItems: [{ productCategory, productID, variant, price }],
     });
+    res.json({message: 'Cart created successfully', cart: cart});
+  } else {
+    console.log('there is cart already');
   }
 });
