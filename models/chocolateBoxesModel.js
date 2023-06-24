@@ -32,7 +32,7 @@ const boxSchema = new mongoose.Schema(
     },
     categoryName: {
       type: String,
-      default: "Chocolate Boxs",
+      default: "Chocolate Box",
     },
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,
