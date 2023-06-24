@@ -36,7 +36,6 @@ exports.createTrayValidator = [
       return true;
     }),
   check("weight").notEmpty().withMessage("weight options are required"),
-  check("category").notEmpty().withMessage("Category is required"),
   validatorMiddleware,
 ];
 

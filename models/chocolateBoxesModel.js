@@ -30,10 +30,15 @@ const boxSchema = new mongoose.Schema(
       type: [String],
       required: [true, "Weight is required"],
     },
-    category: {
+    categoryName: {
       type: String,
-      required: [true, "Category is required"],
+      default: "Chocolate Boxs",
     },
+    categoryId: {
+      type: mongoose.Schema.Types.ObjectId,
+
+      ref : "Category"
+    }
   },
   { timestamps: true }
 );

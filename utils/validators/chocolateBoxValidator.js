@@ -36,7 +36,6 @@ exports.createChocolateBoxValidator = [
       return true;
     }),
   check("pieces").notEmpty().withMessage("pieces options is required"),
-  check("category").notEmpty().withMessage("Category is required"),
   validatorMiddleware,
 ];
 

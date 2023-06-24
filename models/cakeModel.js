@@ -31,7 +31,7 @@ const cakeSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      required: [true, "Category is required"],
+      default: "Cakes",
     },
   },
   { timestamps: true }

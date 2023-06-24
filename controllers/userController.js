@@ -64,12 +64,12 @@ exports.getLoggedUser = asyncHandler(async (req, res, next) => {
 
 exports.updateLoggedUserPassword = asyncHandler(async (req, res, next) => {
   //1) update user password based on user's payload (req.user._id)
-  const { password } = req.body;
+  const { newPassword } = req.body;
 
   const user = await userModel.findByIdAndUpdate(
     req.user._id,
     {
-      password: await bcrypt.hash(password, 12),
+      password: await bcrypt.hash(newPassword, 12),
       passwordChangedAT: Date.now(),
     },
     {

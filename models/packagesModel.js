@@ -32,7 +32,7 @@ const packagesSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      required : [true, "Category is required"]
+      default: "Packages",
     }
   },
   { timestamps: true }

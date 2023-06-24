@@ -35,7 +35,6 @@ exports.createCakeValidator = [
       return true;
     }),
   check("size").notEmpty().withMessage("size options are required"),
-  check("category").notEmpty().withMessage("Category is required"),
   validatorMiddleware,
 ];
 

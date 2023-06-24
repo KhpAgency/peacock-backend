@@ -32,6 +32,8 @@ const {
 const { protect, allowedTo } = require("../controllers/authController");
 
 //----- User Routes -----
+
+// applied on all routes
 Router.use(protect);
 
 Router.get("/getLoggedUser", getLoggedUser, getUser);

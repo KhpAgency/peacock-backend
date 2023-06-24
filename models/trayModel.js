@@ -32,7 +32,7 @@ const traySchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      required : [true, "Category is required"]
+      default: "Trays",
     }
   },
   { timestamps: true }
