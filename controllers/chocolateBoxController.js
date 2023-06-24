@@ -56,7 +56,14 @@ exports.getChocolateBoxs = factory.getAll(ChocolateBoxModel)
 
 exports.createChocolateBox = factory.createOne(ChocolateBoxModel)
 
-exports.getChocolateBox = factory.getOne(ChocolateBoxModel)
+exports.getChocolateBox = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const document = await ChocolateBoxModel.findById(id).populate("categoryId");
+  if (!document) {
+    return next(new ApiError(`No document found for this id:${id}`, 404));
+  }
+  res.status(200).json({ data: document });
+});
 
 exports.deleteChocolateBox = factory.deleteOne(ChocolateBoxModel);
 
