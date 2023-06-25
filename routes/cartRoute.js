@@ -1,10 +1,23 @@
 const express = require("express");
 
-const { addProductToCart } = require("../controllers/cartController");
+const {
+  addProductToCart,
+  getLoggedUserCart,
+  removeSpecificCartItem,
+  clearCart,
+  updateCartItemQuantity,
+} = require("../controllers/cartController");
 
 const Router = express.Router();
 const { protect, allowedTo } = require("../controllers/authController");
 
-Router.route("/").post(protect, allowedTo("user"), addProductToCart);
+Router.use(protect, allowedTo("user"));
+Router.route("/")
+  .post(addProductToCart)
+  .get(getLoggedUserCart)
+  .delete(clearCart);
+Router.route("/:itemId")
+  .put(updateCartItemQuantity)
+  .delete(removeSpecificCartItem);
 
 module.exports = Router;
