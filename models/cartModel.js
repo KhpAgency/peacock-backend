@@ -25,9 +25,19 @@ const cartSchema = new mongoose.Schema({
   totalCartPrice: Number,
 });
 
-cartSchema.pre(/^find/, function(next) {
-  this.populate({path: "user"}).populate({path: "cartItems.productID", select:`-pieces -size -weight`})
-  next()
-})
+// cartSchema.post("save", function(next) {
+//   this.populate({path: "user"}).populate({path: "cartItems.productID", select:`-pieces -size -weight`})
+//   next()
+// })
+
+
+cartSchema.post("save", function () {
+  const doc = this;
+  const Cart = mongoose.model("Cart");
+  Cart.findById(doc._id)
+    .populate({ path: "user" })
+    .populate({ path: "cartItems.productID", select: "-pieces -size -weight" })
+    .exec();
+});
 
 module.exports = mongoose.model("Cart", cartSchema);
