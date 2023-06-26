@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/ApiError");
 const cartModel = require("../models/cartModel");
+const { json } = require("express");
 
 const calcTotalCartPrice = (cart) => {
   //   calculate total cart price
@@ -27,7 +28,7 @@ exports.addProductToCart = asyncHandler(async (req, res, next) => {
     const productIndex = cart.cartItems.findIndex(
       (item) =>
         item.productID.toString() === req.body.productID &&
-        item.variant === req.body.variant
+        item.variant == req.body.variant
     );
 
     if (productIndex > -1) {
@@ -54,17 +55,19 @@ exports.addProductToCart = asyncHandler(async (req, res, next) => {
 });
 
 exports.getLoggedUserCart = asyncHandler(async (req, res, next) => {
-  let cart = await cartModel.findOne({ user: req.user._id }).populate({path: 'productID' ,strictPopulate: false} );
+  let cart = await cartModel.findOne({ user: req.user._id });
 
   if (!cart) {
     return next(new ApiError("No cart for this user", 404));
   }
 
-  res.status(200).json({
-    status: "success",
-    numOfCartItems: cart.cartItems.length,
-    data: cart,
-  });
+  res
+    .status(200)
+    .json({
+      status: "success",
+      numOfCartItems: cart.cartItems.length,
+      data: cart,
+    });
 });
 
 exports.removeSpecificCartItem = asyncHandler(async (req, res, next) => {
@@ -77,11 +80,13 @@ exports.removeSpecificCartItem = asyncHandler(async (req, res, next) => {
   );
   calcTotalCartPrice(cart);
   cart.save();
-  res.status(200).json({
-    status: "success",
-    numOfCartItems: cart.cartItems.length,
-    data: cart,
-  });
+  res
+    .status(200)
+    .json({
+      status: "success",
+      numOfCartItems: cart.cartItems.length,
+      data: cart,
+    });
 });
 
 exports.clearCart = asyncHandler(async (req, res, next) => {
@@ -90,31 +95,28 @@ exports.clearCart = asyncHandler(async (req, res, next) => {
 });
 
 exports.updateCartItemQuantity = asyncHandler(async (req, res, next) => {
-  const { quantity } = req.body;
+    const {quantity} = req.body
+    
+    const cart = await cartModel.findOne({user: req.user._id});
+    if(!cart){
+        return next(new ApiError("No cart fount forthis user"), 404);
+    }
 
-  const cart = await cartModel.findOne({ user: req.user._id });
-  if (!cart) {
-    return next(new ApiError("No cart fount forthis user"), 404);
-  }
+    const itemIndex = cart.cartItems.findIndex(item => item._id.toString() === req.params.itemId)
+    if (itemIndex > -1) {
+        const cartItem = cart.cartItems[itemIndex];
+        cartItem.quantity = quantity
+        cart.cartItems[itemIndex] = cartItem
+    } else {
+        return next (new ApiError(`No item found for this id: ${req.params.itemId}`, 404))
+    }
 
-  const itemIndex = cart.cartItems.findIndex(
-    (item) => item._id.toString() === req.params.itemId
-  );
-  if (itemIndex > -1) {
-    const cartItem = cart.cartItems[itemIndex];
-    cartItem.quantity = quantity;
-    cart.cartItems[itemIndex] = cartItem;
-  } else {
-    return next(
-      new ApiError(`No item found for this id: ${req.params.itemId}`, 404)
-    );
-  }
-
-  calcTotalCartPrice(cart);
-  await cart.save();
-  res.status(200).json({
-    status: "success",
-    numOfCartItems: cart.cartItems.length,
-    data: cart,
-  });
-});
+    calcTotalCartPrice(cart)
+    await cart.save()
+    res
+    .status(200)
+    .json({
+      status: "success",
+      numOfCartItems: cart.cartItems.length,
+      data: cart,
+    });});
