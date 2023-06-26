@@ -29,7 +29,11 @@ exports.getOne = (Model) =>
 
 exports.getAll = (Model) =>
   asyncHandler(async (req, res, next) => {
-    const documents = await Model.find({});
+    let filter= {}
+    if (req.filterObj) {
+      filter =req.filterObj
+    }
+    const documents = await Model.find(filter);
     res.status(200).json({ results: documents.length, data: documents });
   });
 

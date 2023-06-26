@@ -17,6 +17,7 @@ const packageRoute = require("./routes/packagesRoute");
 const cakeRoute = require("./routes/cakesRoute");
 const authRoute = require("./routes/authRoute");
 const cartRoute = require("./routes/cartRoute");
+const orderRoute = require("./routes/orderRoute");
 
 // middlewares
 
@@ -36,13 +37,14 @@ dbConnection();
 // Mount Routes
 app.use("/api/v1/categories", categoriesRoute);
 app.use("/api/v1/login", userRoute);
-app.use("/api/v1/chocolateBox", chocolateBoxRoute);
+app.use("/api/v1/chocolatebox", chocolateBoxRoute);
 app.use("/api/v1/trays", trayRoute);
 app.use("/api/v1/packages", packageRoute);
 app.use("/api/v1/cakes", cakeRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/cart", cartRoute);
+app.use("/api/v1/orders", orderRoute);
 
 app.all("*", (req, res, next) => {
   next(new ApiError(`can't find this route: ${req.originalUrl}`, 400));
