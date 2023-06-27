@@ -58,7 +58,7 @@ const orderSchema = new mongoose.Schema(
 
 
 orderSchema.pre(/^find/, function(next) {
-  this.populate({path: "user"}).populate({path: "cartItems.productID"})
+  this.populate({path: "user"}).populate({path: "cartItems.productID", select:"-pieces -size -weight"})
   next()
 })
 
