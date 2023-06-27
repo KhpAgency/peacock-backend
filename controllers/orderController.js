@@ -34,11 +34,43 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
   res.status(200).json({ status: "success", order });
 });
 
-exports.filterOrderForLoggedUser = asyncHandler(async (req,res,next) => {
-    if (req.user.role === "user") req.filterObj = {user: req.user._id}
-    next();
-})
+exports.filterOrderForLoggedUser = asyncHandler(async (req, res, next) => {
+  if (req.user.role === "user") req.filterObj = { user: req.user._id };
+  next();
+});
 
-exports.findAllOrders = factory.getAll(orderModel)
+exports.findAllOrders = factory.getAll(orderModel);
 
-exports.findSpecificOrder = factory.getOne(orderModel)
+exports.findSpecificOrder = factory.getOne(orderModel);
+
+exports.updateOrdertoPaid = asyncHandler(async (req, res, next) => {
+  const order =await orderModel.findById(req.params.id);
+  if (!order) {
+    return next(
+      new ApiError(`No such order with this id: ${req.params.order}`, 404)
+    );
+  }
+
+  // update order to paid
+  order.isPaid = true;
+  order.paidAt = Date.now();
+
+  const updatedOrder = await order.save();
+  res.status(200).json({ message: "success", data: updatedOrder });
+});
+
+exports.updateOrderToDeliverd = asyncHandler(async (req, res, next) => {
+  const order =await orderModel.findById(req.params.id);
+  if (!order) {
+    return next(
+      new ApiError(`No such order with this id: ${req.params.order}`, 404)
+    );
+  }
+
+  // update order to paid
+  order.isDeliverd = true;
+  order.deliverdAt = Date.now();
+
+  const updatedOrder = await order.save();
+  res.status(200).json({ message: "success", data: updatedOrder });
+});

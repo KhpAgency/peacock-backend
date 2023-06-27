@@ -55,7 +55,7 @@ exports.addProductToCart = asyncHandler(async (req, res, next) => {
 });
 
 exports.getLoggedUserCart = asyncHandler(async (req, res, next) => {
-  let cart = await cartModel.findOne({ user: req.user._id });
+  let cart = await cartModel.findOne({ user: req.user._id }).populate({path: "user"}).populate({path: "cartItems.productID", select:"-pieces -size -weight"});
 
   if (!cart) {
     return next(new ApiError("No cart for this user", 404));

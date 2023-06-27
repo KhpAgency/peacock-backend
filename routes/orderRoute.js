@@ -5,6 +5,8 @@ const {
   filterOrderForLoggedUser,
   findAllOrders,
   findSpecificOrder,
+  updateOrderToDeliverd,
+  updateOrdertoPaid
 } = require("../controllers/orderController");
 
 const Router = express.Router();
@@ -21,5 +23,8 @@ Router.get(
   findAllOrders
 );
 Router.get("/:id", allowedTo("user", "admin", "manager"), findSpecificOrder);
+
+Router.put("/:id/delivery", allowedTo("admin", "manager"), updateOrderToDeliverd);
+Router.put("/:id/pay", allowedTo("admin", "manager"), updateOrdertoPaid);
 
 module.exports = Router;
