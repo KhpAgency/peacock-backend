@@ -28,6 +28,14 @@ const userSchema = new mongoose.Schema(
     passwordResetCode: String,
     passwordResetCodeExpire: Date,
     passwordResetCodeVerified: Boolean,
+    addresses: [
+      {
+        id: {type: mongoose.Schema.Types.ObjectId},
+        alias: String,
+        details: String,
+        phone: String,
+      }
+    ] ,
     role: {
       type: String,
       enum: ["admin", "manager", "user"],

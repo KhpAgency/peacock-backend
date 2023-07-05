@@ -1,7 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/ApiError");
 const cartModel = require("../models/cartModel");
-const { json } = require("express");
 
 const calcTotalCartPrice = (cart) => {
   //   calculate total cart price

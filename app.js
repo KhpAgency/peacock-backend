@@ -18,6 +18,7 @@ const cakeRoute = require("./routes/cakesRoute");
 const authRoute = require("./routes/authRoute");
 const cartRoute = require("./routes/cartRoute");
 const orderRoute = require("./routes/orderRoute");
+const addressRoute = require("./routes/addressRoute");
 
 // middlewares
 
@@ -45,6 +46,7 @@ app.use("/api/v1/users", userRoute);
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/cart", cartRoute);
 app.use("/api/v1/orders", orderRoute);
+app.use("/api/v1/addresses", addressRoute);
 
 app.all("*", (req, res, next) => {
   next(new ApiError(`can't find this route: ${req.originalUrl}`, 400));
