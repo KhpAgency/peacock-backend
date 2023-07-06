@@ -56,7 +56,7 @@ exports.addProductToCart = asyncHandler(async (req, res, next) => {
 exports.getLoggedUserCart = asyncHandler(async (req, res, next) => {
   let cart = await cartModel
     .findOne({ user: req.user._id })
-    .populate({ path: "user", select: "_id name email phone" })
+    .populate({ path: "user", select: "_id name email phone addresses" })
     .populate({
       path: "cartItems.productID",
       select:
