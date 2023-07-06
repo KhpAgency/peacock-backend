@@ -49,7 +49,7 @@ const orderSchema = new mongoose.Schema(
 
 
 orderSchema.pre(/^find/, function(next) {
-  this.populate({path: "user"}).populate({path: "cartItems.productID", select:"-pieces -size -weight"})
+  this.populate({path: "user", select:"_id name email phone"}).populate({path: "cartItems.productID", select:"_id title images description price discountedPrice categoryName categoryId"})
   next()
 })
 
