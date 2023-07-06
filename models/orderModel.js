@@ -23,6 +23,7 @@ const orderSchema = new mongoose.Schema(
         price: Number,
       },
     ],
+    shippingAddress: Object,
     shippingPrice: {
       type: Number,
       default: 0,

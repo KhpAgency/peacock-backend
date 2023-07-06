@@ -23,7 +23,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
     user: req.user._id,
     cartItems: cart.cartItems,
     totalorderPrice,
-    shippingAddressDetails: req.body.shippingAddressDetails,
+    shippingAddress: req.body.shippingAddress,
   });
 
   if (order) {
