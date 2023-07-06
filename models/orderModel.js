@@ -23,16 +23,6 @@ const orderSchema = new mongoose.Schema(
         price: Number,
       },
     ],
-    shippingAddressDetails: {
-      address: {
-        type: String,
-        require: [true, "Shipping Address is required"],
-      },
-      phone: {
-        type:String,
-      require: [true, "phone is required"]
-      }
-    },
     shippingPrice: {
       type: Number,
       default: 0,
