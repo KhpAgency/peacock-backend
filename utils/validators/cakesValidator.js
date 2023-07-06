@@ -30,7 +30,7 @@ exports.createCakeValidator = [
     .optional()
     .custom((value, { req }) => {
       if (req.body.price <= value) {
-        throw new Error("discounted Price must be lower than price");
+        throw new Error("Discounted price must be lower than price");
       }
       return true;
     }),
