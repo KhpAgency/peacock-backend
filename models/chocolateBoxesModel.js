@@ -36,8 +36,8 @@ const boxSchema = new mongoose.Schema(
     },
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref : "Category"
-    }
+      ref: "Category",
+    },
   },
   { timestamps: true }
 );
@@ -62,17 +62,15 @@ boxSchema.post("save", (doc) => {
 });
 
 boxSchema.pre("save", function (next) {
-  if (this.isModified("images")) {
-    this.images.sort((a, b) => {
-      if (a < b) {
-        return -1;
-      }
-      if (a > b) {
-        return 1;
-      }
-      return 0;
-    });
-  }
+  this.images.sort((a, b) => {
+    if (a < b) {
+      return -1;
+    }
+    if (a > b) {
+      return 1;
+    }
+    return 0;
+  });
   next();
 });
 
