@@ -28,6 +28,7 @@ exports.resizeChocolateBoxImages = asyncHandler(async (req, res, next) => {
     req.body.images = [];
     await Promise.all(
       req.files.map(async (img, index) => {
+        console.log(img);
         let imageName;
         if (img.mimetype === "image/heic") {
           const heicBuffer = img.buffer;
@@ -35,12 +36,12 @@ exports.resizeChocolateBoxImages = asyncHandler(async (req, res, next) => {
             buffer: heicBuffer,
             format: "JPEG",
           });
-          imageName = `chocolateBox-${uuidv4()}-${Date.now()}-${index + 1}.jpeg`;
+          imageName = `chocolateBox-${img.originalname}-${uuidv4()}-${Date.now()}-${index + 1}.jpeg`;
           await sharp(jpegBuffer)
             .jpeg({ quality: 90 })
             .toFile(`uploads/chocolateBox/${imageName}`);
         } else {
-          imageName = `chocolateBox-${uuidv4()}-${Date.now()}-${index + 1}.jpeg`;
+          imageName = `chocolateBox-${img.originalname}-${uuidv4()}-${Date.now()}-${index + 1}.jpeg`;
           await sharp(img.buffer)
             .jpeg({ quality: 90 })
             .toFile(`uploads/chocolateBox/${imageName}`);
