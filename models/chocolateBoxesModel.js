@@ -56,8 +56,24 @@ const setImageURL = (doc) => {
 boxSchema.post("init", (doc) => {
   setImageURL(doc);
 });
+
 boxSchema.post("save", (doc) => {
   setImageURL(doc);
+});
+
+boxSchema.pre("save", function (next) {
+  if (this.isModified("images")) {
+    this.images.sort((a, b) => {
+      if (a < b) {
+        return -1;
+      }
+      if (a > b) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+  next();
 });
 
 const ChocolateBox = mongoose.model("ChocolateBox", boxSchema);
