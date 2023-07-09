@@ -26,14 +26,27 @@ exports.resizePackagesImages = asyncHandler(async (req, res, next) => {
     req.body.images = [];
     await Promise.all(
       req.files.map(async (img, index) => {
-        const imageName = `packages-${uuidv4()}-${Date.now()}-${
-          index + 1
-        }.jpeg`;
-
-        await sharp(img.buffer)
-          .toFormat("jpeg")
-          .jpeg({ quality: 90 })
-          .toFile(`uploads/packages/${imageName}`);
+        let imageName;
+        if (img.mimetype === "image/heic") {
+          const heicBuffer = img.buffer;
+          const jpegBuffer = await heicConvert({
+            buffer: heicBuffer,
+            format: "JPEG",
+          });
+          imageName = `package-${img.originalname}-${uuidv4()}-${Date.now()}-${
+            index + 1
+          }.jpeg`;
+          await sharp(jpegBuffer)
+            .jpeg({ quality: 90 })
+            .toFile(`uploads/packages/${imageName}`);
+        } else {
+          imageName = `package-${img.originalname}-${uuidv4()}-${Date.now()}-${
+            index + 1
+          }.jpeg`;
+          await sharp(img.buffer)
+            .jpeg({ quality: 90 })
+            .toFile(`uploads/packages/${imageName}`);
+        }
 
         req.body.images.push(imageName);
       })
@@ -42,11 +55,10 @@ exports.resizePackagesImages = asyncHandler(async (req, res, next) => {
   }
 });
 
-exports.getPackages = factory.getAll(packagesModel)
+exports.getPackages = factory.getAll(packagesModel);
 
+exports.createPackage = factory.createOne(packagesModel);
 
-exports.createPackage = factory.createOne(packagesModel)
-
-exports.getPackage = factory.getOne(packagesModel)
+exports.getPackage = factory.getOne(packagesModel);
 
 exports.deletePackage = factory.deleteOne(packagesModel);

@@ -27,12 +27,27 @@ exports.resizeTraysImages = asyncHandler(async (req, res, next) => {
     req.body.images = [];
     await Promise.all(
       req.files.map(async (img, index) => {
-        const imageName = `tray-${uuidv4()}-${Date.now()}-${index + 1}.jpeg`;
-
-        await sharp(img.buffer)
-          .toFormat("jpeg")
-          .jpeg({ quality: 90 })
-          .toFile(`uploads/trays/${imageName}`);
+        let imageName;
+        if (img.mimetype === "image/heic") {
+          const heicBuffer = img.buffer;
+          const jpegBuffer = await heicConvert({
+            buffer: heicBuffer,
+            format: "JPEG",
+          });
+          imageName = `tray-${img.originalname}-${uuidv4()}-${Date.now()}-${
+            index + 1
+          }.jpeg`;
+          await sharp(jpegBuffer)
+            .jpeg({ quality: 90 })
+            .toFile(`uploads/trays/${imageName}`);
+        } else {
+          imageName = `tray-${img.originalname}-${uuidv4()}-${Date.now()}-${
+            index + 1
+          }.jpeg`;
+          await sharp(img.buffer)
+            .jpeg({ quality: 90 })
+            .toFile(`uploads/trays/${imageName}`);
+        }
 
         req.body.images.push(imageName);
       })
@@ -41,12 +56,10 @@ exports.resizeTraysImages = asyncHandler(async (req, res, next) => {
   }
 });
 
-exports.getTrays = factory.getAll(TraysModel)
+exports.getTrays = factory.getAll(TraysModel);
 
-exports.createTray = factory.createOne(TraysModel)
+exports.createTray = factory.createOne(TraysModel);
 
-exports.getTray = factory.getOne(TraysModel)
+exports.getTray = factory.getOne(TraysModel);
 
 exports.deleteTray = factory.deleteOne(TraysModel);
-
-

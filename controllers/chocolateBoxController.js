@@ -2,7 +2,7 @@ const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/ApiError");
-const heicConvert = require('heic-convert'); 
+const heicConvert = require("heic-convert");
 const factory = require("./controllersFactory");
 
 const ChocolateBoxModel = require("../models/chocolateBoxesModel");
@@ -36,12 +36,16 @@ exports.resizeChocolateBoxImages = asyncHandler(async (req, res, next) => {
             buffer: heicBuffer,
             format: "JPEG",
           });
-          imageName = `chocolateBox-${img.originalname}-${uuidv4()}-${Date.now()}-${index + 1}.jpeg`;
+          imageName = `chocolateBox-${
+            img.originalname
+          }-${uuidv4()}-${Date.now()}-${index + 1}.jpeg`;
           await sharp(jpegBuffer)
             .jpeg({ quality: 90 })
             .toFile(`uploads/chocolateBox/${imageName}`);
         } else {
-          imageName = `chocolateBox-${img.originalname}-${uuidv4()}-${Date.now()}-${index + 1}.jpeg`;
+          imageName = `chocolateBox-${
+            img.originalname
+          }-${uuidv4()}-${Date.now()}-${index + 1}.jpeg`;
           await sharp(img.buffer)
             .jpeg({ quality: 90 })
             .toFile(`uploads/chocolateBox/${imageName}`);
@@ -53,9 +57,9 @@ exports.resizeChocolateBoxImages = asyncHandler(async (req, res, next) => {
   }
 });
 
-exports.getChocolateBoxs = factory.getAll(ChocolateBoxModel)
+exports.getChocolateBoxs = factory.getAll(ChocolateBoxModel);
 
-exports.createChocolateBox = factory.createOne(ChocolateBoxModel)
+exports.createChocolateBox = factory.createOne(ChocolateBoxModel);
 
 exports.getChocolateBox = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
@@ -67,4 +71,3 @@ exports.getChocolateBox = asyncHandler(async (req, res, next) => {
 });
 
 exports.deleteChocolateBox = factory.deleteOne(ChocolateBoxModel);
-

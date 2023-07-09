@@ -2,7 +2,7 @@ const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/ApiError");
-const factory = require("./controllersFactory")
+const factory = require("./controllersFactory");
 
 const cakesModel = require("../models/cakeModel");
 const sharp = require("sharp");
@@ -26,12 +26,27 @@ exports.resizeCakesImages = asyncHandler(async (req, res, next) => {
     req.body.images = [];
     await Promise.all(
       req.files.map(async (img, index) => {
-        const imageName = `cake-${uuidv4()}-${Date.now()}-${index + 1}.jpeg`;
-
-        await sharp(img.buffer)
-          .toFormat("jpeg")
-          .jpeg({ quality: 90 })
-          .toFile(`uploads/cakes/${imageName}`);
+        let imageName;
+        if (img.mimetype === "image/heic") {
+          const heicBuffer = img.buffer;
+          const jpegBuffer = await heicConvert({
+            buffer: heicBuffer,
+            format: "JPEG",
+          });
+          imageName = `cake-${img.originalname}-${uuidv4()}-${Date.now()}-${
+            index + 1
+          }.jpeg`;
+          await sharp(jpegBuffer)
+            .jpeg({ quality: 90 })
+            .toFile(`uploads/cakes/${imageName}`);
+        } else {
+          imageName = `cake-${img.originalname}-${uuidv4()}-${Date.now()}-${
+            index + 1
+          }.jpeg`;
+          await sharp(img.buffer)
+            .jpeg({ quality: 90 })
+            .toFile(`uploads/cakes/${imageName}`);
+        }
 
         req.body.images.push(imageName);
       })
@@ -40,11 +55,10 @@ exports.resizeCakesImages = asyncHandler(async (req, res, next) => {
   }
 });
 
-exports.getCakes = factory.getAll(cakesModel)
+exports.getCakes = factory.getAll(cakesModel);
 
-exports.getCake = factory.getOne(cakesModel)
+exports.getCake = factory.getOne(cakesModel);
 
+exports.createCake = factory.createOne(cakesModel);
 
-exports.createCake = factory.createOne(cakesModel)
-
-exports.deleteCake = factory.deleteOne(cakesModel)
+exports.deleteCake = factory.deleteOne(cakesModel);
