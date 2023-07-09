@@ -5,6 +5,7 @@ const traySchema = new mongoose.Schema(
     title: {
       type: String,
       required: [true, "Name is required"],
+      unique: false,
     },
     slug: {
       type: String,

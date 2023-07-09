@@ -5,6 +5,7 @@ const cakeSchema = new mongoose.Schema(
     title: {
       type: String,
       required: [true, "Name is required"],
+      unique: false,
     },
     slug: {
       type: String,
@@ -35,8 +36,8 @@ const cakeSchema = new mongoose.Schema(
     },
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref : "Category"
-    }
+      ref: "Category",
+    },
   },
   { timestamps: true }
 );

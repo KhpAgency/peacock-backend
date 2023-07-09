@@ -5,6 +5,7 @@ const packagesSchema = new mongoose.Schema(
     title: {
       type: String,
       required: [true, "Name is required"],
+      unique: false,
     },
     slug: {
       type: String,
@@ -35,30 +36,29 @@ const packagesSchema = new mongoose.Schema(
     },
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref : "Category"
-    }
+      ref: "Category",
+    },
   },
   { timestamps: true }
 );
 
 const setImageURL = (doc) => {
   if (doc.images) {
-    const imageList = []
+    const imageList = [];
     doc.images.forEach((image) => {
-      const imgURL = `${process.env.BASE_URL}/packages/${image}`
-      imageList.push(imgURL)
+      const imgURL = `${process.env.BASE_URL}/packages/${image}`;
+      imageList.push(imgURL);
     });
-    doc.images = imageList
+    doc.images = imageList;
   }
-}
+};
 
-packagesSchema.post('init', (doc)=>{
-  setImageURL(doc)
-})
-packagesSchema.post('save', (doc)=>{
-  setImageURL(doc)
-})
-
+packagesSchema.post("init", (doc) => {
+  setImageURL(doc);
+});
+packagesSchema.post("save", (doc) => {
+  setImageURL(doc);
+});
 
 packagesSchema.pre("save", function (next) {
   this.images.sort((a, b) => {
