@@ -14,7 +14,7 @@ exports.createChocolateBoxValidator = [
     .withMessage("Chocolate Box title is required")
     .isLength({ min: 4 })
     .withMessage("too short title")
-    .custom(async (value, { req }) => {
+    .custom((value, { req }) => {
       req.body.slug = slugify(value);
       return true;
     }),
