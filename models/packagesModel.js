@@ -5,7 +5,6 @@ const packagesSchema = new mongoose.Schema(
     title: {
       type: String,
       required: [true, "Name is required"],
-      unique: [true, "Title must be unique"],
     },
     slug: {
       type: String,

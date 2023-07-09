@@ -14,17 +14,17 @@ exports.createTrayValidator = [
     .withMessage("Tray title is required")
     .isLength({ min: 4 })
     .withMessage("too short title")
-
-    .custom(async (value, {req}) => {
-      let box = await trayModel.find({ title: value });
-      if (box.length > 0) {
-        throw new Error(
-          `title: ( ${value} ) already exists! Choose another title`
-        );
-      }
-      req.body.slug = slugify(value);
-      return true;
-    }),
+    // .custom(async (value, {req}) => {
+    //   let box = await trayModel.find({ title: value });
+    //   if (box.length > 0) {
+    //     throw new Error(
+    //       `title: ( ${value} ) already exists! Choose another title`
+    //     );
+    //   }
+    //   req.body.slug = slugify(value);
+    //   return true;
+    // })
+    ,
   check("description").notEmpty().withMessage("Description is required"),
   check("price").notEmpty().withMessage("Price is required"),
   check("discountedPrice")
