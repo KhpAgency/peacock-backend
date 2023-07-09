@@ -59,5 +59,18 @@ cakeSchema.post("save", (doc) => {
   setImageURL(doc);
 });
 
+cakeSchema.pre("save", function (next) {
+  this.images.sort((a, b) => {
+    if (a < b) {
+      return -1;
+    }
+    if (a > b) {
+      return 1;
+    }
+    return 0;
+  });
+  next();
+});
+
 const Cake = mongoose.model("Cake", cakeSchema);
 module.exports = Cake;

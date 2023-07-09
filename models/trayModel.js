@@ -60,5 +60,18 @@ traySchema.post("save", (doc) => {
   setImageURL(doc);
 });
 
+traySchema.pre("save", function (next) {
+  this.images.sort((a, b) => {
+    if (a < b) {
+      return -1;
+    }
+    if (a > b) {
+      return 1;
+    }
+    return 0;
+  });
+  next();
+});
+
 const Tray = mongoose.model("Tray", traySchema);
 module.exports = Tray;

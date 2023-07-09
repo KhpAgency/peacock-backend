@@ -60,5 +60,18 @@ packagesSchema.post('save', (doc)=>{
   setImageURL(doc)
 })
 
+
+packagesSchema.pre("save", function (next) {
+  this.images.sort((a, b) => {
+    if (a < b) {
+      return -1;
+    }
+    if (a > b) {
+      return 1;
+    }
+    return 0;
+  });
+  next();
+});
 const Packages = mongoose.model("Packages", packagesSchema);
 module.exports = Packages;
