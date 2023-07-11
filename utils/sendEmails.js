@@ -29,14 +29,7 @@ const sendEmail = async (options) => {
     }
   });
 
-  await transporter.sendMail(emailOptions, (error, info) => {
-    if (error) {
-      console.log("Error occurred:", error.message);
-    } else {
-      console.log("ُEmail sent successfully!");
-      console.log("Server responded with:", info.response);
-    }
-  });
+  await transporter.sendMail(emailOptions)
 };
 
 module.exports = sendEmail;
