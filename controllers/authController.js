@@ -318,7 +318,7 @@ exports.forgetPassword = asyncHandler(async (req, res, next) => {
 
   //3) send the reset code by email address
   let capitalizeFirlstLetterOfName =
-    user.name.charAt(0).toUpperCase() + user.name.slice(1).toLocaleLowerCase();
+    user.name.split(" ")[0].charAt(0).toUpperCase() + user.name.split(" ")[0].slice(1).toLocaleLowerCase();
 
   let emailTamplate = `<!DOCTYPE html>
   <html lang="en-US">
