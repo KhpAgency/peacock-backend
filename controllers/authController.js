@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const sendEmail = require("../utils/sendEmails");
 const createToken = require("../utils/createToken");
+const { v4: uuidv4 } = require("uuid");
 
 
 exports.signup = asyncHandler(async (req, res, next) => {
@@ -221,6 +222,8 @@ exports.signup = asyncHandler(async (req, res, next) => {
 // })
 
 exports.login = asyncHandler(async (req, res, next) => {
+  let orderNumber = `SA-4000${Math.floor(Math.random() * 1000000000)}`
+  console.log(orderNumber);
   const user = await userModel.findOne({ email: req.body.email });
 
   if (!user || !(await bcrypt.compare(req.body.password, user.password))) {

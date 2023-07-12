@@ -7,6 +7,7 @@ const orderSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "Order must belong to a user"],
     },
+  orderNumber : String,
     cartItems: [
       {
         productCategory: {

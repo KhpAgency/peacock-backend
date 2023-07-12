@@ -21,6 +21,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
   // create order with default cash on delivery payment method
   const order = await orderModel.create({
     user: req.user._id,
+    orderNumber: `SA-4000${Math.floor(Math.random() * 1000000000)}`,
     cartItems: cart.cartItems,
     totalorderPrice,
     shippingAddress: req.body.shippingAddress,
