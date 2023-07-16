@@ -147,14 +147,9 @@ exports.updateLoggedUserDataValidator = [
 ];
 
 exports.updateLoggedUserPasswordValidator = [
-  check("newPassword")
-  // .notEmpty().withMessage("Please enter your new password")
-  .custom((value, {req}) =>{
-    console.log("value");
-    console.log(value);
-    if (value == "" || value == undefined) {
-      return Promise.reject(new Error("Please enter your new password"))
-    }
-  }),
+  check("newPassword").notEmpty()
+  .withMessage("Please enter your new password")
+  .isLength({ min: 6 })
+  .withMessage("Password must be at least 6 characters"),
   validatorMiddleware,
 ]
