@@ -44,6 +44,14 @@ exports.findAllOrders = factory.getAll(orderModel);
 
 exports.findSpecificOrder = factory.getOne(orderModel);
 
+exports.findSpecificOrderByOrderNumber =asyncHandler(async (req, res, next) => {
+  const order = await orderModel.findOne(req.body.orderNumber);
+  if (!order) {
+    return next(new ApiError(`No order found with this order number:${req.body.orderNumber}`, 404));
+  }
+  res.status(200).json({ data: order });
+})
+
 exports.updateOrdertoPaid = asyncHandler(async (req, res, next) => {
   const order =await orderModel.findById(req.params.id);
   if (!order) {

@@ -145,3 +145,16 @@ exports.updateLoggedUserDataValidator = [
     .withMessage("Only Saudi Arabia phone numbers allowed"),
   validatorMiddleware,
 ];
+
+exports.updateLoggedUserPasswordValidator = [
+  check("newPassword")
+  // .notEmpty().withMessage("Please enter your new password")
+  .custom((value, {req}) =>{
+    console.log("value");
+    console.log(value);
+    if (value == "" || value == undefined) {
+      return Promise.reject(new Error("Please enter your new password"))
+    }
+  }),
+  validatorMiddleware,
+]

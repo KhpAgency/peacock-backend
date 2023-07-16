@@ -27,6 +27,7 @@ const {
   updateUserValidator,
   changeUserPasswordValidator,
   updateLoggedUserDataValidator,
+  updateLoggedUserPasswordValidator
 } = require("../utils/validators/userValidator");
 
 const { protect, allowedTo } = require("../controllers/authController");
@@ -37,7 +38,7 @@ const { protect, allowedTo } = require("../controllers/authController");
 Router.use(protect);
 
 Router.get("/getLoggedUser", getLoggedUser, getUser);
-Router.put("/updateLoggedUserPassword", updateLoggedUserPassword);
+Router.put("/updateLoggedUserPassword",updateLoggedUserPasswordValidator, updateLoggedUserPassword);
 Router.put(
   "/updateLoggedUserData",
   updateLoggedUserDataValidator,
