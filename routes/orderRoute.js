@@ -5,6 +5,7 @@ const {
   filterOrderForLoggedUser,
   findAllOrders,
   findSpecificOrder,
+  findSpecificOrderByOrderNumber,
   updateOrderToDeliverd,
   updateOrdertoPaid
 } = require("../controllers/orderController");
@@ -21,7 +22,9 @@ Router.get(
   allowedTo("user", "admin", "manager"),
   filterOrderForLoggedUser,
   findAllOrders
-);
+  );
+
+Router.get("/ordernumber", allowedTo("user", "admin", "manager"), findSpecificOrderByOrderNumber);
 Router.get("/:id", allowedTo("user", "admin", "manager"), findSpecificOrder);
 
 Router.put("/:id/delivery", allowedTo("admin", "manager"), updateOrderToDeliverd);

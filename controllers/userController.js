@@ -4,13 +4,25 @@ const bcrypt = require("bcrypt");
 
 const userModel = require("../models/userModel");
 const ApiError = require("../utils/ApiError");
+const orderModel = require("../models/orderModel");
 const createToken = require("../utils/createToken");
 
 //----- Admin Routes -----
 
 exports.getUsers = factory.getAll(userModel);
 
-exports.getUser = factory.getOne(userModel);
+exports.getUser = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const user = await userModel.findById(id);
+  console.log('====================================');
+  console.log(id);
+  console.log('====================================');
+  const userOrders = await orderModel.find({ user: id });
+  if (!user) {
+    return next(new ApiError(`No user found for this id:${id}`, 404));
+  }
+  res.status(200).json({ data: user, orders: userOrders });
+});
 
 exports.createUser = factory.createOne(userModel);
 
@@ -100,7 +112,7 @@ exports.updateLoggedUserData = asyncHandler(async (req, res, next) => {
 exports.deleteLoggedUserData = asyncHandler(async (req, res, next) => {
   await userModel.findByIdAndUpdate(req.user._id, { active: false });
 
-  res.status(204).json({ message:'Success'})
+  res.status(204).json({ message: "Success" });
 });
 
 //----- /User Routes -----
