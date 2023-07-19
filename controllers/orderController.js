@@ -118,7 +118,7 @@ let shipping_address = customer_details;
 let lang = "en";
 
 let url = {
-  callback: 'https://peacock-api-ixpn.onrender.com/api/v1/orders/payment-webhook',
+  callback: 'https://peacock-api-ixpn.onrender.com/api/v1/payments',
 };
 
 let response_URLs = [url.callback, url.response];

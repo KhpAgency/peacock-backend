@@ -49,6 +49,13 @@ app.use("/api/v1/cart", cartRoute);
 app.use("/api/v1/orders", orderRoute);
 app.use("/api/v1/addresses", addressRoute);
 
+app.get("/api/v1/payments", (req, res) => {
+  console.log('====================================');
+  console.log(req.body);
+  console.log('====================================');
+  res.json("doneee")
+});
+
 app.all("*", (req, res, next) => {
   next(new ApiError(`can't find this route: ${req.originalUrl}`, 400));
 });
