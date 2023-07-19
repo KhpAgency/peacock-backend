@@ -118,7 +118,7 @@ let shipping_address = customer_details;
 let lang = "en";
 
 let url = {
-  callback: `${process.env.NODE_ENV}`,
+  callback: `${process.env.PAYTABS_CALLBACK_URL}`,
 };
 
 let response_URLs = [url.callback];
