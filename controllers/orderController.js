@@ -117,7 +117,7 @@ exports.createOnlinePaymentOrder = asyncHandler(async (req, res, next) => {
 
   let url = {
     callback: `https://peacock-api-ixpn.onrender.com/api/v1/orders/${req.params.cartId}`,
-    response: `http://localhost:3000/api/v1/orders/paymentdetails/64ae6216915c0d9f0155d52c`
+    response: `https://peacock-api-ixpn.onrender.com/api/v1/orders/paymentdetails/${req.params.cartId}`
   }
   
   let response_URLs = [
