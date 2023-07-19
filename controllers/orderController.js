@@ -118,13 +118,14 @@ let shipping_address = customer_details;
 let lang = "en";
 
 let url = {
-  callback: 'https://peacock-api-ixpn.onrender.com/api/v1/payments',
+  callback: `https://peacock-api-ixpn.onrender.com/api/v1/orders/${req.params.cartId}`,
 };
 
-let response_URLs = [url.callback, url.response];
+let response_URLs = [url.callback];
 
-const paymentPageCreated = ($result) => {
-  console.log($result);
+const paymentPageCreated = ($results) => {
+  console.log($results);
+  
 };
 
  paytabs.createPaymentPage(
