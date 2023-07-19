@@ -3,7 +3,7 @@ const express = require("express");
 const {
   createCashOrder,
   createOnlinePaymentOrder,
-  getPaymentDetails,
+  paymentWebhook,
   filterOrderForLoggedUser,
   findAllOrders,
   findSpecificOrder,

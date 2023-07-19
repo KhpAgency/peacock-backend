@@ -6,7 +6,7 @@ const paytabs = require("paytabs_pt2");
 const cartModel = require("../models/cartModel");
 const orderModel = require("../models/orderModel");
 const userModel = require("../models/userModel");
-const  axios  = require("axios");
+const axios = require("axios");
 
 exports.createCashOrder = asyncHandler(async (req, res, next) => {
   // get cart depends on cartId
@@ -40,77 +40,77 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
 });
 
 exports.createOnlinePaymentOrder = asyncHandler(async (req, res, next) => {
+  let profileID = process.env.profileID,
+    serverKey = process.env.serverKey,
+    region = process.env.region;
 
-  let
-      profileID = process.env.profileID,
-      serverKey = process.env.serverKey,
-      region = process.env.region;
-
-  paytabs.setConfig( profileID, serverKey, region);
+  paytabs.setConfig(profileID, serverKey, region);
 
   let paymentMethods = ["all"];
 
   let transaction = {
-      type:"sale",
-      class:"ecom"
+    type: "sale",
+    class: "ecom",
   };
 
-  let transaction_details = [
-      transaction.type,
-      transaction.class
+  let transaction_details = [transaction.type, transaction.class];
+
+  // get cart depends on cartId
+  const cart = await cartModel.findById(req.params.cartId);
+
+  if (!cart) {
+    return next(
+      new ApiError(`No cart found for this id:${req.params.cartId}`, 404)
+    );
+  }
+
+  // set order price depend on cart total price
+  const cartPrice = cart.totalCartPrice;
+  const totalorderPrice = cartPrice;
+
+  const user = await userModel.findById(cart.user);
+
+  if (!user) {
+    return next(
+      new ApiError(`No user found for this id:${req.params.cartId}`, 404)
+    );
+  }
+
+  // cart details for paytabs payment method
+  let cart_for_paytabs = {
+    id: req.params.cartId,
+    currency: "EGP",
+    amount: totalorderPrice,
+    description: `Online Payment for user: ${user.email}`,
+  };
+
+  let cart_details = [
+    cart_for_paytabs.id,
+    cart_for_paytabs.currency,
+    cart_for_paytabs.amount,
+    cart_for_paytabs.description,
   ];
 
-   // get cart depends on cartId
-   const cart = await cartModel.findById(req.params.cartId);
+  let customer = {
+    name: user.name,
+    email: user.email,
+    phone: user.phone,
+    street: req.body.shippingAddress.details,
+    city: "Alexandria",
+    state: "Alexandira",
+    country: "EG",
+    zip: "",
+  };
 
-   if (!cart) {
-     return next(
-       new ApiError(`No cart found for this id:${req.params.cartId}`, 404)
-     );
-   }
-
-    // set order price depend on cart total price
-    const cartPrice = cart.totalCartPrice;
-    const totalorderPrice = cartPrice;
-
-    const user = await userModel.findById(cart.user)
-
-    if (!user) {
-      return next(
-        new ApiError(`No user found for this id:${req.params.cartId}`, 404)
-      );
-    }
-
-    // cart details for paytabs payment method
-    let cart_for_paytabs={
-      id:req.params.cartId,
-      currency:"EGP",
-      amount:totalorderPrice,
-      description:`Online Payment for user: ${user.email}`
-    }
-
-    let cart_details = [cart_for_paytabs.id, cart_for_paytabs.currency, cart_for_paytabs.amount, cart_for_paytabs.description];
-
-    let customer = {
-      name: user.name,
-      email: user.email,
-      phone: user.phone,
-      street: req.body.shippingAddress.details,
-      city: "Alexandria",
-      state:"Alexandira",
-      country: "EG",
-      zip: "",
-    }
-
-    let customer_details = [
-      customer.name,
-      customer.email,
-      customer.phone,
-      customer.street,
-      customer.city,
-      customer.state,
-      customer.country,
-      customer.zip,
+  let customer_details = [
+    customer.name,
+    customer.email,
+    customer.phone,
+    customer.street,
+    customer.city,
+    customer.state,
+    customer.country,
+    customer.zip,
   ];
 
   let shipping_address = customer_details;
@@ -118,15 +118,13 @@ exports.createOnlinePaymentOrder = asyncHandler(async (req, res, next) => {
 
   let url = {
     callback: `https://peacock-api-ixpn.onrender.com/api/v1/orders/${req.params.cartId}`,
-  }
+  };
 
-  let response_URLs = [
-    url.callback,
-    url.response
-  ];
-const  paymentPageCreated = ($results) => {
-      console.log($results);
-  }
+  let response_URLs = [url.callback, url.response];
+
+  const paymentPageCreated = ($results) => {
+    res.status(200).json({ message: "success", date: $results });
+  };
 
   let frameMode = true;
 
@@ -140,11 +138,8 @@ const  paymentPageCreated = ($results) => {
     lang,
     paymentPageCreated,
     frameMode
-);
-
-  res.status(200).json({message: "success"})
-
-  })
+  );
+});
 
 // exports.createOnlinePaymentOrder = asyncHandler(async (req, res, next) => {
 //   // get cart depends on cartId
@@ -202,7 +197,7 @@ const  paymentPageCreated = ($results) => {
 
 exports.paymentWebhook = asyncHandler(async (req, res, next) => {
   console.log(req.body);
-  res.send(req.body)
+  res.send(req.body);
 });
 
 exports.filterOrderForLoggedUser = asyncHandler(async (req, res, next) => {
