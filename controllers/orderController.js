@@ -118,18 +118,15 @@ exports.createOnlinePaymentOrder = asyncHandler(async (req, res, next) => {
 
   let url = {
     callback: `https://peacock-api-ixpn.onrender.com/api/v1/orders/${req.params.cartId}`,
+    
   };
 
   let response_URLs = [url.callback, url.response];
 
   const paymentPageCreated = ($results) => {
     console.log($results);
-    if ($results.response_code === 400) {
-    res.status(400).json({ message: "failed", date: $results });
+    res.status(400).json({ message: "success", date: $results });
       
-    }else{
-    res.status(200).json({ message: "success", date: $results });
-    }
   };
 
   let frameMode = true;
