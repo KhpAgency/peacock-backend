@@ -40,8 +40,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
 });
 
 exports.createOnlinePaymentOrder = asyncHandler(async (req, res, next) => {
-
-let profileID = process.env.profileID,
+  let profileID = process.env.profileID,
   serverKey = process.env.serverKey,
   region = process.env.region;
 
@@ -117,17 +116,14 @@ let customer_details = [
 let shipping_address = customer_details;
 let lang = "en";
 
-let url = {
-  callback: `https://peacock-api-ixpn.onrender.com/api/v1/orders/${req.params.cartId}`,
-};
-
-let response_URLs = [url.callback, url.response];
+const callback = `${process.env.PAYTABS_CALLBACK_URL}/${req.params.cartId}`;
+let response_URLs = [callback];
 
 const paymentPageCreated = ($result) => {
   console.log($result);
 };
 
- paytabs.createPaymentPage(
+paytabs.createPaymentPage(
   paymentMethods,
   transaction_details,
   cart_details,
@@ -136,9 +132,9 @@ const paymentPageCreated = ($result) => {
   response_URLs,
   lang,
   paymentPageCreated,
-  frameMode=true
+  frameMode=true,
+  callback
 );
-
 
 
 });
