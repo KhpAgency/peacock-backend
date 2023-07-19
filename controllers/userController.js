@@ -14,9 +14,6 @@ exports.getUsers = factory.getAll(userModel);
 exports.getUser = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const user = await userModel.findById(id);
-  console.log('====================================');
-  console.log(id);
-  console.log('====================================');
   const userOrders = await orderModel.find({ user: id });
   if (!user) {
     return next(new ApiError(`No user found for this id:${id}`, 404));

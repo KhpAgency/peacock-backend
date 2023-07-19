@@ -2,6 +2,8 @@ const express = require("express");
 
 const {
   createCashOrder,
+  createOnlinePaymentOrder,
+  getPaymentDetails,
   filterOrderForLoggedUser,
   findAllOrders,
   findSpecificOrder,
@@ -16,6 +18,8 @@ const { protect, allowedTo } = require("../controllers/authController");
 Router.use(protect);
 
 Router.route("/:cartId").post(allowedTo("user"), createCashOrder);
+Router.route("/payonline/:cartId").post(allowedTo("user"), createOnlinePaymentOrder);
+Router.route("/paymentdetails/:cartId").post(allowedTo("user"), getPaymentDetails);
 
 Router.get(
   "/",

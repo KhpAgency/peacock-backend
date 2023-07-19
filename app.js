@@ -23,6 +23,7 @@ const addressRoute = require("./routes/addressRoute");
 // middlewares
 
 app.use(cors());
+app.options("*", cors())
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
