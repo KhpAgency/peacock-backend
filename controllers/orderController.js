@@ -118,7 +118,7 @@ let shipping_address = customer_details;
 let lang = "en";
 
 let url = {
-  callback: `https://peacock-api-ixpn.onrender.com/api/v1/orders/${req.params.cartId}`,
+  callback: `${process.env.NODE_ENV}`,
 };
 
 let response_URLs = [url.callback];
