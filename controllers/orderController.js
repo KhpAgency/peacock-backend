@@ -200,8 +200,9 @@ const  paymentPageCreated = ($results) => {
 //   })
 // });
 
-exports.getPaymentDetails = asyncHandler(async (req, res, next) => {
-
+exports.paymentWebhook = asyncHandler(async (req, res, next) => {
+  console.log(req.body);
+  res.send(req.body)
 });
 
 exports.filterOrderForLoggedUser = asyncHandler(async (req, res, next) => {
