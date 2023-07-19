@@ -123,7 +123,13 @@ exports.createOnlinePaymentOrder = asyncHandler(async (req, res, next) => {
   let response_URLs = [url.callback, url.response];
 
   const paymentPageCreated = ($results) => {
+    console.log($results);
+    if ($results.response_code === 400) {
+    res.status(400).json({ message: "failed", date: $results });
+      
+    }else{
     res.status(200).json({ message: "success", date: $results });
+    }
   };
 
   let frameMode = true;
