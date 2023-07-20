@@ -64,7 +64,7 @@ app.post("/api/v1/payments", (req, res) => {
     console.log(response);
 
     console.log("====================================");
-    console.log(err);
+    console.log(response.success);
     console.log("====================================");
     res.json("doneee");
   });
