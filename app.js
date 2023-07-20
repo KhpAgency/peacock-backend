@@ -49,7 +49,7 @@ app.use("/api/v1/cart", cartRoute);
 app.use("/api/v1/orders", orderRoute);
 app.use("/api/v1/addresses", addressRoute);
 
-app.get("/api/v1/payments", (req, res) => {
+app.post("/api/v1/payments", (req, res) => {
   console.log('====================================');
   console.log(req.body);
   console.log('====================================');
