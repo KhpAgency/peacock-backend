@@ -61,11 +61,11 @@ paytabs.setConfig(profileID, serverKey, region);
 
 let tranRef = req.body.tran_ref
 
-paytabs.validatePayment(tranRef, function(response) {
+paytabs.validatePayment(tranRef, function(response,err) {
  console.log(response);
 });
   console.log('====================================');
-  console.log(response.success);
+  console.log(err);
   console.log('====================================');
   res.json("doneee")
 });
