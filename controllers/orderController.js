@@ -114,7 +114,7 @@ let customer_details = [
   customer.zip,
 ];
 
-let shipping_address = customer_details;
+hide_shipping= true;
 let lang = "en";
 
 let url = {
@@ -133,7 +133,7 @@ const paymentPageCreated = ($results) => {
   transaction_details,
   cart_details,
   customer_details,
-  shipping_address,
+  hide_shipping,
   response_URLs,
   lang,
   paymentPageCreated,
