@@ -19,7 +19,7 @@ const { protect, allowedTo } = require("../controllers/authController");
 
 Router.route("/:cartId").post(protect, allowedTo("user"), createCashOrder);
 Router.route("/payonline/:cartId").post(protect, allowedTo("user"), createOnlinePaymentOrder);
-Router.route("/payment-webhook").post(paymentWebhook);
+// Router.route("/payment-webhook").post(paymentWebhook);
 
 Router.use(protect);
 

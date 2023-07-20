@@ -25,7 +25,7 @@ const addressRoute = require("./routes/addressRoute");
 // middlewares
 
 app.use(cors());
-app.options("*", cors())
+app.options("*", cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
@@ -52,22 +52,22 @@ app.use("/api/v1/orders", orderRoute);
 app.use("/api/v1/addresses", addressRoute);
 
 app.post("/api/v1/payments", (req, res) => {
-
   const profileID = process.env.profileID,
-  serverKey = process.env.serverKey,
-  region = process.env.region;
+    serverKey = process.env.serverKey,
+    region = process.env.region;
 
-paytabs.setConfig(profileID, serverKey, region);
+  paytabs.setConfig(profileID, serverKey, region);
 
-let tranRef = req.body.tran_ref
+  let tranRef = req.body.tran_ref;
 
-paytabs.validatePayment(tranRef, function(response,err) {
- console.log(response);
-});
-  console.log('====================================');
-  console.log(err);
-  console.log('====================================');
-  res.json("doneee")
+  paytabs.validatePayment(tranRef, function (response, err) {
+    console.log(response);
+
+    console.log("====================================");
+    console.log(err);
+    console.log("====================================");
+    res.json("doneee");
+  });
 });
 
 app.all("*", (req, res, next) => {
