@@ -51,21 +51,6 @@ app.use("/api/v1/cart", cartRoute);
 app.use("/api/v1/orders", orderRoute);
 app.use("/api/v1/addresses", addressRoute);
 
-app.post("/api/v1/payments", (req, res) => {
-  const profileID = process.env.profileID,
-    serverKey = process.env.serverKey,
-    region = process.env.region;
-
-  paytabs.setConfig(profileID, serverKey, region);
-
-  let tranRef = req.body.tran_ref;
-
-  paytabs.validatePayment(tranRef, (response) => {
-    
-    console.log(response.success);
-    
-  });
-});
 
 app.all("*", (req, res, next) => {
   next(new ApiError(`can't find this route: ${req.originalUrl}`, 400));
