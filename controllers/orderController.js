@@ -145,96 +145,43 @@ let frameMode = true;
 
 });
 
-// exports.createOnlinePaymentOrder = asyncHandler(async (req, res, next) => {
-//   // get cart depends on cartId
-//   const cart = await cartModel.findById(req.params.cartId);
 
-//   if (!cart) {
-//     return next(
-//       new ApiError(`No cart found for this id:${req.params.cartId}`, 404)
-//     );
-//   }
+// exports.paymentWebhook = asyncHandler(async (req, res, next) => {
+//   // Get the transaction ID and amount from the request body
+//   const transactionID = req.body.transactionID;
+//   const amount = req.body.amount;
 
-//   // set order price depend on cart total price
-//   const cartPrice = cart.totalCartPrice;
-//   const totalorderPrice = cartPrice;
+//   console.log(transactionID);
 
-//   const user = await userModel.findById(cart.user);
+//   // Verify the payment
+//   paytabs.verifyPayment(transactionID, amount, (err, response) => {
+//     // if (err) {
+//     //   // The payment could not be verified
+//     //   res.status(400).json({
+//     //     message: "Payment could not be verified",
+//     //     error: err,
+//     //   });
+//     // } else {
+//     //   // The payment was verified
+//     //   const order = Order.findOne({ transactionID });
 
-//   if (!user) {
-//     return next(
-//       new ApiError(`No user found for this id:${req.params.cartId}`, 404)
-//     );
-//   }
+//     //   if (order) {
+//     //     order.status = "paid";
+//     //     order.save();
 
-//   const url = "https://secure-egypt.paytabs.com/payment/request";
-//   data = {
-//     profile_id: process.env.profileID,
-//     tran_type: "sale",
-//     tran_class: "ecom",
-//     cart_description: `Online Payment for user: ${user.email}`,
-//     cart_id: `${req.params.cartId}`,
-//     cart_currency: "EGP",
-//     cart_amount: totalorderPrice,
-//     callback: `https://peacock-api-ixpn.onrender.com/api/v1/orders/${req.params.cartId}`,
-//     response: `http://localhost:3000/api/v1/orders/paymentdetails/${req.params.cartId}`,
-//   };
+//     //     res.status(200).json({
+//     //       message: "Payment was successful",
+//     //     });
+//     //   } else {
+//     //     // Order not found
+//     //     res.status(404).json({
+//     //       message: "Order not found",
+//     //     });
+//     //   }
+//     // }
+//   });
 
-//   const options = {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/JSON",
-//       "Authorization": process.env.serverKey
-//     },
-//     url,
-//     data,
-//   };
-
-//   axios.request(options).then(response => {
-//     console.log(response);
-//     res.send(response)
-//   }).catch(error =>{
-//     console.log(error);
-
-//   })
 // });
-
-exports.paymentWebhook = asyncHandler(async (req, res, next) => {
-  // Get the transaction ID and amount from the request body
-  const transactionID = req.body.transactionID;
-  const amount = req.body.amount;
-
-  console.log(transactionID);
-
-  // Verify the payment
-  paytabs.verifyPayment(transactionID, amount, (err, response) => {
-    // if (err) {
-    //   // The payment could not be verified
-    //   res.status(400).json({
-    //     message: "Payment could not be verified",
-    //     error: err,
-    //   });
-    // } else {
-    //   // The payment was verified
-    //   const order = Order.findOne({ transactionID });
-
-    //   if (order) {
-    //     order.status = "paid";
-    //     order.save();
-
-    //     res.status(200).json({
-    //       message: "Payment was successful",
-    //     });
-    //   } else {
-    //     // Order not found
-    //     res.status(404).json({
-    //       message: "Order not found",
-    //     });
-    //   }
-    // }
-  });
-
-});
 
 exports.filterOrderForLoggedUser = asyncHandler(async (req, res, next) => {
   if (req.user.role === "user") req.filterObj = { user: req.user._id };

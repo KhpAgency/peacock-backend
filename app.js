@@ -64,9 +64,9 @@ let tranRef = req.body.tran_ref
 paytabs.validatePayment(tranRef, function(response) {
  console.log(response);
 });
-  // console.log('====================================');
-  // console.log(req.body);
-  // console.log('====================================');
+  console.log('====================================');
+  console.log(response.success);
+  console.log('====================================');
   res.json("doneee")
 });
 
