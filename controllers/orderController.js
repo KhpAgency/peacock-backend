@@ -114,7 +114,7 @@ let customer_details = [
   customer.zip,
 ];
 
-hide_shipping= true;
+let shipping_address = customer_details;
 let lang = "en";
 
 let url = {
@@ -128,18 +128,19 @@ const paymentPageCreated = ($results) => {
   
 };
 
+let frameMode = true;
+
  paytabs.createPaymentPage(
   paymentMethods,
   transaction_details,
   cart_details,
   customer_details,
-  hide_shipping,
+  shipping_address,
   response_URLs,
   lang,
   paymentPageCreated,
-  frameMode=true
+  frameMode
 );
-
 
 
 });

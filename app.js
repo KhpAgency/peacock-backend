@@ -9,6 +9,8 @@ const path = require("path");
 const ApiError = require("./utils/ApiError");
 const globalError = require("./middlewares/errorMiddleware");
 const dbConnection = require("./config/database");
+const paytabs = require("paytabs_pt2");
+
 const userRoute = require("./routes/userRoute");
 const categoriesRoute = require("./routes/categoriesRoute");
 const chocolateBoxRoute = require("./routes/chocolateBoxRoute");
@@ -50,9 +52,21 @@ app.use("/api/v1/orders", orderRoute);
 app.use("/api/v1/addresses", addressRoute);
 
 app.post("/api/v1/payments", (req, res) => {
-  console.log('====================================');
-  console.log(req.body);
-  console.log('====================================');
+
+  const profileID = process.env.profileID,
+  serverKey = process.env.serverKey,
+  region = process.env.region;
+
+paytabs.setConfig(profileID, serverKey, region);
+
+let tranRef = req.body.tran_ref
+
+paytabs.validatePayment(tranRef, function(response) {
+ console.log(response);
+});
+  // console.log('====================================');
+  // console.log(req.body);
+  // console.log('====================================');
   res.json("doneee")
 });
 
