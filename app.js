@@ -60,13 +60,10 @@ app.post("/api/v1/payments", (req, res) => {
 
   let tranRef = req.body.tran_ref;
 
-  paytabs.validatePayment(tranRef, function (response, err) {
-    console.log(response);
-
-    console.log("====================================");
+  paytabs.validatePayment(tranRef, (response) => {
+    
     console.log(response.success);
-    console.log("====================================");
-    res.json("doneee");
+    
   });
 });
 
