@@ -53,7 +53,6 @@ app.use("/api/v1/addresses", addressRoute);
 
 const cartModel = require("./models/cartModel");
 const orderModel = require("./models/orderModel");
-const ApiError = require("../utils/ApiError");
 
 app.post("/api/v1/payments-webhook", (req, res, next) => {
   const profileID = process.env.profileID,
