@@ -56,62 +56,58 @@ const cartModel = require("./models/cartModel");
 const orderModel = require("./models/orderModel");
 
 app.post("/api/v1/payments-webhook", (req, res) => {
+  const profileID = process.env.profileID,
+  serverKey = process.env.serverKey,
+  region = process.env.region;
 
-  console.log('====================================');
-  console.log(req.body);
-  console.log('====================================');
-//   const profileID = process.env.profileID,
-//   serverKey = process.env.serverKey,
-//   region = process.env.region;
+paytabs.setConfig(profileID, serverKey, region);
 
-// paytabs.setConfig(profileID, serverKey, region);
+let tranRef = req.body.tran_ref;
 
-// let tranRef = req.body.tran_ref;
+paytabs.validatePayment(tranRef, async (response) => {
+  if (response.payment_result.response_status === "A") {
 
-// paytabs.validatePayment(tranRef, async (response) => {
-//   if (response.payment_result.response_status === "A") {
+      // get cart depends on cartId
+const cart = await cartModel.findById(req.body.cart_id);
 
-//       // get cart depends on cartId
-// const cart = await cartModel.findById(req.body.cart_id);
+if (!cart) {
+  return next(
+    new ApiError(`No cart found for this id:${req.body.cart_id}`, 404)
+  );
+}
 
-// if (!cart) {
-//   return next(
-//     new ApiError(`No cart found for this id:${req.body.cart_id}`, 404)
-//   );
-// }
-
-// // set order price depend on cart total price
-// const cartPrice = cart.totalCartPrice;
-// const totalorderPrice = cartPrice;
+// set order price depend on cart total price
+const cartPrice = cart.totalCartPrice;
+const totalorderPrice = cartPrice;
 
 
-//     // create order with online payment method
-//     const order = await orderModel.create({
-//       user: req.user._id,
-//       orderNumber: `SA-4000${Math.floor(Math.random() * 1000000000)}`,
-//       cartItems: cart.cartItems,
-//       totalorderPrice,
-//       shippingAddress: {
-//         name:req.body.shipping_details.name,
-//         details: req.body.shipping_details.street1,
-//         city: req.body.shipping_details.city,
-//         state: req.body.shipping_details.state,
-//         phone:  req.body.shipping_details.phone
-//       },
-//       paymentMethod: "online payment",
-//       isPaid: true,
-//     });
+    // create order with online payment method
+    const order = await orderModel.create({
+      user: req.user._id,
+      orderNumber: `SA-4000${Math.floor(Math.random() * 1000000000)}`,
+      cartItems: cart.cartItems,
+      totalorderPrice,
+      shippingAddress: {
+        name:req.body.shipping_details.name,
+        details: req.body.shipping_details.street1,
+        city: req.body.shipping_details.city,
+        state: req.body.shipping_details.state,
+        phone:  req.body.shipping_details.phone
+      },
+      paymentMethod: "online payment",
+      isPaid: true,
+    });
 
-//     if (order) {
-//       // clear cart depending on cartId
-//       await cartModel.findByIdAndDelete(req.body.cart_id);
-//     }
+    if (order) {
+      // clear cart depending on cartId
+      await cartModel.findByIdAndDelete(req.body.cart_id);
+    }
 
-//     res.status(200).json({ status: "success", order });
-//   } else {
-//     res.status(400).json({ status: "payment failed" });
-//   }
-// });
+    res.status(200).json({ status: "success", order });
+  } else {
+    res.status(400).json({ status: "payment failed" });
+  }
+});
 
 });
 
