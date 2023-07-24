@@ -15,11 +15,11 @@ const {
 const Router = express.Router();
 const { protect, allowedTo } = require("../controllers/authController");
 
+Router.post("/payments-webhook", protect, allowedTo("user"),paymentWebhook);
 // Router.use(protect);
 
 Router.route("/:cartId").post(protect, allowedTo("user"), createCashOrder);
 Router.route("/payonline/:cartId").post(protect, allowedTo("user"), createOnlinePaymentOrder);
-Router.post("/payments-webhook", protect, allowedTo("user"),paymentWebhook);
 
 Router.use(protect);
 
