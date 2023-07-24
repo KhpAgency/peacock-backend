@@ -67,6 +67,9 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
     if (response.payment_result.response_status === "A") {
       // get cart depends on cartId
       const cart = await cartModel.findById(req.body.cart_id);
+      console.log('====================================');
+      console.log(cart);
+      console.log('====================================');
 
 
       // if (!cart) {
