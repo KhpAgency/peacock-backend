@@ -74,6 +74,10 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
       const totalorderPrice = cartPrice;
 
       console.log("====================================");
+      console.log("cart");
+      console.log(cart);
+      console.log("====================================");
+      console.log("====================================");
       console.log("USER");
       console.log(cart.data.user._id);
       console.log("====================================");
