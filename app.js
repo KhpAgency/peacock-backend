@@ -64,8 +64,7 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
 
   let tranRef = req.body.tran_ref;
 
-  let querySelected = async function ($results){
-    console.log($results);
+  let querySelected = async function ($results) {
 
     if (response.payment_result.response_status === "A") {
       // get cart depends on cartId
@@ -107,14 +106,10 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
     } else {
       // return next(new ApiError("payment failed", 402));
       return res.status(402).send({ status: "payment failed" });
-
     }
-    
-  }
+  };
 
- paytabs.validatePayment(tranRef, querySelected);
-
-
+  paytabs.validatePayment(tranRef, querySelected);
 });
 
 app.all("*", (req, res, next) => {
