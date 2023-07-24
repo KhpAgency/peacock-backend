@@ -73,21 +73,18 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
       const cartPrice = cart.totalCartPrice;
       const totalorderPrice = cartPrice;
 
-      console.log("====================================");
-      console.log("cart");
-      console.log(cart);
-      console.log("====================================");
-      console.log("====================================");
-      console.log("USER");
-      console.log(cart.user);
-      console.log("====================================");
-      console.log("====================================");
-      console.log("totalorderPrice");
-      console.log(totalorderPrice);
-      console.log("====================================");
-      console.log("====================================");
-      console.log("shippingAddress");
-      console.log({
+      if (!cart) {
+        return next(
+          new ApiError(`No cart found for this id:${req.body.cart_id}`, 404)
+        );
+      }
+
+      // create order with online payment method
+      const order = await orderModel.create({
+        user: cart.user,
+        orderNumber: `SA-4000${Math.floor(Math.random() * 1000000000)}`,
+        cartItems: cart.cartItems,
+        totalorderPrice,
         shippingAddress: {
           name: req.body.shipping_details.name,
           details: req.body.shipping_details.street1,
@@ -95,39 +92,18 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
           state: req.body.shipping_details.state,
           phone: req.body.shipping_details.phone,
         },
+        paymentMethod: "online payment",
+        isPaid: true,
       });
-      console.log("====================================");
 
-      if (!cart) {
-        return next(
-          new ApiError(`No cart found for this id:${req.body.cart_id}`, 404)
-        );
+      if (order) {
+        // clear cart depending on cartId
+        await cartModel.findByIdAndDelete(req.body.cart_id);
       }
-
-      // // create order with online payment method
-      // const order = await orderModel.create({
-      //   user: req.user._id,
-      //   orderNumber: `SA-4000${Math.floor(Math.random() * 1000000000)}`,
-      //   cartItems: cart.cartItems,
-      //   totalorderPrice,
-      //   shippingAddress: {
-      //     name: req.body.shipping_details.name,
-      //     details: req.body.shipping_details.street1,
-      //     city: req.body.shipping_details.city,
-      //     state: req.body.shipping_details.state,
-      //     phone: req.body.shipping_details.phone,
-      //   },
-      //   paymentMethod: "online payment",
-      //   isPaid: true,
-      // });
-
-      // if (order) {
-      //   // clear cart depending on cartId
-      //   await cartModel.findByIdAndDelete(req.body.cart_id);
-      // }
-      // console.log('====================================');
-      // console.log(order);
-      // console.log('====================================');
+      console.log('====================================');
+      console.log(order);
+      console.log('====================================');
+      
       res.status(200).json({ status: "success" });
     } else {
       res.status(400).json({ status: "payment failed" });
