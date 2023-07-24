@@ -121,7 +121,7 @@ exports.createOnlinePaymentOrder = asyncHandler(async (req, res, next) => {
     response: `https://webhook.site/92a3aee6-14f2-4b80-b8b9-c5c014a2e96f`,
   };
 
-  let response_URLs = [url.callback, url.response];
+  let response_URLs = [url.callback];
 
   const paymentPageCreated = ($results) => {
     if (res.statusCode == 200) {
