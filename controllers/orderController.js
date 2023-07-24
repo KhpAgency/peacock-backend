@@ -159,10 +159,10 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
 
   let tranRef = req.body.tran_ref;
 
-  if (response.payment_result.response_status !== "A") {
+  if (req.body.payment_result.response_status !== "A") {
     return next(
       new ApiError(
-        `payment failed with status: ${response.payment_result.response_status}, reason: ${response.payment_result.response_message}`,
+        `payment failed with status: ${req.body.payment_result.response_status}, reason: ${req.body.payment_result.response_message}`,
         403
       )
     );
