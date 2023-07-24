@@ -58,7 +58,7 @@ const { protect, allowedTo } = require("./controllers/authController");
 app.post("/api/v1/payments-webhook", protect, allowedTo, (req, res, next) => {
   const profileID = process.env.profileID,
     serverKey = process.env.serverKey,
-    region = process.env.region;
+    region = process.env.region;  
 
   paytabs.setConfig(profileID, serverKey, region);
 
