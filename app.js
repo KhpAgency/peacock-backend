@@ -58,13 +58,13 @@ const { protect, allowedTo } = require("./controllers/authController");
 app.post("/api/v1/payments-webhook", (req, res, next) => {
   const profileID = process.env.profileID,
     serverKey = process.env.serverKey,
-    region = process.env.region;  
+    region = process.env.region;
 
   paytabs.setConfig(profileID, serverKey, region);
 
   let tranRef = req.body.tran_ref;
 
-  paytabs.validatePayment(tranRef, async (response) => {
+let xoxo=  paytabs.validatePayment(tranRef, async (response) => {
     if (response.payment_result.response_status === "A") {
       // get cart depends on cartId
       const cart = await cartModel.findById(req.body.cart_id);
@@ -101,12 +101,15 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
         await cartModel.findByIdAndDelete(req.body.cart_id);
       }
 
-
-      res.status(200).send({ status: "success", order });
+      return res.status(200).send({ status: "success", order });
     } else {
-      res.status(400).json({ status: "payment failed" });
+      return next(new ApiError("payment failed", 402));
     }
   });
+
+  console.log('====================================');
+  console.log(xoxo);
+  console.log('====================================');
 });
 
 app.all("*", (req, res, next) => {
