@@ -67,20 +67,37 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
     if (response.payment_result.response_status === "A") {
       // get cart depends on cartId
       const cart = await cartModel.findById(req.body.cart_id);
+
+      
+      // set order price depend on cart total price
+      const cartPrice = cart.totalCartPrice;
+      const totalorderPrice = cartPrice;
+
       console.log('====================================');
-      console.log(cart);
+      console.log("USER");
+      console.log(req.user._id);
+      console.log('====================================');
+      console.log('====================================');
+      console.log("totalorderPrice");
+      console.log(totalorderPrice);
+      console.log('====================================');
+      console.log('====================================');
+      console.log("shippingAddress");
+      console.log({shippingAddress: {
+        name: req.body.shipping_details.name,
+        details: req.body.shipping_details.street1,
+        city: req.body.shipping_details.city,
+        state: req.body.shipping_details.state,
+        phone: req.body.shipping_details.phone,
+      }});
       console.log('====================================');
 
 
-      // if (!cart) {
-      //   return next(
-      //     new ApiError(`No cart found for this id:${req.body.cart_id}`, 404)
-      //   );
-      // }
-
-      // // set order price depend on cart total price
-      // const cartPrice = cart.totalCartPrice;
-      // const totalorderPrice = cartPrice;
+      if (!cart) {
+        return next(
+          new ApiError(`No cart found for this id:${req.body.cart_id}`, 404)
+        );
+      }
 
       // // create order with online payment method
       // const order = await orderModel.create({
@@ -103,8 +120,10 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
       //   // clear cart depending on cartId
       //   await cartModel.findByIdAndDelete(req.body.cart_id);
       // }
-
-      res.status(200).json({ status: "success" , cart});
+      // console.log('====================================');
+      // console.log(order);
+      // console.log('====================================');
+      res.status(200).json({ status: "success" });
     } else {
       res.status(400).json({ status: "payment failed" });
     }
