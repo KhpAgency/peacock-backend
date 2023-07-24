@@ -64,13 +64,6 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
 
   let tranRef = req.body.tran_ref;
 
-  let querySelected = function ($results){
-    console.log($results);
-
-    
-    
-  }
-
  paytabs.validatePayment(tranRef, async (response) => {
     if (response.payment_result.response_status === "A") {
       // get cart depends on cartId
@@ -108,13 +101,13 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
         await cartModel.findByIdAndDelete(req.body.cart_id);
       }
 
-      // return res.status(200).send({ status: "success", order });
+      return res.status(200).send({ status: "success", order });
     } else {
       return next(new ApiError("payment failed", 402));
     }
   });
+      return res.status(200).json({ status: "success" });
 
-      return res.status(200).send({ status: "success", order });
 
 });
 
