@@ -203,6 +203,7 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
       // clear cart depending on cartId
       await cartModel.findByIdAndDelete(req.body.cart_id);
     }
+    console.log(order);
 
     res.status(200).json({ message: "Success" });
   });
