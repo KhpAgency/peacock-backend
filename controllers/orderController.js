@@ -160,7 +160,8 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
   let tranRef = req.body.tran_ref;
 
   let queryRequested = function ($results){
-    console.log($results);
+    // console.log($results);
+    res.status(200).json({ message: "Success" });
 }
 
 paytabs.validatePayment(tranRef, queryRequested);
