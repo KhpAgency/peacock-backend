@@ -65,7 +65,6 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
   let tranRef = req.body.tran_ref;
 
   let querySelected = async function ($results) {
-
     if (response.payment_result.response_status === "A") {
       // get cart depends on cartId
       const cart = await cartModel.findById(req.body.cart_id);
