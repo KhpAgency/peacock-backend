@@ -100,11 +100,9 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
         // clear cart depending on cartId
         await cartModel.findByIdAndDelete(req.body.cart_id);
       }
-      console.log('====================================');
-      console.log(order);
-      console.log('====================================');
-      
-      res.status(200).json({ status: "success" });
+
+
+      res.status(200).send({ status: "success", order });
     } else {
       res.status(400).json({ status: "payment failed" });
     }
