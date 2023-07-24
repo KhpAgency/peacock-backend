@@ -101,7 +101,7 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
         await cartModel.findByIdAndDelete(req.body.cart_id);
       }
 
-      return res.status(200).send({ status: "success", order });
+      // return res.status(200).send({ status: "success", order });
     } else {
       return next(new ApiError("payment failed", 402));
     }
