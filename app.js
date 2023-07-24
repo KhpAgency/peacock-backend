@@ -69,9 +69,9 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
       // get cart depends on cartId
       const cart = await cartModel.findById(req.body.cart_id);
 
-      // // set order price depend on cart total price
-      // const cartPrice = cart.totalCartPrice;
-      // const totalorderPrice = cartPrice;
+      // set order price depend on cart total price
+      const cartPrice = cart.totalCartPrice;
+      const totalorderPrice = cartPrice;
 
       console.log("====================================");
       console.log("cart");
@@ -79,7 +79,7 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
       console.log("====================================");
       console.log("====================================");
       console.log("USER");
-      console.log(cart.data.user._id);
+      console.log(cart.user);
       console.log("====================================");
       console.log("====================================");
       console.log("totalorderPrice");
