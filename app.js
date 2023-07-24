@@ -53,8 +53,9 @@ app.use("/api/v1/addresses", addressRoute);
 
 const cartModel = require("./models/cartModel");
 const orderModel = require("./models/orderModel");
+const { protect, allowedTo } = require("./controllers/authController");
 
-app.post("/api/v1/payments-webhook", (req, res, next) => {
+app.post("/api/v1/payments-webhook", protect, allowedTo, (req, res, next) => {
   const profileID = process.env.profileID,
     serverKey = process.env.serverKey,
     region = process.env.region;
@@ -68,30 +69,30 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
       // get cart depends on cartId
       const cart = await cartModel.findById(req.body.cart_id);
 
-      
       // set order price depend on cart total price
       const cartPrice = cart.totalCartPrice;
       const totalorderPrice = cartPrice;
 
-      console.log('====================================');
+      console.log("====================================");
       console.log("USER");
       console.log(req.user._id);
-      console.log('====================================');
-      console.log('====================================');
+      console.log("====================================");
+      console.log("====================================");
       console.log("totalorderPrice");
       console.log(totalorderPrice);
-      console.log('====================================');
-      console.log('====================================');
+      console.log("====================================");
+      console.log("====================================");
       console.log("shippingAddress");
-      console.log({shippingAddress: {
-        name: req.body.shipping_details.name,
-        details: req.body.shipping_details.street1,
-        city: req.body.shipping_details.city,
-        state: req.body.shipping_details.state,
-        phone: req.body.shipping_details.phone,
-      }});
-      console.log('====================================');
-
+      console.log({
+        shippingAddress: {
+          name: req.body.shipping_details.name,
+          details: req.body.shipping_details.street1,
+          city: req.body.shipping_details.city,
+          state: req.body.shipping_details.state,
+          phone: req.body.shipping_details.phone,
+        },
+      });
+      console.log("====================================");
 
       if (!cart) {
         return next(
