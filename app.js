@@ -101,12 +101,11 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
         await cartModel.findByIdAndDelete(req.body.cart_id);
       }
 
-      res.status(200).json({ status: "success", order });
+      res.status(200).redirect("https://khpagency-eg.com/peacock/orderconfirmation.html");
     } else {
       res.status(402).json({ status: "payment failed" });
     }
   });
-  res.status(200).json({ status: "success" });
 });
 
 app.all("*", (req, res, next) => {
