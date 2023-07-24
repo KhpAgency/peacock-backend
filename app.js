@@ -106,7 +106,7 @@ app.post("/api/v1/payments-webhook", (req, res, next) => {
       return next(new ApiError("payment failed", 402));
     }
   });
-  return res.status(200).send({ status: "success" });
+   res.status(200).send({ status: "success" });
 
 
 });
