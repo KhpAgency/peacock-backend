@@ -275,12 +275,12 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
 });
 
 exports.test=asyncHandler(async (req, res,next) => {
-  let info= req.body
+
   console.log('====================================');
-  console.log(info);
+  console.log(req.body);
   console.log('====================================');
 
-  res.json({data: response})
+  res.json({message: "done"})
 })
 
 exports.filterOrderForLoggedUser = asyncHandler(async (req, res, next) => {
