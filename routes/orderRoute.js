@@ -17,7 +17,6 @@ const Router = express.Router();
 const { protect, allowedTo } = require("../controllers/authController");
 
 Router.post("/payments-webhook", paymentWebhook);
-Router.get("/test", test);
 // Router.use(protect);
 
 Router.route("/:cartId").post(protect, allowedTo("user"), createCashOrder);
