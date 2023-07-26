@@ -269,6 +269,7 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
       await cartModel.findByIdAndDelete(req.body.cart_id);
     }
     console.log(`Created order: ${order}`);
+    res.send({order: order});
   });
 
 });
