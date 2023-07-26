@@ -269,15 +269,15 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
         // clear cart depending on cartId
         await cartModel.findByIdAndDelete(req.body.cart_id);
       }
-      // console.log(`Created order: ${order}`);
-      console.log(res.status(200).json({ message: "Success" }));
-
-       res.status(200).json({ message: "Success" ,order:order});
+      console.log(`Created order: ${order}`);
+      res.status(200).json({ message: "Success", order: order });
     });
   } catch (error) {
     console.error(`Webhook error: ${error.message}`);
-     res.status(400).json({ message: `Webhook error: ${error.message}` });
+    res.status(400).json({ message: `Webhook error: ${error.message}` });
   }
+
+  res.status(200).json({message:"Doneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaaa"})
 });
 
 exports.filterOrderForLoggedUser = asyncHandler(async (req, res, next) => {
