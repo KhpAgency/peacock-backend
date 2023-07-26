@@ -58,6 +58,20 @@ const { protect, allowedTo } = require("./controllers/authController");
 // app.post("/api/v1/payments-webhook", (req, res, next) => {
 // });
 
+app.get('/query', (req, res) => {
+  
+    const profileID = process.env.profileID,
+    serverKey = process.env.serverKey,
+    region = process.env.region;
+  
+  paytabs.setConfig(profileID, serverKey, region);
+  
+  let queryRequested = function ($results) {
+    res.status(200).json($results)
+  }
+  paytabs.validatePayment("TST2320701678454", queryRequested )
+});
+
 app.all("*", (req, res, next) => {
   next(new ApiError(`can't find this route: ${req.originalUrl}`, 400));
 });

@@ -280,6 +280,19 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
   }
 });
 
+exports.paymentQuery= asyncHandler(async (req, res, next) => {
+  const profileID = process.env.profileID,
+  serverKey = process.env.serverKey,
+  region = process.env.region;
+
+paytabs.setConfig(profileID, serverKey, region);
+
+let queryRequested = function ($results) {
+  res.status(200).json($results)
+}
+paytabs.validatePayment("TST2320701678454", queryRequested )
+})
+
 exports.filterOrderForLoggedUser = asyncHandler(async (req, res, next) => {
   if (req.user.role === "user") req.filterObj = { user: req.user._id };
   next();
