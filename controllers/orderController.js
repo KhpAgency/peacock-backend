@@ -222,7 +222,9 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
 
   try {
     let tranRef = req.body.tran_ref;
-    console.log(`Received payment webhook for transaction reference: ${tranRef}`);
+    console.log(
+      `Received payment webhook for transaction reference: ${tranRef}`
+    );
 
     paytabs.validatePayment(tranRef, async (response) => {
       console.log(`Payment validation response: ${JSON.stringify(response)}`);
@@ -269,11 +271,11 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
       }
       console.log(`Created order: ${order}`);
 
-      res.status(200).json({ message: "Success" });
+      return res.status(200).json({ message: "Success" });
     });
   } catch (error) {
     console.error(`Webhook error: ${error.message}`);
-    res.status(400).json({ message: `Webhook error: ${error.message}` });
+    return res.status(400).json({ message: `Webhook error: ${error.message}` });
   }
 });
 
