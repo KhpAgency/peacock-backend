@@ -225,7 +225,7 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
     console.log(`Received payment webhook for transaction reference: ${tranRef}`);
 
     paytabs.validatePayment(tranRef, async (response) => {
-      console.log(`Payment validation response: ${response}`);
+      console.log(`Payment validation response: ${JSON.stringify(response)}`);
 
       if (response.payment_result.response_status !== "A") {
         const errorMessage = `Payment failed with status: ${response.payment_result.response_status}, reason: ${response.payment_result.response_message}`;
