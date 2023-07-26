@@ -227,7 +227,7 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
     );
 
     paytabs.validatePayment(tranRef, async (response) => {
-      console.log(`Payment validation response: ${JSON.stringify(response)}`);
+      // console.log(`Payment validation response: ${JSON.stringify(response)}`);
 
       if (response.payment_result.response_status !== "A") {
         const errorMessage = `Payment failed with status: ${response.payment_result.response_status}, reason: ${response.payment_result.response_message}`;
@@ -269,7 +269,8 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
         // clear cart depending on cartId
         await cartModel.findByIdAndDelete(req.body.cart_id);
       }
-      console.log(`Created order: ${order}`);
+      // console.log(`Created order: ${order}`);
+      console.log(res);
 
       return res.status(200).json({ message: "Success" });
     });
