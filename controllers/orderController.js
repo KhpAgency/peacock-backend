@@ -127,6 +127,7 @@ exports.createOnlinePaymentOrder = asyncHandler(async (req, res, next) => {
       res.status(res.statusCode).json({
         message: "Payment page created",
         paymentURL: $results.redirect_url,
+        result: $results
       });
     } else {
       res
@@ -223,54 +224,52 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
   let tranRef = req.body.tran_ref;
   console.log(`Received payment webhook for transaction reference: ${tranRef}`);
 
-  // paytabs.validatePayment(tranRef, async (response) => {
-  //   // console.log(`Payment validation response: ${JSON.stringify(response)}`);
+  paytabs.validatePayment(tranRef, async (response) => {
+    // console.log(`Payment validation response: ${JSON.stringify(response)}`);
 
-  //   if (response.payment_result.response_status !== "A") {
-  //     const errorMessage = `Payment failed with status: ${response.payment_result.response_status}, reason: ${response.payment_result.response_message}`;
-  //     console.error(errorMessage);
-  //     return next(new ApiError(errorMessage, 403));
-  //   }
+    if (response.payment_result.response_status !== "A") {
+      const errorMessage = `Payment failed with status: ${response.payment_result.response_status}, reason: ${response.payment_result.response_message}`;
+      console.error(errorMessage);
+      return next(new ApiError(errorMessage, 403));
+    }
 
-  //   // get cart depends on cartId
-  //   const cart = await cartModel.findById(req.body.cart_id);
+    // get cart depends on cartId
+    const cart = await cartModel.findById(req.body.cart_id);
 
-  //   // set order price depend on cart total price
-  //   const cartPrice = cart.totalCartPrice;
-  //   const totalorderPrice = cartPrice;
+    // set order price depend on cart total price
+    const cartPrice = cart.totalCartPrice;
+    const totalorderPrice = cartPrice;
 
-  //   if (!cart) {
-  //     const errorMessage = `No cart found for this id: ${req.body.cart_id}`;
-  //     console.error(errorMessage);
-  //     return next(new ApiError(errorMessage, 404));
-  //   }
+    if (!cart) {
+      const errorMessage = `No cart found for this id: ${req.body.cart_id}`;
+      console.error(errorMessage);
+      return next(new ApiError(errorMessage, 404));
+    }
 
-  //   // create order with online payment method
-  //   const order = await orderModel.create({
-  //     user: cart.user,
-  //     orderNumber: `SA-4000${Math.floor(Math.random() * 1000000000)}`,
-  //     cartItems: cart.cartItems,
-  //     totalorderPrice,
-  //     shippingAddress: {
-  //       name: req.body.shipping_details.name,
-  //       details: req.body.shipping_details.street1,
-  //       city: req.body.shipping_details.city,
-  //       state: req.body.shipping_details.state,
-  //       phone: req.body.shipping_details.phone,
-  //     },
-  //     paymentMethod: "online payment",
-  //     isPaid: true,
-  //   });
+    // create order with online payment method
+    const order = await orderModel.create({
+      user: cart.user,
+      orderNumber: `SA-4000${Math.floor(Math.random() * 1000000000)}`,
+      cartItems: cart.cartItems,
+      totalorderPrice,
+      shippingAddress: {
+        name: req.body.shipping_details.name,
+        details: req.body.shipping_details.street1,
+        city: req.body.shipping_details.city,
+        state: req.body.shipping_details.state,
+        phone: req.body.shipping_details.phone,
+      },
+      paymentMethod: "online payment",
+      isPaid: true,
+    });
 
-  //   if (order) {
-  //     // clear cart depending on cartId
-  //     await cartModel.findByIdAndDelete(req.body.cart_id);
-  //   }
-  //   console.log(`Created order: ${order}`);
-  //   // res.status(200).json({ message: "Success" });
-  // });
+    if (order) {
+      // clear cart depending on cartId
+      await cartModel.findByIdAndDelete(req.body.cart_id);
+    }
+    console.log(`Created order: ${order}`);
+  });
 
-  res.status(200).json({ message: "Doneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaaa" });
 });
 
 exports.filterOrderForLoggedUser = asyncHandler(async (req, res, next) => {
