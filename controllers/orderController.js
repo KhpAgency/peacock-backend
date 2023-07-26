@@ -157,9 +157,9 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
 
   paytabs.setConfig(profileID, serverKey, region);
 
-  let tranRef = req.body.tran_ref;
-
   try {
+    let tranRef = req.body.tran_ref;
+    
     paytabs.validatePayment(tranRef, async (response) => {
       if (response.payment_result.response_status !== "A") {
         return next(
