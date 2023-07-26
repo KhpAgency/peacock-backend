@@ -275,9 +275,9 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
 });
 
 exports.test=asyncHandler(async (req, res,next) => {
-  let response= req.body
+  let info= req.body
   console.log('====================================');
-  console.log({response: response});
+  console.log(info);
   console.log('====================================');
 
   res.json({data: response})
