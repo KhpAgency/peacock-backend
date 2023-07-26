@@ -118,9 +118,10 @@ exports.createOnlinePaymentOrder = asyncHandler(async (req, res, next) => {
 
   let url = {
     callback: `${process.env.PAYTABS_CALLBACK_URL}`,
+    return: `https://khpagency-eg.com/peacock/orderconfirmation.html`
   };
 
-  let response_URLs = [url.callback];
+  let response_URLs = [url.callback, url.return];
 
   const paymentPageCreated = ($results) => {
     if (res.statusCode == 200) {
