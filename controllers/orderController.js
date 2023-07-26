@@ -270,7 +270,7 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
         await cartModel.findByIdAndDelete(req.body.cart_id);
       }
       console.log(`Created order: ${order}`);
-      res.status(200).json({ message: "Success", order: order });
+      res.status(200).json({ message: "Success" });
     });
   } catch (error) {
     console.error(`Webhook error: ${error.message}`);
