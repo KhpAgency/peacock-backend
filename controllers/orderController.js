@@ -6,7 +6,6 @@ const paytabs = require("paytabs_pt2");
 const cartModel = require("../models/cartModel");
 const orderModel = require("../models/orderModel");
 const userModel = require("../models/userModel");
-// const axios = require("axios");
 
 exports.createCashOrder = asyncHandler(async (req, res, next) => {
   // get cart depends on cartId
@@ -118,7 +117,7 @@ exports.createOnlinePaymentOrder = asyncHandler(async (req, res, next) => {
 
   let url = {
     callback: `${process.env.PAYTABS_CALLBACK_URL}`,
-    return: `https://webhook.site/92a3aee6-14f2-4b80-b8b9-c5c014a2e96f`
+    return: `https://khpagency-eg.com/peacock`
   };
 
   let response_URLs = [url.callback, url.return];
