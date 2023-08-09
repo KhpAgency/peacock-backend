@@ -232,7 +232,7 @@ exports.confirmEmail = asyncHandler(async (req, res, next) => {
     user.status = "confirmed";
     await user.save();
 
-    res.send({ message: "Email has been confirmed" });
+    res.send("Email has been confirmed");
     setTimeout(() => {
       res.redirect("https://peacockchocolateksa.com/menu.html");
     }, 3000);
