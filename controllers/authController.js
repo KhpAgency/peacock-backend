@@ -148,7 +148,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
                           Thank you for registering in Peacock. To start using your account please confirm your email address by clicking on the confirm your email button.
                         </p>
                         <a href="https://peacock-api-ixpn.onrender.com/api/v1/auth/confirm-email/${token}"
-                                            style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:25px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Confirm Your Email</a>
+                                            style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:25px; color:#fff;text-transform:uppercase; target="_blank" font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Confirm Your Email</a>
                         <p
                           style="
                             color: #455056;
