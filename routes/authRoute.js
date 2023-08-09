@@ -5,7 +5,9 @@ const {
   login,
   forgetPassword,
   verifyPasswordResetCode,
-  resetPassword
+  resetPassword,
+  protect,
+  confirmEmail
 } = require("../controllers/authController");
 
 const {
@@ -20,6 +22,7 @@ Router.post("/login", loginValidator, login);
 Router.post("/forgetPassword", forgetPassword);
 Router.post("/verifyResetcode", verifyPasswordResetCode);
 Router.put("/resetPassword", resetPassword);
+Router.get("/confirm-email/:token", confirmEmail);
 
 // Router.route("/:id")
 //   .get(getUserValidator, getUser)

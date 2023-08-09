@@ -8,7 +8,6 @@ const sendEmail = require("../utils/sendEmails");
 const createToken = require("../utils/createToken");
 const { v4: uuidv4 } = require("uuid");
 
-
 exports.signup = asyncHandler(async (req, res, next) => {
   // Create a new user
   const user = await userModel.create({
@@ -18,226 +17,254 @@ exports.signup = asyncHandler(async (req, res, next) => {
     password: req.body.password,
   });
 
-  // // send confirmation email
-  // let capitalizeFirlstLetterOfName =
-  //   user.name.charAt(0).toUpperCase() + user.name.slice(1).toLocaleLowerCase();
-
-  // let emailTamplate = `<!DOCTYPE html>
-  // <html lang="en-US">
-  //   <head>
-  //     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-  //     <title>Confirm Your Email</title>
-  //     <meta name="description" content="Reset Password Email" />
-  //     <style type="text/css">
-  //       a:hover {
-  //         text-decoration: underline !important;
-  //       }
-  //     </style>
-  //   </head>
-  
-  //   <body
-  //     marginheight="0"
-  //     topmargin="0"
-  //     marginwidth="0"
-  //     style="margin: 0px; background-color: #f2f3f8"
-  //     leftmargin="0"
-  //   >
-  //     <!--100% body table-->
-  //     <table
-  //       cellspacing="0"
-  //       border="0"
-  //       cellpadding="0"
-  //       width="100%"
-  //       bgcolor="#f2f3f8"
-  //       style="
-  //         @import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700);
-  //         font-family: 'Open Sans', sans-serif;
-  //       "
-  //     >
-  //       <tr>
-  //         <td>
-  //           <table
-  //             style="background-color: #f2f3f8; max-width: 670px; margin: 0 auto"
-  //             width="100%"
-  //             border="0"
-  //             align="center"
-  //             cellpadding="0"
-  //             cellspacing="0"
-  //           >
-  //             <tr>
-  //               <td style="height: 80px">&nbsp;</td>
-  //             </tr>
-  //             <tr>
-  //               <td style="text-align: center">
-  //                 <a href="http://www.peacockchocolateksa.com" title="logo" target="_blank">
-  //                   <img
-  //                     width="250"
-  //                     src="http://www.peacockchocolateksa.com/img/Asset%202.png"
-  //                     title="logo"
-  //                     alt="logo"
-  //                   />
-  //                 </a>
-  //               </td>
-  //             </tr>
-  //             <tr>
-  //               <td style="height: 20px">&nbsp;</td>
-  //             </tr>
-  //             <tr>
-  //               <td>
-  //                 <table
-  //                   width="95%"
-  //                   border="0"
-  //                   align="center"
-  //                   cellpadding="0"
-  //                   cellspacing="0"
-  //                   style="
-  //                     max-width: 670px;
-  //                     background: #fff;
-  //                     border-radius: 3px;
-  //                     text-align: center;
-  //                     -webkit-box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
-  //                     -moz-box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
-  //                     box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
-  //                   "
-  //                 >
-  //                   <tr>
-  //                     <td style="height: 40px">&nbsp;</td>
-  //                   </tr>
-  //                   <tr>
-  //                     <td style="padding: 0 35px">
-  //                       <h1
-  //                         style="
-  //                           color: #1e1e2d;
-  //                           font-weight: 500;
-  //                           margin: 0;
-  //                           font-size: 30px;
-  //                           font-family: 'Rubik', sans-serif;
-  //                         "
-  //                       >
-  //                         Confirm Your Email
-  //                       </h1>
-  //                       <span
-  //                         style="
-  //                           display: inline-block;
-  //                           vertical-align: middle;
-  //                           margin: 29px 0 26px;
-  //                           border-bottom: 1px solid #cecece;
-  //                           width: 200px;
-  //                         "
-  //                       ></span>
-  //                       <p
-  //                         style="
-  //                           color: #455056;
-  //                           font-size: 17px;
-  //                           line-height: 24px;
-  //                           text-align: left;
-  //                         "
-  //                       >
-  //                         Hello ${capitalizeFirlstLetterOfName},</p>
-  //                       <p
-  //                         style="
-  //                           color: #455056;
-  //                           font-size: 17px;
-  //                           line-height: 24px;
-  //                           text-align: left;
-  //                         "
-  //                       >
-  //                         Thank you for registering in Peacock. To start using your account please confirm your email address by clicking on the confirm your email button.
-  //                       </p>
-  //                       <a href="javascript:void(0);"
-  //                                           style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:25px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Confirm Your Email</a>
-  //                       <p
-  //                         style="
-  //                           color: #455056;
-  //                           font-size: 17px;
-  //                           line-height: 24px;
-  //                           text-align: left;
-  //                         "
-  //                       >
-  //                         Welcome to Peacock,
-  //                       </p>
-  //                       <p
-  //                         style="
-  //                           color: #455056;
-  //                           font-size: 17px;
-  //                           line-height: 2px;
-  //                           text-align: left;
-  //                         "
-  //                       >
-  //                         The Peacock Team.
-  //                       </p>
-  //                     </td>
-  //                   </tr>
-  //                   <tr>
-  //                     <td style="height: 40px">&nbsp;</td>
-  //                   </tr>
-  //                 </table>
-  //               </td>
-  //             </tr>
-  
-  //             <tr>
-  //               <td style="height: 20px">&nbsp;</td>
-  //             </tr>
-  //             <tr>
-  //               <td style="text-align: center">
-  //                 <p
-  //                   style="
-  //                     font-size: 14px;
-  //                     color: rgba(69, 80, 86, 0.7411764705882353);
-  //                     line-height: 18px;
-  //                     margin: 0 0 0;
-  //                   "
-  //                 >
-  //                   &copy; <strong>www.peacockchocolateksa.com</strong>
-  //                 </p>
-  //               </td>
-  //             </tr>
-  //             <tr>
-  //               <td style="height: 80px">&nbsp;</td>
-  //             </tr>
-  //           </table>
-  //         </td>
-  //       </tr>
-  //     </table>
-  //     <!--/100% body table-->
-  //   </body>
-  // </html>`;
-
-  // await sendEmail({
-  //   email: user.email,
-  //   subject: `${capitalizeFirlstLetterOfName}, Please confirm your peacock email`,
-  //   message: emailTamplate,
-  // });
-
   // Generate token and send it to the client side
-
   const token = createToken(user._id);
+
+  // send confirmation email
+  let capitalizeFirlstLetterOfName =
+    user.name.split(" ")[0].charAt(0).toUpperCase() +
+    user.name.split(" ")[0].slice(1).toLocaleLowerCase();
+
+  let emailTamplate = `<!DOCTYPE html>
+  <html lang="en-US">
+    <head>
+      <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+      <title>Confirm Your Email</title>
+      <meta name="description" content="Reset Password Email" />
+      <style type="text/css">
+        a:hover {
+          text-decoration: underline !important;
+        }
+      </style>
+    </head>
+
+    <body
+      marginheight="0"
+      topmargin="0"
+      marginwidth="0"
+      style="margin: 0px; background-color: #f2f3f8"
+      leftmargin="0"
+    >
+      <!--100% body table-->
+      <table
+        cellspacing="0"
+        border="0"
+        cellpadding="0"
+        width="100%"
+        bgcolor="#f2f3f8"
+        style="
+          @import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700);
+          font-family: 'Open Sans', sans-serif;
+        "
+      >
+        <tr>
+          <td>
+            <table
+              style="background-color: #f2f3f8; max-width: 670px; margin: 0 auto"
+              width="100%"
+              border="0"
+              align="center"
+              cellpadding="0"
+              cellspacing="0"
+            >
+              <tr>
+                <td style="height: 80px">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="text-align: center">
+                  <a href="http://www.peacockchocolateksa.com" title="logo" target="_blank">
+                    <img
+                      width="250"
+                      src="http://www.peacockchocolateksa.com/img/Asset%202.png"
+                      title="logo"
+                      alt="logo"
+                    />
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td style="height: 20px">&nbsp;</td>
+              </tr>
+              <tr>
+                <td>
+                  <table
+                    width="95%"
+                    border="0"
+                    align="center"
+                    cellpadding="0"
+                    cellspacing="0"
+                    style="
+                      max-width: 670px;
+                      background: #fff;
+                      border-radius: 3px;
+                      text-align: center;
+                      -webkit-box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
+                      -moz-box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
+                      box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
+                    "
+                  >
+                    <tr>
+                      <td style="height: 40px">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 0 35px">
+                        <h1
+                          style="
+                            color: #1e1e2d;
+                            font-weight: 500;
+                            margin: 0;
+                            font-size: 30px;
+                            font-family: 'Rubik', sans-serif;
+                          "
+                        >
+                          Confirm Your Email
+                        </h1>
+                        <span
+                          style="
+                            display: inline-block;
+                            vertical-align: middle;
+                            margin: 29px 0 26px;
+                            border-bottom: 1px solid #cecece;
+                            width: 200px;
+                          "
+                        ></span>
+                        <p
+                          style="
+                            color: #455056;
+                            font-size: 17px;
+                            line-height: 24px;
+                            text-align: left;
+                          "
+                        >
+                          Hello ${capitalizeFirlstLetterOfName},</p>
+                        <p
+                          style="
+                            color: #455056;
+                            font-size: 17px;
+                            line-height: 24px;
+                            text-align: left;
+                          "
+                        >
+                          Thank you for registering in Peacock. To start using your account please confirm your email address by clicking on the confirm your email button.
+                        </p>
+                        <a href="http://localhost:3000/api/v1/auth/confirm-email/${token}"
+                                            style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:25px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Confirm Your Email</a>
+                        <p
+                          style="
+                            color: #455056;
+                            font-size: 17px;
+                            line-height: 24px;
+                            text-align: left;
+                          "
+                        >
+                          Welcome to Peacock,
+                        </p>
+                        <p
+                          style="
+                            color: #455056;
+                            font-size: 17px;
+                            line-height: 2px;
+                            text-align: left;
+                          "
+                        >
+                          The Peacock Team.
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="height: 40px">&nbsp;</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <tr>
+                <td style="height: 20px">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="text-align: center">
+                  <p
+                    style="
+                      font-size: 14px;
+                      color: rgba(69, 80, 86, 0.7411764705882353);
+                      line-height: 18px;
+                      margin: 0 0 0;
+                    "
+                  >
+                    &copy; <strong>www.peacockchocolateksa.com</strong>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td style="height: 80px">&nbsp;</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <!--/100% body table-->
+    </body>
+  </html>`;
+
+  console.log("====================================");
+  console.log(user.email);
+  console.log(capitalizeFirlstLetterOfName);
+  console.log("====================================");
+
+  try {
+      await sendEmail({
+    email: user.email,
+    subject: `${capitalizeFirlstLetterOfName}, Please confirm your peacock email`,
+    message: emailTamplate,
+  });
+  } catch (error) {
+    console.log(error);
+  }
+
+
 
   res.status(201).json({ data: user, token });
 });
 
-// exports.confirmEmail =asyncHandler(async (req, res ,next)=>{
-//   let user = userModel.findOne({ email: req.body.email })
-  
-// })
+exports.confirmEmail = asyncHandler(async (req, res, next) => {
+  let token = req.params.token;
+  const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+  let user = await userModel.findById(decoded.userId);
+
+  if (user.status !== "confirmed") {
+    user.status = "confirmed";
+    await user.save();
+
+    res.json({ message: "Email has been confirmed" });
+    setTimeout(() => {
+      res.redirect("https://peacockchocolateksa.com/menu.html");
+    }, 5000);
+  } else {
+    console.log(user.status);
+    res.json({ message: "Email already been confirmed" });
+  }
+});
 
 exports.login = asyncHandler(async (req, res, next) => {
-  let orderNumber = `SA-4000${Math.floor(Math.random() * 1000000000)}`
-  console.log(orderNumber);
   const user = await userModel.findOne({ email: req.body.email });
 
   if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
     return next(new ApiError("Incorrect email or password", 401));
   }
 
-  // if (user.status!=="confirmed"){
-  //   return next(new ApiError("Your email is not confirmed, Check your email and click on the confirmation link", 401));
+  if (user.status !== "confirmed") {
+    return next(
+      new ApiError(
+        "Your email is not confirmed, Check your email and click on the confirmation link and then login again",
+        401
+      )
+    );
+  } else {
+    const token = createToken(user._id);
 
-  // }
-
-  const token = createToken(user._id);
-
-  res.status(200).json({ data: user, token });
+    res.status(200).json({ data: user, token });
+  }
 });
 
 exports.protect = asyncHandler(async (req, res, next) => {
@@ -321,7 +348,8 @@ exports.forgetPassword = asyncHandler(async (req, res, next) => {
 
   //3) send the reset code by email address
   let capitalizeFirlstLetterOfName =
-    user.name.split(" ")[0].charAt(0).toUpperCase() + user.name.split(" ")[0].slice(1).toLocaleLowerCase();
+    user.name.split(" ")[0].charAt(0).toUpperCase() +
+    user.name.split(" ")[0].slice(1).toLocaleLowerCase();
 
   let emailTamplate = `<!DOCTYPE html>
   <html lang="en-US">
@@ -566,6 +594,6 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   await user.save();
 
   // if everything is good => generate new token
-  const token = createToken(user._id)
+  const token = createToken(user._id);
   res.status(200).json({ token });
 });
