@@ -161,7 +161,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
                         </p>
                         <p
                           style="
-                          margin-top: 3px
+                          margin-top: 3px;
                             color: #455056;
                             font-size: 17px;
                             line-height: 2px;
@@ -207,11 +207,6 @@ exports.signup = asyncHandler(async (req, res, next) => {
     </body>
   </html>`;
 
-  console.log("====================================");
-  console.log(user.email);
-  console.log(capitalizeFirlstLetterOfName);
-  console.log("====================================");
-
   try {
       await sendEmail({
     email: user.email,
@@ -237,13 +232,13 @@ exports.confirmEmail = asyncHandler(async (req, res, next) => {
     user.status = "confirmed";
     await user.save();
 
-    res.json({ message: "Email has been confirmed" });
+    res.send({ message: "Email has been confirmed" });
     setTimeout(() => {
       res.redirect("https://peacockchocolateksa.com/menu.html");
-    }, 5000);
+    }, 3000);
   } else {
     console.log(user.status);
-    res.json({ message: "Email already been confirmed" });
+    res.send({ message: "Email already been confirmed" });
   }
 });
 
