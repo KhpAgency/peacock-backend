@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const sendEmail = require("../utils/sendEmails");
 const createToken = require("../utils/createToken");
-const { v4: uuidv4 } = require("uuid");
 
 exports.signup = asyncHandler(async (req, res, next) => {
   // Create a new user

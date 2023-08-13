@@ -10,14 +10,13 @@ const {
   findSpecificOrderByOrderNumber,
   updateOrderToDeliverd,
   updateOrdertoPaid,
-  test
+  test,
 } = require("../controllers/orderController");
 
 const Router = express.Router();
 const { protect, allowedTo } = require("../controllers/authController");
 
 Router.post("/payments-webhook", paymentWebhook);
-// Router.use(protect);
 
 Router.route("/:cartId").post(protect, allowedTo("user"), createCashOrder);
 Router.route("/payonline/:cartId").post(
