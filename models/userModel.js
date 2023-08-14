@@ -30,21 +30,24 @@ const userSchema = new mongoose.Schema(
     passwordResetCodeVerified: Boolean,
     addresses: [
       {
-        id: {type: mongoose.Schema.Types.ObjectId},
+        id: { type: mongoose.Schema.Types.ObjectId },
         alias: String,
+        name: String,
         details: String,
+        city: String,
+        state: String,
         phone: String,
-      }
-    ] ,
+      },
+    ],
     role: {
       type: String,
       enum: ["admin", "manager", "user"],
       default: "user",
     },
     status: {
-      type: String, 
-      enum: ['pending', 'confirmed'],
-      default: 'pending'
+      type: String,
+      enum: ["pending", "confirmed"],
+      default: "pending",
     },
     active: {
       type: Boolean,
