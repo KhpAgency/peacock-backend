@@ -34,14 +34,14 @@ exports.resizeTraysImages = asyncHandler(async (req, res, next) => {
             buffer: heicBuffer,
             format: "JPEG",
           });
-          imageName = `tray-${img.originalname}-${uuidv4()}-${Date.now()}-${
+          imageName = `tray-${img.originalname.split(" ").join("")}-${uuidv4()}-${Date.now()}-${
             index + 1
           }.jpeg`;
           await sharp(jpegBuffer)
             .jpeg({ quality: 90 })
             .toFile(`uploads/trays/${imageName}`);
         } else {
-          imageName = `tray-${img.originalname}-${uuidv4()}-${Date.now()}-${
+          imageName = `tray-${img.originalname.split(" ").join("")}-${uuidv4()}-${Date.now()}-${
             index + 1
           }.jpeg`;
           await sharp(img.buffer)

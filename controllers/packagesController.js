@@ -33,14 +33,14 @@ exports.resizePackagesImages = asyncHandler(async (req, res, next) => {
             buffer: heicBuffer,
             format: "JPEG",
           });
-          imageName = `package-${img.originalname}-${uuidv4()}-${Date.now()}-${
+          imageName = `package-${img.originalname.split(" ").join("")}-${uuidv4()}-${Date.now()}-${
             index + 1
           }.jpeg`;
           await sharp(jpegBuffer)
             .jpeg({ quality: 90 })
             .toFile(`uploads/packages/${imageName}`);
         } else {
-          imageName = `package-${img.originalname}-${uuidv4()}-${Date.now()}-${
+          imageName = `package-${img.originalname.split(" ").join("")}-${uuidv4()}-${Date.now()}-${
             index + 1
           }.jpeg`;
           await sharp(img.buffer)

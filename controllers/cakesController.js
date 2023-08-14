@@ -33,14 +33,14 @@ exports.resizeCakesImages = asyncHandler(async (req, res, next) => {
             buffer: heicBuffer,
             format: "JPEG",
           });
-          imageName = `cake-${img.originalname}-${uuidv4()}-${Date.now()}-${
+          imageName = `cake-${img.originalname.split(" ").join("")}-${uuidv4()}-${Date.now()}-${
             index + 1
           }.jpeg`;
           await sharp(jpegBuffer)
             .jpeg({ quality: 90 })
             .toFile(`uploads/cakes/${imageName}`);
         } else {
-          imageName = `cake-${img.originalname}-${uuidv4()}-${Date.now()}-${
+          imageName = `cake-${img.originalname.split(" ").join("")}-${uuidv4()}-${Date.now()}-${
             index + 1
           }.jpeg`;
           await sharp(img.buffer)

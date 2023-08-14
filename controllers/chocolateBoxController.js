@@ -37,14 +37,14 @@ exports.resizeChocolateBoxImages = asyncHandler(async (req, res, next) => {
             format: "JPEG",
           });
           imageName = `chocolateBox-${
-            img.originalname
+            img.originalname.split(" ").join("")
           }-${uuidv4()}-${Date.now()}-${index + 1}.jpeg`;
           await sharp(jpegBuffer)
             .jpeg({ quality: 90 })
             .toFile(`uploads/chocolateBox/${imageName}`);
         } else {
           imageName = `chocolateBox-${
-            img.originalname
+            img.originalname.split(" ").join("")
           }-${uuidv4()}-${Date.now()}-${index + 1}.jpeg`;
           await sharp(img.buffer)
             .jpeg({ quality: 90 })
