@@ -117,7 +117,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
           </div>
           <div class="invoice">
             <h5>Your order Confirmed!</h5>
-            <span class="font-weight-bold d-block mt-4">Hello, ${capitalizeFirstLetterOfName}</span>
+            <span class="font-weight-bold d-block mt-4">Hello, ${capitalizeFirlstLetterOfName}</span>
             <span>Thank you for your order from Peacock. Your order has been confirmed!</span>
             <div class="payment">
               <table>
