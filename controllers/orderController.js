@@ -53,9 +53,8 @@ let currentDate = `${day}-${month}-${year}`;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-  </head>
-  <body>
-  <style>
+
+    <style>
       @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
       body {
         background-color: #ffe8d2;
@@ -81,7 +80,9 @@ let currentDate = `${day}-${month}-${year}`;
         color: #dedbdb;
       }
     </style>
-    
+  </head>
+  <body>
+  
     <div class="container mt-5 mb-5">
       <div class="row d-flex justify-content-center">
         <div class="col-md-8">
