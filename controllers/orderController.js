@@ -30,13 +30,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
     orderNumber: `SA-4000${Math.floor(Math.random() * 1000000000)}`,
     cartItems: cart.cartItems,
     totalorderPrice,
-    shippingAddress: {
-      name: req.body.shipping_details.name,
-      details: req.body.shipping_details.street1,
-      city: req.body.shipping_details.city,
-      state: req.body.shipping_details.state,
-      phone: req.body.shipping_details.phone,
-    },
+    shippingAddress: req.body.shippingAddress
   });
 
   // send order confirmation email
