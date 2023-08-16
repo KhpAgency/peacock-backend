@@ -30,7 +30,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
     orderNumber: `SA-4000${Math.floor(Math.random() * 1000000000)}`,
     cartItems: cart.cartItems,
     totalorderPrice,
-    shippingAddress: req.body.shippingAddress
+    shippingAddress: req.body.shippingAddress,
   });
 
   // send order confirmation email
@@ -38,18 +38,21 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
     req.user.name.split(" ")[0].charAt(0).toUpperCase() +
     req.user.name.split(" ")[0].slice(1).toLocaleLowerCase();
 
-    const date = new Date()
+  const date = new Date();
 
-let day = date.getDate();
-let month = date.getMonth() + 1;
-let year = date.getFullYear();
+  let day = date.getDate();
+  let month = date.getMonth() + 1;
+  let year = date.getFullYear();
 
-let currentDate = `${day}-${month}-${year}`;
+  let currentDate = `${day}-${month}-${year}`;
 
   let emailTamplate = `
   <!DOCTYPE html>
 <html lang="en">
-<head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script><style>@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+
+<style>@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 body {
 background-color: #ffe8d2;
 font-family: 'Montserrat', sans-serif
@@ -72,7 +75,10 @@ font-size: 12px
 .product-qty span {
 font-size: 12px;
 color: #dedbdb
-}</style></head>
+}
+</style>
+
+</head>
   <body>
   
     <div class="container mt-5 mb-5">
@@ -127,7 +133,8 @@ color: #dedbdb
               <div class="product border-bottom table-responsive">
                 <table class="table table-borderless">
                   <tbody>
-                  ${order.cartItems.map(item => `<tr>
+                  ${order.cartItems.map(
+                    (item) => `<tr>
                       
                   <td width="60%">
                     <span class="font-weight-bold">${item.productID}</span>
@@ -141,7 +148,8 @@ color: #dedbdb
                       <span class="font-weight-bold">${item.price} SAR</span>
                     </div>
                   </td>
-                </tr>`)}
+                </tr>`
+                  )}
                     
                     
                   </tbody>
@@ -158,7 +166,9 @@ color: #dedbdb
                           </div>
                         </td>
                         <td>
-                          <div class="text-right"><span>${order.totalorderPrice}</span></div>
+                          <div class="text-right"><span>${
+                            order.totalorderPrice
+                          }</span></div>
                         </td>
                       </tr>
                       <tr>
@@ -179,7 +189,9 @@ color: #dedbdb
                         </td>
                         <td>
                           <div class="text-right">
-                            <span class="font-weight-bold">${order.totalorderPrice}</span>
+                            <span class="font-weight-bold">${
+                              order.totalorderPrice
+                            }</span>
                           </div>
                         </td>
                       </tr>
@@ -198,10 +210,13 @@ color: #dedbdb
         </div>
       </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
   </body>
 </html>
 
-  `
+  `;
 
   try {
     console.log(order);
