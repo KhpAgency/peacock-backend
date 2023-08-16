@@ -38,193 +38,154 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
     req.user.name.split(" ")[0].charAt(0).toUpperCase() +
     req.user.name.split(" ")[0].slice(1).toLocaleLowerCase();
 
-  let emailTamplate = `<!DOCTYPE html>
-  <html lang="en-US">
-    <head>
-      <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-      <title>Confirm Your Email</title>
-      <meta name="description" content="Reset Password Email" />
-      <style type="text/css">
-        a:hover {
-          text-decoration: underline !important;
-        }
-      </style>
-    </head>
+    const date = new Date()
 
-    <body
-      marginheight="0"
-      topmargin="0"
-      marginwidth="0"
-      style="margin: 0px; background-color: #f2f3f8"
-      leftmargin="0"
-    >
-      <!--100% body table-->
-      <table
-        cellspacing="0"
-        border="0"
-        cellpadding="0"
-        width="100%"
-        bgcolor="#f2f3f8"
-        style="
-          @import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700);
-          font-family: 'Open Sans', sans-serif;
-        "
-      >
-        <tr>
-          <td>
-            <table
-              style="background-color: #f2f3f8; max-width: 670px; margin: 0 auto"
-              width="100%"
-              border="0"
-              align="center"
-              cellpadding="0"
-              cellspacing="0"
-            >
-              <tr>
-                <td style="height: 80px">&nbsp;</td>
-              </tr>
-              <tr>
-                <td style="text-align: center">
-                  <a href="http://www.peacockchocolateksa.com" title="logo" target="_blank">
-                    <img
-                      width="250"
-                      src="http://www.peacockchocolateksa.com/img/Asset%202.png"
-                      title="logo"
-                      alt="logo"
-                    />
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td style="height: 20px">&nbsp;</td>
-              </tr>
-              <tr>
-                <td>
-                  <table
-                    width="95%"
-                    border="0"
-                    align="center"
-                    cellpadding="0"
-                    cellspacing="0"
-                    style="
-                      max-width: 670px;
-                      background: #fff;
-                      border-radius: 3px;
-                      text-align: center;
-                      -webkit-box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
-                      -moz-box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
-                      box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
-                    "
-                  >
-                    <tr>
-                      <td style="height: 40px">&nbsp;</td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 0 35px">
-                        <h1
-                          style="
-                            color: #1e1e2d;
-                            font-weight: 500;
-                            margin: 0;
-                            font-size: 30px;
-                            font-family: 'Rubik', sans-serif;
-                          "
-                        >
-                          Confirm Your Email
-                        </h1>
-                        <span
-                          style="
-                            display: inline-block;
-                            vertical-align: middle;
-                            margin: 29px 0 26px;
-                            border-bottom: 1px solid #cecece;
-                            width: 200px;
-                          "
-                        ></span>
-                        <p
-                          style="
-                            color: #455056;
-                            font-size: 17px;
-                            line-height: 24px;
-                            text-align: left;
-                          "
-                        >
-                          Hello ${capitalizeFirlstLetterOfName},</p>
-                        <p
-                          style="
-                            color: #455056;
-                            font-size: 17px;
-                            line-height: 24px;
-                            text-align: left;
-                          "
-                        >
-                          Thank you for registering in Peacock. To start using your account please confirm your email address by clicking on the confirm your email button.
-                        </p>
-                        <a target="_blank" href="https://peacock-api-ixpn.onrender.com/api/v1/auth/confirm-email/${token}"
-                        style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:25px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Confirm Your Email</a>
+let day = date.getDate();
+let month = date.getMonth() + 1;
+let year = date.getFullYear();
 
-                        <p
-                          style="
-                            color: #455056;
-                            font-size: 17px;
-                            line-height: 24px;
-                            text-align: left;
-                          "
-                        >
-                          Welcome to Peacock,
-                        </p>
-                        <p
-                          style="
-                          margin-top: 3px;
-                            color: #455056;
-                            font-size: 17px;
-                            line-height: 2px;
-                            text-align: left;
-                          "
-                        >
-                          The Peacock Team.
-                        </p>
+let currentDate = `${day}-${month}-${year}`;
+
+  let emailTamplate = `
+  <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container mt-5 mb-5">
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="text-left logo p-2 px-5">
+              <img src="../uploads/peacock logo.png" width="50" />
+            </div>
+            <div class="invoice p-5">
+              <h5>Your order Confirmed!</h5>
+              <span class="font-weight-bold d-block mt-4">Hello, ${capitalizeFirlstLetterOfName}</span>
+              <span
+                >Thank you for your order from Peacock. You order has been confirmed!</span
+              >
+              <div
+                class="payment border-top mt-3 mb-3 border-bottom table-responsive"
+              >
+                <table class="table table-borderless">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="py-2">
+                          <span class="d-block text-muted">Order Date</span>
+                          <span>${currentDate}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="py-2">
+                          <span class="d-block text-muted">Order No</span>
+                          <span>${order.orderNumber}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="py-2">
+                          <span class="d-block text-muted">Payment</span>
+                          <span>Cash on delivery</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="py-2">
+                          <span class="d-block text-muted"
+                            >Shiping Address</span
+                          >
+                          <span>${order.shippingAddress.details}</span>
+                        </div>
                       </td>
                     </tr>
-                    <tr>
-                      <td style="height: 40px">&nbsp;</td>
-                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="product border-bottom table-responsive">
+                <table class="table table-borderless">
+                  <tbody>
+                  ${order.cartItems.map(item => `<tr>
+                      
+                  <td width="60%">
+                    <span class="font-weight-bold">${item.productID}</span>
+                    <div class="product-qty">
+                      <span class="d-block">Quantity:${item.variant}</span>
+                    </div>
+                  </td>
+                  <td width="20%">
+                    <div class="text-right">
+                      <span class="font-weight-bold">${item.price} SAR</span>
+                    </div>
+                  </td>
+                </tr>`)}
+                    
+                    
+                  </tbody>
+                </table>
+              </div>
+              <div class="row d-flex justify-content-end">
+                <div class="col-md-5">
+                  <table class="table table-borderless">
+                    <tbody class="totals">
+                      <tr>
+                        <td>
+                          <div class="text-left">
+                            <span class="text-muted">Subtotal</span>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="text-right"><span>${order.totalorderPrice}</span></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="text-left">
+                            <span class="text-muted">Shipping Fee</span>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="text-right"><span>00</span></div>
+                        </td>
+                      </tr>
+                      <tr class="border-top border-bottom">
+                        <td>
+                          <div class="text-left">
+                            <span class="font-weight-bold">Subtotal</span>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="text-right">
+                            <span class="font-weight-bold">${order.totalorderPrice}</span>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
                   </table>
-                </td>
-              </tr>
+                </div>
+              </div>
+              <p class="font-weight-bold mb-0">Thanks for shopping with us!</p>
+              <span>Nike Team</span>
+            </div>
+            <div class="d-flex justify-content-between footer p-3">
+              <span>Need Help? visit our <a href="#"> help center</a></span>
+              <span>12 June, 2020</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
 
-              <tr>
-                <td style="height: 20px">&nbsp;</td>
-              </tr>
-              <tr>
-                <td style="text-align: center">
-                  <p
-                    style="
-                      font-size: 14px;
-                      color: rgba(69, 80, 86, 0.7411764705882353);
-                      line-height: 18px;
-                      margin: 0 0 0;
-                    "
-                  >
-                    &copy; <strong>www.peacockchocolateksa.com</strong>
-                  </p>
-                </td>
-              </tr>
-              <tr>
-                <td style="height: 80px">&nbsp;</td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
-      <!--/100% body table-->
-    </body>
-  </html>`;
+  `
 
   try {
     await sendEmail({
       email: user.email,
-      subject: `${capitalizeFirlstLetterOfName}, Please confirm your peacock email`,
+      subject: `${capitalizeFirlstLetterOfName}, Your order has been placed`,
       message: emailTamplate,
     });
   } catch (error) {
