@@ -12,8 +12,6 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
   // get cart depends on cartId
   const cart = await cartModel.findById(req.params.cartId);
 
-  console.log(cart);
-
   if (!cart) {
     return next(
       new ApiError(`No cart found for this id:${req.params.cartId}`, 404)
@@ -48,168 +46,166 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
 
   let emailTamplate = `<!DOCTYPE html>
   <html lang="en">
-    <head>
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous"
-      />
-  
-      <style>
-        @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
-        body {
-          font-family: "Montserrat", sans-serif;
-        }
-        .logo {
-          background-color: #a8c7c7;
-        }
-        .totals tr td {
-          font-size: 13px;
-        }
-        .footer {
-          background-color: #eeeeeea8;
-        }
-        .footer span {
-          font-size: 12px;
-        }
-        .product-qty span {
-          font-size: 12px;
-          color: #dedbdb;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="row d-flex justify-content-center">
-        <div class="col-md-8">
-          <div class="card">
-            <div class="text-center logo p-3 px-5">
-              <img
-                src="https://peacockchocolateksa.com/img/Asset%202.png"
-                width="150"
-              />
+  <head>
+    <style>
+      body {
+        font-family: "Montserrat", sans-serif;
+      }
+      .logo {
+        background-color: #a8c7c7;
+        padding: 15px;
+        text-align: center;
+      }
+      .invoice {
+        padding: 25px;
+      }
+      .invoice h5 {
+        font-weight: bold;
+        text-align: center;
+        margin-top: 20px;
+      }
+      .invoice span {
+        font-weight: bold;
+        display: block;
+        margin-top: 10px;
+      }
+      .payment {
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        margin-top: 20px;
+        padding: 15px;
+      }
+      .product {
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 20px;
+      }
+      .product-qty span {
+        font-size: 12px;
+        color: #dedbdb;
+      }
+      .totals {
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+      .totals td {
+        padding: 5px 0;
+      }
+      .totals .text-left {
+        text-align: left;
+      }
+      .totals .text-right {
+        text-align: right;
+      }
+      .totals .text-muted {
+        color: #777;
+      }
+      .footer {
+        background-color: #eeeeeea8;
+        padding: 15px;
+      }
+      .footer span {
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="logo">
+            <img src="https://peacockchocolateksa.com/img/Asset%202.png" width="150" alt="Logo">
+          </div>
+          <div class="invoice">
+            <h5>Your order Confirmed!</h5>
+            <span class="font-weight-bold d-block mt-4">Hello, ${capitalizeFirstLetterOfName}</span>
+            <span>Thank you for your order from Peacock. Your order has been confirmed!</span>
+            <div class="payment">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <span class="d-block text-muted">Order Date</span>
+                      <span>${currentDate}</span>
+                    </td>
+                    <td>
+                      <span class="d-block text-muted">Order No</span>
+                      <span>${order.orderNumber}</span>
+                    </td>
+                    <td>
+                      <span class="d-block text-muted">Payment</span>
+                      <span>Cash on delivery</span>
+                    </td>
+                    <td>
+                      <span class="d-block text-muted">Shipping Address</span>
+                      <span>${order.shippingAddress.details}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div class="invoice p-5">
-              <h5 class="text-center font-weight-bold">Your order Confirmed!</h5>
-              <span class="font-weight-bold d-block mt-4"
-                >Hello, ${capitalizeFirlstLetterOfName}</span
-              >
-              <span
-                >Thank you for your order from Peacock. You order has been
-                confirmed!</span
-              >
-              <div
-                class="payment border-top mt-3 mb-3 border-bottom table-responsive"
-              >
-                <table class="table table-borderless">
+            <div class="product">
+              <table>
+                <tbody>
+                  ${order.cartItems.map((item) => `
+                  <tr>
+                    <td width="60%">
+                      <span class="font-weight-bold">${item.productID}</span>
+                      <div class="product-qty">
+                        <span class="d-block">Size: ${item.variant}</span>
+                        <span class="d-block">Quantity: ${item.quantity}</span>
+                      </div>
+                    </td>
+                    <td width="20%">
+                      <div class="text-right">
+                        <span class="font-weight-bold">${item.price} SAR</span>
+                      </div>
+                    </td>
+                  </tr>
+                  `)}
+                </tbody>
+              </table>
+            </div>
+            <div class="row d-flex justify-content-end">
+              <div class="col-md-5">
+                <table class="totals">
                   <tbody>
                     <tr>
-                      <td>
-                        <div class="py-2">
-                          <span class="d-block text-muted">Order Date</span>
-                          <span>${currentDate}</span>
-                        </div>
+                      <td class="text-left">
+                        <span class="text-muted">Subtotal</span>
                       </td>
-                      <td>
-                        <div class="py-2">
-                          <span class="d-block text-muted">Order No</span>
-                          <span>${order.orderNumber}</span>
-                        </div>
+                      <td class="text-right">
+                        <span>${order.totalOrderPrice}</span>
                       </td>
-                      <td>
-                        <div class="py-2">
-                          <span class="d-block text-muted">Payment</span>
-                          <span>Cash on delivery</span>
-                        </div>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        <span class="text-muted">Shipping Fee</span>
                       </td>
-                      <td>
-                        <div class="py-2">
-                          <span class="d-block text-muted">Shiping Address</span>
-                          <span>${order.shippingAddress.details}</span>
-                        </div>
+                      <td class="text-right">
+                        <span>00</span>
+                      </td>
+                    </tr>
+                    <tr class="border-top border-bottom">
+                      <td class="text-left">
+                        <span class="font-weight-bold">Total</span>
+                      </td>
+                      <td class="text-right">
+                        <span class="font-weight-bold">${order.totalOrderPrice}</span>
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <div class="product border-bottom table-responsive">
-                <table class="table table-borderless">
-                  <tbody>
-                    ${order.cartItems.map( (item) => `
-                    <tr>
-                      <td width="60%">
-                        <span class="font-weight-bold">${item.productID}</span>
-                        <div class="product-qty">
-                          <span class="d-block">Size:${item.variant}</span>
-                          <span class="d-block">Quantity:${item.quantity}</span>
-                        </div>
-                      </td>
-                      <td width="20%">
-                        <div class="text-right">
-                          <span class="font-weight-bold">${item.price} SAR</span>
-                        </div>
-                      </td>
-                    </tr>
-                    ` )}
-                  </tbody>
-                </table>
-              </div>
-              <div class="row d-flex justify-content-end">
-                <div class="col-md-5">
-                  <table class="table table-borderless">
-                    <tbody class="totals">
-                      <tr>
-                        <td>
-                          <div class="text-left">
-                            <span class="text-muted">Subtotal</span>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="text-right">
-                            <span>${ order.totalorderPrice }</span>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="text-left">
-                            <span class="text-muted">Shipping Fee</span>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="text-right"><span>00</span></div>
-                        </td>
-                      </tr>
-                      <tr class="border-top border-bottom">
-                        <td>
-                          <div class="text-left">
-                            <span class="font-weight-bold">Subtotal</span>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="text-right">
-                            <span class="font-weight-bold"
-                              >${ order.totalorderPrice }</span
-                            >
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <p class="font-weight-bold mb-0">Thanks for shopping with us!</p>
-              <span>Peacock Team</span>
+            </div>
+            <div class="footer">
+              <span class="text-muted">Thank you for shopping with us!</span>
             </div>
           </div>
         </div>
       </div>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    </body>
-  </html>
-  `
+    </div>
+  </body>
+  </html>`
 
   try {
     await sendEmail({
