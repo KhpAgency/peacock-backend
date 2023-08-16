@@ -49,38 +49,30 @@ let currentDate = `${day}-${month}-${year}`;
   let emailTamplate = `
   <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
-      body {
-        background-color: #ffe8d2;
-        font-family: "Montserrat", sans-serif;
-      }
-      .card {
-        border: none;
-      }
-      .logo {
-        background-color: #eeeeeea8;
-      }
-      .totals tr td {
-        font-size: 13px;
-      }
-      .footer {
-        background-color: #eeeeeea8;
-      }
-      .footer span {
-        font-size: 12px;
-      }
-      .product-qty span {
-        font-size: 12px;
-        color: #dedbdb;
-      }
-    </style>
-  </head>
+<head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script><style>@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+body {
+background-color: #ffe8d2;
+font-family: 'Montserrat', sans-serif
+}
+.card {
+border: none
+}
+.logo {
+background-color: #eeeeeea8
+}
+.totals tr td {
+font-size: 13px
+}
+.footer {
+background-color: #eeeeeea8
+}
+.footer span {
+font-size: 12px
+}
+.product-qty span {
+font-size: 12px;
+color: #dedbdb
+}</style></head>
   <body>
   
     <div class="container mt-5 mb-5">
