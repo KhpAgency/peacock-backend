@@ -55,6 +55,33 @@ let currentDate = `${day}-${month}-${year}`;
     <title>Document</title>
   </head>
   <body>
+  <style>
+      @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+      body {
+        background-color: #ffe8d2;
+        font-family: "Montserrat", sans-serif;
+      }
+      .card {
+        border: none;
+      }
+      .logo {
+        background-color: #eeeeeea8;
+      }
+      .totals tr td {
+        font-size: 13px;
+      }
+      .footer {
+        background-color: #eeeeeea8;
+      }
+      .footer span {
+        font-size: 12px;
+      }
+      .product-qty span {
+        font-size: 12px;
+        color: #dedbdb;
+      }
+    </style>
+    
     <div class="container mt-5 mb-5">
       <div class="row d-flex justify-content-center">
         <div class="col-md-8">
