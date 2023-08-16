@@ -60,7 +60,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
           font-family: "Montserrat", sans-serif;
         }
         .logo {
-          background-color: #A8C7C7;
+          background-color: #a8c7c7;
         }
         .totals tr td {
           font-size: 13px;
@@ -78,15 +78,17 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
       </style>
     </head>
     <body>
-      <div class="container mt-5 mb-5">
-        <div class="row d-flex justify-content-center">
+      <div class="row d-flex justify-content-center">
           <div class="col-md-8">
             <div class="card">
               <div class="text-center logo p-3 px-5">
-                <img src="https://peacockchocolateksa.com/img/Asset%202.png" width="200" />
+                <img
+                  src="https://peacockchocolateksa.com/img/Asset%202.png"
+                  width="150"
+                />
               </div>
               <div class="invoice p-5">
-                <h5 class ="text-center font-weight-bold">Your order Confirmed!</h5>
+                <h5 class="text-center font-weight-bold">Your order Confirmed!</h5>
                 <span class="font-weight-bold d-block mt-4"
                   >Hello, ${capitalizeFirlstLetterOfName}</span
                 >
@@ -204,7 +206,6 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
             </div>
           </div>
         </div>
-      </div>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
