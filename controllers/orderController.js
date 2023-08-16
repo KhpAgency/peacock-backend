@@ -6,10 +6,13 @@ const paytabs = require("paytabs_pt2");
 const cartModel = require("../models/cartModel");
 const orderModel = require("../models/orderModel");
 const userModel = require("../models/userModel");
+const sendEmail = require("../utils/sendEmails");
 
 exports.createCashOrder = asyncHandler(async (req, res, next) => {
   // get cart depends on cartId
   const cart = await cartModel.findById(req.params.cartId);
+
+  console.log(cart);
 
   if (!cart) {
     return next(
@@ -27,8 +30,212 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
     orderNumber: `SA-4000${Math.floor(Math.random() * 1000000000)}`,
     cartItems: cart.cartItems,
     totalorderPrice,
-    shippingAddress: req.body.shippingAddress,
+    shippingAddress: {
+      name: req.body.shipping_details.name,
+      details: req.body.shipping_details.street1,
+      city: req.body.shipping_details.city,
+      state: req.body.shipping_details.state,
+      phone: req.body.shipping_details.phone,
+    },
   });
+
+  // send order confirmation email
+  let capitalizeFirlstLetterOfName =
+    user.name.split(" ")[0].charAt(0).toUpperCase() +
+    user.name.split(" ")[0].slice(1).toLocaleLowerCase();
+
+  let emailTamplate = `<!DOCTYPE html>
+  <html lang="en-US">
+    <head>
+      <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+      <title>Confirm Your Email</title>
+      <meta name="description" content="Reset Password Email" />
+      <style type="text/css">
+        a:hover {
+          text-decoration: underline !important;
+        }
+      </style>
+    </head>
+
+    <body
+      marginheight="0"
+      topmargin="0"
+      marginwidth="0"
+      style="margin: 0px; background-color: #f2f3f8"
+      leftmargin="0"
+    >
+      <!--100% body table-->
+      <table
+        cellspacing="0"
+        border="0"
+        cellpadding="0"
+        width="100%"
+        bgcolor="#f2f3f8"
+        style="
+          @import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700);
+          font-family: 'Open Sans', sans-serif;
+        "
+      >
+        <tr>
+          <td>
+            <table
+              style="background-color: #f2f3f8; max-width: 670px; margin: 0 auto"
+              width="100%"
+              border="0"
+              align="center"
+              cellpadding="0"
+              cellspacing="0"
+            >
+              <tr>
+                <td style="height: 80px">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="text-align: center">
+                  <a href="http://www.peacockchocolateksa.com" title="logo" target="_blank">
+                    <img
+                      width="250"
+                      src="http://www.peacockchocolateksa.com/img/Asset%202.png"
+                      title="logo"
+                      alt="logo"
+                    />
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td style="height: 20px">&nbsp;</td>
+              </tr>
+              <tr>
+                <td>
+                  <table
+                    width="95%"
+                    border="0"
+                    align="center"
+                    cellpadding="0"
+                    cellspacing="0"
+                    style="
+                      max-width: 670px;
+                      background: #fff;
+                      border-radius: 3px;
+                      text-align: center;
+                      -webkit-box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
+                      -moz-box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
+                      box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.06);
+                    "
+                  >
+                    <tr>
+                      <td style="height: 40px">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 0 35px">
+                        <h1
+                          style="
+                            color: #1e1e2d;
+                            font-weight: 500;
+                            margin: 0;
+                            font-size: 30px;
+                            font-family: 'Rubik', sans-serif;
+                          "
+                        >
+                          Confirm Your Email
+                        </h1>
+                        <span
+                          style="
+                            display: inline-block;
+                            vertical-align: middle;
+                            margin: 29px 0 26px;
+                            border-bottom: 1px solid #cecece;
+                            width: 200px;
+                          "
+                        ></span>
+                        <p
+                          style="
+                            color: #455056;
+                            font-size: 17px;
+                            line-height: 24px;
+                            text-align: left;
+                          "
+                        >
+                          Hello ${capitalizeFirlstLetterOfName},</p>
+                        <p
+                          style="
+                            color: #455056;
+                            font-size: 17px;
+                            line-height: 24px;
+                            text-align: left;
+                          "
+                        >
+                          Thank you for registering in Peacock. To start using your account please confirm your email address by clicking on the confirm your email button.
+                        </p>
+                        <a target="_blank" href="https://peacock-api-ixpn.onrender.com/api/v1/auth/confirm-email/${token}"
+                        style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:25px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Confirm Your Email</a>
+
+                        <p
+                          style="
+                            color: #455056;
+                            font-size: 17px;
+                            line-height: 24px;
+                            text-align: left;
+                          "
+                        >
+                          Welcome to Peacock,
+                        </p>
+                        <p
+                          style="
+                          margin-top: 3px;
+                            color: #455056;
+                            font-size: 17px;
+                            line-height: 2px;
+                            text-align: left;
+                          "
+                        >
+                          The Peacock Team.
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="height: 40px">&nbsp;</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <tr>
+                <td style="height: 20px">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="text-align: center">
+                  <p
+                    style="
+                      font-size: 14px;
+                      color: rgba(69, 80, 86, 0.7411764705882353);
+                      line-height: 18px;
+                      margin: 0 0 0;
+                    "
+                  >
+                    &copy; <strong>www.peacockchocolateksa.com</strong>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td style="height: 80px">&nbsp;</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <!--/100% body table-->
+    </body>
+  </html>`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: `${capitalizeFirlstLetterOfName}, Please confirm your peacock email`,
+      message: emailTamplate,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 
   if (order) {
     // clear cart depending on cartId
@@ -127,7 +334,7 @@ exports.createOnlinePaymentOrder = asyncHandler(async (req, res, next) => {
       res.status(res.statusCode).json({
         message: "Payment page created",
         paymentURL: $results.redirect_url,
-        result: $results
+        result: $results,
       });
     } else {
       res
@@ -162,7 +369,6 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
   console.log(`Received payment webhook for transaction reference: ${tranRef}`);
 
   paytabs.validatePayment(tranRef, async (response) => {
-
     if (response.payment_result.response_status !== "A") {
       const errorMessage = `Payment failed with status: ${response.payment_result.response_status}, reason: ${response.payment_result.response_message}`;
       console.error(errorMessage);
@@ -204,9 +410,8 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
       await cartModel.findByIdAndDelete(req.body.cart_id);
     }
     console.log(`Created order: ${order}`);
-    res.send({order: order});
+    res.send({ order: order });
   });
-
 });
 
 exports.filterOrderForLoggedUser = asyncHandler(async (req, res, next) => {
