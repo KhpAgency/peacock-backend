@@ -183,6 +183,7 @@ let currentDate = `${day}-${month}-${year}`;
   `
 
   try {
+    console.log(order);
     await sendEmail({
       email: user.email,
       subject: `${capitalizeFirlstLetterOfName}, Your order has been placed`,
