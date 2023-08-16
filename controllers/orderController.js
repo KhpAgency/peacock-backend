@@ -35,8 +35,8 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
 
   // send order confirmation email
   let capitalizeFirlstLetterOfName =
-    user.name.split(" ")[0].charAt(0).toUpperCase() +
-    user.name.split(" ")[0].slice(1).toLocaleLowerCase();
+    req.user.name.split(" ")[0].charAt(0).toUpperCase() +
+    req.user.name.split(" ")[0].slice(1).toLocaleLowerCase();
 
   let emailTamplate = `<!DOCTYPE html>
   <html lang="en-US">
