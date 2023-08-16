@@ -82,11 +82,11 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
         <div class="row d-flex justify-content-center">
           <div class="col-md-8">
             <div class="card">
-              <div class="text-left logo p-2 px-5">
-                <img src="https://peacockchocolateksa.com/img/Asset%202.png" width="50" />
+              <div class="text-center logo p-3 px-5">
+                <img src="https://peacockchocolateksa.com/img/Asset%202.png" width="200" />
               </div>
               <div class="invoice p-5">
-                <h5>Your order Confirmed!</h5>
+                <h5 class ="text-center font-weight-bold">Your order Confirmed!</h5>
                 <span class="font-weight-bold d-block mt-4"
                   >Hello, ${capitalizeFirlstLetterOfName}</span
                 >
@@ -133,8 +133,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
                 <div class="product border-bottom table-responsive">
                   <table class="table table-borderless">
                     <tbody>
-                      ${order.cartItems.map(
-                        (item) => `
+                      ${order.cartItems.map( (item) => `
                       <tr>
                         <td width="60%">
                           <span class="font-weight-bold">${item.productID}</span>
@@ -151,8 +150,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
                           </div>
                         </td>
                       </tr>
-                      `
-                      )}
+                      ` )}
                     </tbody>
                   </table>
                 </div>
@@ -168,7 +166,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
                           </td>
                           <td>
                             <div class="text-right">
-                              <span>${order.totalorderPrice}</span>
+                              <span>${ order.totalorderPrice }</span>
                             </div>
                           </td>
                         </tr>
@@ -191,7 +189,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
                           <td>
                             <div class="text-right">
                               <span class="font-weight-bold"
-                                >${order.totalorderPrice}</span
+                                >${ order.totalorderPrice }</span
                               >
                             </div>
                           </td>
