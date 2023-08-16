@@ -112,7 +112,8 @@ let currentDate = `${day}-${month}-${year}`;
                   <td width="60%">
                     <span class="font-weight-bold">${item.productID}</span>
                     <div class="product-qty">
-                      <span class="d-block">Quantity:${item.variant}</span>
+                      <span class="d-block">Size:${item.variant}</span>
+                      <span class="d-block">Quantity:${item.quantity}</span>
                     </div>
                   </td>
                   <td width="20%">
