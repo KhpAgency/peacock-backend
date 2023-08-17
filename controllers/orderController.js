@@ -22,10 +22,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
   const cartPrice = cart.totalCartPrice;
   const totalorderPrice = cartPrice;
 
-  // Populate the productID field
-  const populatedOrder = await orderModel.populate(order, {
-    path: "cartItems.productID",
-  });
+
 
   // create order with default cash on delivery payment method
   const order = await orderModel.create({
@@ -35,6 +32,11 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
     totalorderPrice,
     shippingAddress: req.body.shippingAddress,
   });
+
+    // Populate the productID field
+    const populatedOrder = await orderModel.populate(order, {
+      path: "cartItems.productID",
+    });
 
   // send order confirmation email
   let capitalizeFirlstLetterOfName =
