@@ -215,8 +215,8 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
         
 
         <div class="thank-you" style="text-align: left;">
-          <p>Thank you for your order!</p>
-          <p style="margin-top: 0;">Peacock Team.</p>
+          <span>Thank you for your order!</span>
+          <span style="margin-top: 0;">Peacock Team.</span>
         </div>
       </div>
 
