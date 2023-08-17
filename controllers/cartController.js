@@ -37,7 +37,7 @@ exports.addProductToCart = asyncHandler(async (req, res, next) => {
     } else {
       // push product to cartItems array
       const { productCategory, productID, variant, price } = req.body;
-      cart.cartItems.push({ productCategory, productID, variant, price });
+      cart.cartItems.push({ productCategory, productID:productID, variant, price });
     }
   }
 
