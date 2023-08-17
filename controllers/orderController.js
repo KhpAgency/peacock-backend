@@ -50,10 +50,44 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <title>Bootstrap demo</title>
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css"
-      />
+      <style>
+        /* Inline styles */
+        body {
+          margin: 0;
+          font-family: Arial, sans-serif;
+          font-size: 16px;
+          line-height: 1.5;
+          color: #212529;
+          text-align: left;
+          background-color: #fff;
+        }
+  
+        h1 {
+          margin-top: 0;
+          margin-bottom: 0.5rem;
+          font-size: 2.5rem;
+          font-weight: 500;
+          line-height: 1.2;
+        }
+  
+        table {
+          width: 100%;
+          margin-bottom: 1rem;
+          color: #212529;
+        }
+  
+        th {
+          text-align: inherit;
+        }
+  
+        .table {
+          width: 100%;
+          margin-bottom: 1rem;
+          color: #212529;
+        }
+  
+        /* Add more inline styles for the rest of the Bootstrap components you're using */
+      </style>
     </head>
     <body>
       <h1>Hello, world!</h1>
@@ -92,8 +126,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.min.js"></script>
     </body>
-  </html>
-  `
+  </html>`
 
   try {
     await sendEmail({
