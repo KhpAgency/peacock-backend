@@ -31,9 +31,9 @@ const cartSchema = new mongoose.Schema({
 //   next();
 // });
 
-// cartSchema.post(/^find/, function(next) {
-//   this.populate({path: "user"}).populate({path: "cartItems.productID", select:"-pieces -size -weight"})
-// })
+cartSchema.post(/^find/, function(next) {
+  this.populate({path: "user"}).populate({path: "cartItems.productID"})
+})
 
 
 
