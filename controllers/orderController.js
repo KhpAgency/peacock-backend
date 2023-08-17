@@ -184,6 +184,8 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
                 <br>
                 <span>Phone: </span><span>${order.shippingAddress.phone}</span>
                 <br>
+                <span>Payment Method: </span><span>${order.paymentMethod}</span>
+                <br>
                 <br>
               </div>
             </section>
