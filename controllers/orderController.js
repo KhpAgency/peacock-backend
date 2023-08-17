@@ -46,166 +46,54 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
 
   let emailTamplate = `<!DOCTYPE html>
   <html lang="en">
-  <head>
-    <style>
-      body {
-        font-family: "Montserrat", sans-serif;
-      }
-      .logo {
-        background-color: #a8c7c7;
-        padding: 15px;
-        text-align: center;
-      }
-      .invoice {
-        padding: 25px;
-      }
-      .invoice h5 {
-        font-weight: bold;
-        text-align: center;
-        margin-top: 20px;
-      }
-      .invoice span {
-        font-weight: bold;
-        display: block;
-        margin-top: 10px;
-      }
-      .payment {
-        border-top: 1px solid #ccc;
-        border-bottom: 1px solid #ccc;
-        margin-top: 20px;
-        padding: 15px;
-      }
-      .product {
-        border-bottom: 1px solid #ccc;
-        margin-bottom: 20px;
-      }
-      .product-qty span {
-        font-size: 12px;
-        color: #dedbdb;
-      }
-      .totals {
-        margin-top: 20px;
-        margin-bottom: 20px;
-      }
-      .totals td {
-        padding: 5px 0;
-      }
-      .totals .text-left {
-        text-align: left;
-      }
-      .totals .text-right {
-        text-align: right;
-      }
-      .totals .text-muted {
-        color: #777;
-      }
-      .footer {
-        background-color: #eeeeeea8;
-        padding: 15px;
-      }
-      .footer span {
-        font-size: 12px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="row d-flex justify-content-center">
-      <div class="col-md-8">
-        <div class="card">
-          <div class="logo">
-            <img src="https://peacockchocolateksa.com/img/Asset%202.png" width="150" alt="Logo">
-          </div>
-          <div class="invoice">
-            <h5>Your order Confirmed!</h5>
-            <span class="font-weight-bold d-block mt-4">Hello, ${capitalizeFirlstLetterOfName}</span>
-            <span>Thank you for your order from Peacock. Your order has been confirmed!</span>
-            <div class="payment">
-              <table>
-                <tbody>
-                  <tr>
-                    <td>
-                      <span class="d-block text-muted">Order Date</span>
-                      <span>${currentDate}</span>
-                    </td>
-                    <td>
-                      <span class="d-block text-muted">Order No</span>
-                      <span>${order.orderNumber}</span>
-                    </td>
-                    <td>
-                      <span class="d-block text-muted">Payment</span>
-                      <span>Cash on delivery</span>
-                    </td>
-                    <td>
-                      <span class="d-block text-muted">Shipping Address</span>
-                      <span>${order.shippingAddress.details}</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="product">
-              <table>
-                <tbody>
-                  ${order.cartItems.map((item) => `
-                  <tr>
-                    <td width="60%">
-                      <span class="font-weight-bold">${item.productID}</span>
-                      <div class="product-qty">
-                        <span class="d-block">Size: ${item.variant}</span>
-                        <span class="d-block">Quantity: ${item.quantity}</span>
-                      </div>
-                    </td>
-                    <td width="20%">
-                      <div class="text-right">
-                        <span class="font-weight-bold">${item.price} SAR</span>
-                      </div>
-                    </td>
-                  </tr>
-                  `)}
-                </tbody>
-              </table>
-            </div>
-            <div class="row d-flex justify-content-end">
-              <div class="col-md-5">
-                <table class="totals">
-                  <tbody>
-                    <tr>
-                      <td class="text-left">
-                        <span class="text-muted">Subtotal</span>
-                      </td>
-                      <td class="text-right">
-                        <span>${order.totalOrderPrice}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-left">
-                        <span class="text-muted">Shipping Fee</span>
-                      </td>
-                      <td class="text-right">
-                        <span>00</span>
-                      </td>
-                    </tr>
-                    <tr class="border-top border-bottom">
-                      <td class="text-left">
-                        <span class="font-weight-bold">Total</span>
-                      </td>
-                      <td class="text-right">
-                        <span class="font-weight-bold">${order.totalOrderPrice}</span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div class="footer">
-              <span class="text-muted">Thank you for shopping with us!</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
-  </html>`
+    <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Bootstrap demo</title>
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css"
+      />
+    </head>
+    <body>
+      <h1>Hello, world!</h1>
+  
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.min.js"></script>
+    </body>
+  </html>
+  `
 
   try {
     await sendEmail({
