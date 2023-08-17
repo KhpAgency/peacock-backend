@@ -101,6 +101,11 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
         text-align: center;
       }
 
+      .h3 {
+        font-size: 21px;
+
+      }
+
       .order-summary table {
         width: 100%;
         border-collapse: collapse;
