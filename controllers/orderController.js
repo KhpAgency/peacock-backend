@@ -31,9 +31,11 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
     shippingAddress: req.body.shippingAddress,
   });
 
-   // Populate the productID field
-   await order.populate("cartItems.productID").execPopulate();
-   console.log(order);
+  // Populate the productID field
+  const populatedOrder = await orderModel.populate(order, {
+    path: "cartItems.productID",
+  });
+  console.log(populatedOrder);
 
   // send order confirmation email
   let capitalizeFirlstLetterOfName =
