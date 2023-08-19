@@ -56,12 +56,7 @@ exports.addProductToCart = asyncHandler(async (req, res, next) => {
 exports.getLoggedUserCart = asyncHandler(async (req, res, next) => {
   let cart = await cartModel
     .findOne({ user: req.user._id })
-    .populate({ path: "user", select: "_id name email phone addresses" });
-
-  // Populate the productID field
-  const populatedOrder = await cartModel.populate(cart, {
-    path: "cartItems.productID",
-  });
+    .populate({ path: "cartItems.productID" });
 
   if (!cart) {
     return next(new ApiError("No cart for this user", 404));

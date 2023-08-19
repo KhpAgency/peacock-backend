@@ -38,6 +38,8 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
       path: "cartItems.productID",
     });
 
+    console.log(populatedOrder);
+
   // send order confirmation email
   let capitalizeFirlstLetterOfName =
     req.user.name.split(" ")[0].charAt(0).toUpperCase() +
