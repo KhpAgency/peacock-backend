@@ -176,7 +176,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
 
             <section>
               <div>
-                <h3>Order Details:</h3>
+                <h2>Order Details:</h2>
                 <span>Name: </span><span>${order.shippingAddress.name}</span>
                 <br>
                 <span>Details: </span><span>${
