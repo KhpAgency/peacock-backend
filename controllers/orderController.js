@@ -38,8 +38,6 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
       path: "cartItems.productID",
     });
 
-    console.log(populatedOrder);
-
   // send order confirmation email
   let capitalizeFirlstLetterOfName =
     req.user.name.split(" ")[0].charAt(0).toUpperCase() +
@@ -168,6 +166,9 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
       </div>
 
       <div class="order-summary">
+      <div style="display: flex; justify-content: right;">
+        <span style="text-align: right; color: #8e8e8e;">${order.createdAt.split(".")[0].split("T")[0]} ${order.createdAt.split(".")[0].split("T")[1]}</span>
+        </div>
         <h2>Order Placed</h2>
             <span class="font-weight d-block">Hello, ${capitalizeFirlstLetterOfName}</span>
             <span class="d-block">Thank you for your order from Peacock. Your order has been placed!</span>
