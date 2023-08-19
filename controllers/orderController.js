@@ -220,7 +220,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
 
         <div class="order-total">
           <p>Subtotal: ${order.totalorderPrice} SAR</p>
-          <p>Delivery Fees: 00</p>
+          <p>Delivery Fees: 00 SAR</p>
           <p>Total: ${order.totalorderPrice} SAR</p>
         </div>
 
