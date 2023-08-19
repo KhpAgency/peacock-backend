@@ -22,8 +22,6 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
   const cartPrice = cart.totalCartPrice;
   const totalorderPrice = cartPrice;
 
-
-
   // create order with default cash on delivery payment method
   const order = await orderModel.create({
     user: req.user._id,
@@ -33,10 +31,10 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
     shippingAddress: req.body.shippingAddress,
   });
 
-    // Populate the productID field
-    const populatedOrder = await orderModel.populate(order, {
-      path: "cartItems.productID",
-    });
+  // Populate the productID field
+  const populatedOrder = await orderModel.populate(order, {
+    path: "cartItems.productID",
+  });
 
   // send order confirmation email
   let capitalizeFirlstLetterOfName =
@@ -167,9 +165,10 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
 
       <div class="order-summary">
       <div style="display: flex; justify-content: right;">
-        <span style="text-align: right; color: #8e8e8e;">${order.createdAt}</span>
+        <span style="text-align: right; color: #8e8e8e;">${JSON.stringify(order.createdAt).split(".")[0].split("T")[0]} ${JSON.stringify(order.createdAt).split(".")[0].split("T")[1]}</span>
         </div>
         <h2>Order Placed</h2>
+        ${console.log(JSON.stringify(order.createdAt).split(".")[0].split("T")[0], JSON.stringify(order.createdAt).split(".")[0].split("T")[1])}
             <span class="font-weight d-block">Hello, ${capitalizeFirlstLetterOfName}</span>
             <span class="d-block">Thank you for your order from Peacock. Your order has been placed!</span>
             <span class="d-block">Order Number: ${order.orderNumber}</span>
@@ -181,7 +180,9 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
                 <h3>Order Details:</h3>
                 <span>Name: </span><span>${order.shippingAddress.name}</span>
                 <br>
-                <span>Details: </span><span>${order.shippingAddress.details}</span>
+                <span>Details: </span><span>${
+                  order.shippingAddress.details
+                }</span>
                 <br>
                 <span>City: </span><span>${order.shippingAddress.city}</span>
                 <br>
@@ -203,13 +204,15 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
             </tr>
           </thead>
           <tbody>
-          ${order.cartItems.map(item=> `
+          ${order.cartItems.map(
+            (item) => `
           <tr>
             <td>${item.productID.title}</td>
             <td>${item.quantity}</td>
             <td>${item.price}</td>
           </tr>
-        `)}
+        `
+          )}
 
             
 
@@ -234,7 +237,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
     </div>
   </body>
 </html>
-  `
+  `;
 
   try {
     await sendEmail({
