@@ -170,7 +170,6 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
         <h2>Order Placed</h2>
             <span class="font-weight d-block">Hello, ${capitalizeFirlstLetterOfName}</span>
             <span class="d-block">Thank you for your order from Peacock. Your order has been placed!</span>
-            <span class="d-block">Order Date: ${JSON.stringify(order.createdAt).split(".")[0].split("T")[0]} ${JSON.stringify(order.createdAt).split(".")[0].split("T")[1]}"</span>
             <span class="d-block">Order Number: ${order.orderNumber}</span>
             
 
