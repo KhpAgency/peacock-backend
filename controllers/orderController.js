@@ -41,6 +41,11 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
     req.user.name.split(" ")[0].charAt(0).toUpperCase() +
     req.user.name.split(" ")[0].slice(1).toLocaleLowerCase();
 
+    const date = `${JSON.stringify(order.createdAt).split(".")[0].split("T")[0]} ${JSON.stringify(order.createdAt).split(".")[0].split("T")[1]}`
+    console.log('====================================');
+    console.log(date.split('"'));
+    console.log('====================================');
+
   let emailTamplate = `
   <!DOCTYPE html>
 <html lang="en">
@@ -157,7 +162,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
 
       <div class="order-summary">
       <div style="display: flex; justify-content: right;">
-        <span style="text-align: right; color: #8e8e8e;">${JSON.stringify(order.createdAt).split(".")[0].split("T")[0]} ${JSON.stringify(order.createdAt).split(".")[0].split("T")[1]}"</span>
+        <span style="text-align: right; color: #8e8e8e;">${date.split('"')}"</span>
         </div>
         <h2>Order Placed</h2>
             <span class="font-weight d-block">Hello, ${capitalizeFirlstLetterOfName}</span>
@@ -412,10 +417,6 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
   const populatedOrder = await orderModel.populate(order, {
     path: "cartItems.productID",
   });
-
-console.log('====================================');
-console.log(req.body);
-console.log('====================================');
 
   // send order confirmation email
   let capitalizeFirlstLetterOfName =
