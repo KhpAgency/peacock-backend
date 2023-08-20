@@ -413,6 +413,8 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
     path: "cartItems.productID",
   });
 
+  console.log(order);
+
   // send order confirmation email
   let capitalizeFirlstLetterOfName =
     req.user.name.split(" ")[0].charAt(0).toUpperCase() +
