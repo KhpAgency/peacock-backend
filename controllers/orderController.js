@@ -417,11 +417,11 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
 
   console.log(order);
 
-  // send order confirmation email
-  let capitalizeFirlstLetterOfName =
-    req.user.name.split(" ")[0].charAt(0).toUpperCase() +
-    req.user.name.split(" ")[0].slice(1).toLocaleLowerCase();
-    console.log(capitalizeFirlstLetterOfName);
+  // // send order confirmation email
+  // let capitalizeFirlstLetterOfName =
+  //   req.user.name.split(" ")[0].charAt(0).toUpperCase() +
+  //   req.user.name.split(" ")[0].slice(1).toLocaleLowerCase();
+  //   console.log(capitalizeFirlstLetterOfName);
 
 
     let emailTamplate = `
