@@ -414,14 +414,13 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
   });
 
 console.log('====================================');
-console.log(req.body.shipping_details.name);
+console.log(req.body);
 console.log('====================================');
 
   // send order confirmation email
   let capitalizeFirlstLetterOfName =
     req.body.shipping_details.name.split(" ")[0].charAt(0).toUpperCase() +
     req.body.shipping_details.name.split(" ")[0].slice(1).toLocaleLowerCase();
-    console.log(capitalizeFirlstLetterOfName);
 
     let emailTamplate = `
     <!DOCTYPE html>
