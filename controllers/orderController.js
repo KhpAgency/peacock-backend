@@ -41,8 +41,6 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
     req.user.name.split(" ")[0].charAt(0).toUpperCase() +
     req.user.name.split(" ")[0].slice(1).toLocaleLowerCase();
 
-  const date = new Date();
-
   let emailTamplate = `
   <!DOCTYPE html>
 <html lang="en">
@@ -409,6 +407,17 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
       paymentMethod: "online payment",
       isPaid: true,
     });
+
+      // Populate the productID field
+  const populatedOrder = await orderModel.populate(order, {
+    path: "cartItems.productID",
+  });
+
+  // send order confirmation email
+  let capitalizeFirlstLetterOfName =
+    req.user.name.split(" ")[0].charAt(0).toUpperCase() +
+    req.user.name.split(" ")[0].slice(1).toLocaleLowerCase();
+
 
     let emailTamplate = `
     <!DOCTYPE html>
