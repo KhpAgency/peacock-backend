@@ -333,7 +333,7 @@ exports.createOnlinePaymentOrder = asyncHandler(async (req, res, next) => {
   let response_URLs = [url.callback, url.return];
 
   const paymentPageCreated = ($results) => {
-    if (res.statusCode == 200) {
+    if (res.statusCode === 200) {
       res.status(res.statusCode).json({
         message: "Payment page created",
         paymentURL: $results.redirect_url,
@@ -391,6 +391,8 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
       return next(new ApiError(errorMessage, 404));
     }
 
+    console.log("before order");
+
     // create order with online payment method
     const order = await orderModel.create({
       user: cart.user,
@@ -419,6 +421,7 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
   let capitalizeFirlstLetterOfName =
     req.user.name.split(" ")[0].charAt(0).toUpperCase() +
     req.user.name.split(" ")[0].slice(1).toLocaleLowerCase();
+    console.log(capitalizeFirlstLetterOfName);
 
 
     let emailTamplate = `
@@ -610,15 +613,15 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
   </html>
     `;
   
-    try {
-      await sendEmail({
-        email: req.user.email,
-        subject: `${capitalizeFirlstLetterOfName}, Your order has been placed`,
-        message: emailTamplate,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   await sendEmail({
+    //     email: req.user.email,
+    //     subject: `${capitalizeFirlstLetterOfName}, Your order has been placed`,
+    //     message: emailTamplate,
+    //   });
+    // } catch (error) {
+    //   console.log(error);
+    // }
 
     if (order) {
       // clear cart depending on cartId
