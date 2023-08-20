@@ -415,7 +415,7 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
     path: "cartItems.productID",
   });
 
-  console.log(order);
+  console.log(order.cartItems[0].productID);
 
   // // send order confirmation email
   // let capitalizeFirlstLetterOfName =
@@ -626,8 +626,8 @@ exports.paymentWebhook = asyncHandler(async (req, res, next) => {
       // clear cart depending on cartId
       await cartModel.findByIdAndDelete(req.body.cart_id);
     }
-    console.log(`Created order: ${order}`);
-    res.send({ order: order });
+    // console.log(`Created order: ${order}`);
+    // res.send({ order: order });
   });
 });
 
