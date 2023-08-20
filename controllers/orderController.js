@@ -43,7 +43,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
 
     const date = `${JSON.stringify(order.createdAt).split(".")[0].split("T")[0]} ${JSON.stringify(order.createdAt).split(".")[0].split("T")[1]}`
     console.log('====================================');
-    console.log(date.split('"'));
+    console.log(date.split('"').join(''));
     console.log('====================================');
 
   let emailTamplate = `
@@ -162,7 +162,7 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
 
       <div class="order-summary">
       <div style="display: flex; justify-content: right;">
-        <span style="text-align: right; color: #8e8e8e;">${date.split('"').join('').slice(0, -1)}"</span>
+        <span style="text-align: right; color: #8e8e8e;">${date.split('"').join('')}</span>
         </div>
         <h2>Order Placed</h2>
             <span class="font-weight d-block">Hello, ${capitalizeFirlstLetterOfName}</span>
