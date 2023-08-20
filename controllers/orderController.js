@@ -42,9 +42,6 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
     req.user.name.split(" ")[0].slice(1).toLocaleLowerCase();
 
     const date = `${JSON.stringify(order.createdAt).split(".")[0].split("T")[0]} ${JSON.stringify(order.createdAt).split(".")[0].split("T")[1]}`
-    console.log('====================================');
-    console.log(date.split('"').join(''));
-    console.log('====================================');
 
   let emailTamplate = `
   <!DOCTYPE html>
