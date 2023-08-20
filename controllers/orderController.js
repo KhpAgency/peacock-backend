@@ -614,7 +614,7 @@ console.log('====================================');
 
     try {
       await sendEmail({
-        email: req.user.email,
+        email: req.body.shipping_details.email,
         subject: `${capitalizeFirlstLetterOfName}, Your order has been placed`,
         message: emailTamplate,
       });
