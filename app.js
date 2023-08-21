@@ -9,9 +9,6 @@ const path = require("path");
 const ApiError = require("./utils/ApiError");
 const globalError = require("./middlewares/errorMiddleware");
 const dbConnection = require("./config/database");
-const paytabs = require("paytabs_pt2");
-const moment = require('moment-timezone');
-moment.tz.setDefault('Africa/Cairo'); // Set the desired time zone to Cairo
 
 const userRoute = require("./routes/userRoute");
 const categoriesRoute = require("./routes/categoriesRoute");
