@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const {applyTimestampsMiddleware} = require("../middlewares/setLocalTimeZone")
 
 const orderSchema = new mongoose.Schema(
   {
@@ -62,5 +63,10 @@ orderSchema.pre(/^find/, function (next) {
   });
   next();
 });
+
+applyTimestampsMiddleware(userSchema);
+
+
+
 
 module.exports = mongoose.model("Order", orderSchema);
