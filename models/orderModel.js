@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
-const moment = require('moment-timezone');
-const {
-  applyTimestampsMiddleware,
-} = require("../middlewares/setLocalTimeZone");
+const moment = require("moment-timezone");
+const applyTimestampsMiddleware = require("../middlewares/setLocalTimeZone");
 
 const orderSchema = new mongoose.Schema(
   {
@@ -60,7 +58,7 @@ const orderSchema = new mongoose.Schema(
     applyMiddleware: applyTimestampsMiddleware({
       timezone: "Africa/Cairo",
     }),
-  },
+  }
 );
 
 module.exports = mongoose.model("Order", orderSchema);
