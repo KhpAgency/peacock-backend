@@ -1,20 +1,19 @@
-const moment = require("moment-timezone");
+const mongoose = require("mongoose");
+const moment = require('moment-timezone');
 
-exports.applyTimestampsMiddleware =  (schema) =>{
-  schema.pre("save", function (next) {
-    const currentTime = new Date();
+module.exports = function applyTimestampsMiddleware(options) {
+  return function middleware(next, model, options) {
+    const timezone = options.get("timezone") || "UTC";
 
-    if (!this.createdAt) {
-      this.createdAt = currentTime;
-    }
-    this.updatedAt = currentTime;
+    const now = moment.now(timezone);
 
-    next();
-  });
+    model.update({}, {
+      createdAt: now,
+      updatedAt: now,
+    }, {
+      upsert: true,
+    });
 
-  schema.pre("findOneAndUpdate", function (next) {
-    this.set({ updatedAt: new Date() });
-    next();
-  });
+    await next();
+  };
 };
-

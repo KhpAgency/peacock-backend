@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const moment = require('moment-timezone');
-
 const {
   applyTimestampsMiddleware,
 } = require("../middlewares/setLocalTimeZone");
@@ -56,32 +55,12 @@ const orderSchema = new mongoose.Schema(
     },
     deliverdAt: Date,
   },
-  { timestamps: true }
+  { timestamps: true },
+  {
+    applyMiddleware: applyTimestampsMiddleware({
+      timezone: "Africa/Cairo",
+    }),
+  },
 );
-
-orderSchema.pre(/^find/, function (next) {
-  this.populate({ path: "user", select: "_id name email phone" }).populate({
-    path: "cartItems.productID",
-    select:
-      "_id title images description price discountedPrice categoryName categoryId",
-  });
-  next();
-});
-
-orderSchema.pre('save', function (next) {
-  const currentTime = moment().tz('Africa/Cairo').toDate();
-
-  if (!this.createdAt) {
-    this.createdAt = currentTime;
-  }
-  this.updatedAt = currentTime;
-
-  next();
-});
-
-orderSchema.pre('updateOne', function () {
-  this.updateOne({}, { $set: { updatedAt: moment().tz('Africa/Cairo').toDate() } });
-});
-
 
 module.exports = mongoose.model("Order", orderSchema);
