@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const moment = require('moment-timezone');
 
 const userSchema = new mongoose.Schema(
   {
@@ -62,6 +63,19 @@ userSchema.pre("save", async function (next) {
   // Password hashing
   this.password = await bcrypt.hash(this.password, 12);
   next();
+});
+
+userSchema.pre('save', function (next) {
+  const currentTime = moment().tz('Africa/Cairo').format('YYYY-MM-DDTHH:mm:ss[Z]');
+
+  this.createdAt = currentTime;
+  this.updatedAt = currentTime;
+
+  next();
+});
+
+userSchema.pre("findOneAndUpdate", function () {
+  this.updateOne({}, { $set: { updatedAt: moment().tz('Africa/Cairo').format('YYYY-MM-DDTHH:mm:ss[Z]') } });
 });
 
 const User = mongoose.model("User", userSchema);

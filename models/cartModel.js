@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const moment = require('moment-timezone');
 
 const cartSchema = new mongoose.Schema({
   user: {
@@ -25,6 +26,21 @@ const cartSchema = new mongoose.Schema({
   ],
   totalCartPrice: Number,
 });
+
+
+cartSchema.pre('save', function (next) {
+  const currentTime = moment().tz('Africa/Cairo').format('YYYY-MM-DDTHH:mm:ss[Z]');
+
+  this.createdAt = currentTime;
+  this.updatedAt = currentTime;
+
+  next();
+});
+
+cartSchema.pre('findOneAndUpdate', function () {
+  this.updateOne({}, { $set: { updatedAt: moment().tz('Africa/Cairo').format('YYYY-MM-DDTHH:mm:ss[Z]') } });
+});
+
 
 // cartSchema.pre("save", function(next) {
 //   this.populate("user");

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const moment = require('moment-timezone');
 
 const packagesSchema = new mongoose.Schema(
   {
@@ -71,6 +72,19 @@ packagesSchema.pre("save", function (next) {
     return 0;
   });
   next();
+});
+
+packagesSchema.pre('save', function (next) {
+  const currentTime = moment().tz('Africa/Cairo').format('YYYY-MM-DDTHH:mm:ss[Z]');
+
+  this.createdAt = currentTime;
+  this.updatedAt = currentTime;
+
+  next();
+});
+
+packagesSchema.pre('findOneAndUpdate', function () {
+  this.updateOne({}, { $set: { updatedAt: moment().tz('Africa/Cairo').format('YYYY-MM-DDTHH:mm:ss[Z]') } });
 });
 const Packages = mongoose.model("Packages", packagesSchema);
 module.exports = Packages;
