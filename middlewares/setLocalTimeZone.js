@@ -1,8 +1,8 @@
 const moment = require("moment-timezone");
 
-const applyTimestampsMiddleware = function (schema) {
+exports.applyTimestampsMiddleware =  (schema) =>{
   schema.pre("save", function (next) {
-    const currentTime = moment().tz("Africa/Cairo").toDate();
+    const currentTime = new Date();
 
     if (!this.createdAt) {
       this.createdAt = currentTime;
@@ -12,12 +12,9 @@ const applyTimestampsMiddleware = function (schema) {
     next();
   });
 
-  schema.pre("updateOne", function () {
-    this.updateOne(
-      {},
-      { $set: { updatedAt: moment().tz("Africa/Cairo").toDate() } }
-    );
+  schema.pre("findOneAndUpdate", function (next) {
+    this.set({ updatedAt: new Date() });
+    next();
   });
 };
 
-module.exports = applyTimestampsMiddleware;

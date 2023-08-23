@@ -64,9 +64,7 @@ orderSchema.pre(/^find/, function (next) {
   next();
 });
 
-applyTimestampsMiddleware(userSchema);
-
-
+applyTimestampsMiddleware(orderSchema);
 
 
 module.exports = mongoose.model("Order", orderSchema);
